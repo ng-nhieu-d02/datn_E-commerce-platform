@@ -2,7 +2,9 @@ run code: </br>
 <b> composer i </b> </br>
 run laravel mix (dùng sass) </br>
 <b> npm run watch </b> </br>
+
 </br>
+
 run migrate </br>
 run artisan </br>
 
