@@ -1,7 +1,7 @@
 run code: </br>
-<b> composer i </b>
+<b> composer i </b> </br>
 run laravel mix (dùng sass) </br>
-<b> npm run watch </b>
+<b> npm run watch </b> </br>
 run migrate </br>
 run artisan </br>
 
