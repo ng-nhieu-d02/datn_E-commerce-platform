@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300;400;500;600;700&display=swap');
+
+:root {
+    // color background
+    --background-bg-color: #e4e9eed5;
+    --background-item-color: #ffffff;
+    --background--nav: #fff;
+
+    // color text
+    --text-default-color: #222e44;
+    
+    // color other
+    --primary-color: #4ade80;
+    --error-color: #f87171;
+   
+    // font
+    --font-none: 'Signika Negative', sans-serif;
+    
+    // border
+    --border-line: #cecbcbc7;
+    --border-avatar: #5e72e4;
+
+    // width
+    --max-width: 1225px;
+}
+
+// .dark-mode {
+    
+// }
+
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    text-rendering: optimizeSpeed;
+    overflow-y: overlay;
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--font-none);
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-default-color);
+}

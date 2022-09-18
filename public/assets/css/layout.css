@@ -1,0 +1,36 @@
+.container--layout {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  background-color: var(--background-bg-color);
+  padding: 0;
+}
+
+.container--navBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  border-bottom: solid 1px var(--border-line);
+  background-color: var(--background--nav);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
+}
+
+.container--content {
+  height: 1500px;
+  margin-top: 75px;
+  background: url("/assets/images/light_green.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+
+.container--footer {
+  width: 100%;
+  height: auto;
+  padding: 50px;
+  border-top: solid 1px var(--border-line);
+  background-color: var(--background--nav);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
