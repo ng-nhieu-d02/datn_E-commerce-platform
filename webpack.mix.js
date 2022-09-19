@@ -27,6 +27,8 @@ mix.sass('resources/sass/admin/layout.scss', 'public/assetsadmin/css')
 
 mix.sass('resources/sass/user/user.scss', 'public/assets/css')
 mix.sass('resources/sass/user/layout.scss', 'public/assets/css')
+mix.sass('resources/sass/user/navBar.scss', 'public/assets/css')
+mix.sass('resources/sass/user/footer.scss', 'public/assets/css')
 
 
    .options({

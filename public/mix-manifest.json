@@ -1,8 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=bcfaf697b75113fdb8868b35baae691e",
+    "/js/app.js": "/js/app.js?id=1399140b36779846a40306a125a21c92",
+    "/assets/css/user.css": "/assets/css/user.css?id=266548cbd739ceba6e6afa8115312c83",
     "/assetsadmin/css/admin.css": "/assetsadmin/css/admin.css?id=9b4eec7e509015b0d51560886b042ae3",
-    "/assets/css/layout.css": "/assets/css/layout.css?id=e581fdf2efe969eaaf7788737dbdc3c9",
-    "/assets/css/user.css": "/assets/css/user.css?id=1d02f8ea2b4a4b132093e7ab027bdede",
+    "/assets/css/layout.css": "/assets/css/layout.css?id=cdb3fab25a3fec24cafa0bda1ebfb008",
     "/assetsadmin/css/layout.css": "/assetsadmin/css/layout.css?id=8273bc0c77a5ceffaede69fa074ed4db",
-    "/css/app.css": "/css/app.css?id=a9f518ace8c40de50eb917db546e6e3b"
+    "/css/app.css": "/css/app.css?id=a9f518ace8c40de50eb917db546e6e3b",
+    "/assets/css/footer.css": "/assets/css/footer.css?id=6cd19cb36de374afd950eaf2621b8059",
+    "/assets/css/navBar.css": "/assets/css/navBar.css?id=27f409b1b3128c7e9e5ae3e86c1eaa73"
 }

@@ -5,18 +5,24 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="{{url('assets/images/store-favicon.png')}}">
 
-<script src="https://cdn.tailwindcss.com"></script>
-
 <!-- Fontawesome CSS -->
 <link rel="stylesheet" href="{{url('assets/plugins/fontawesome/css/fontawesome.min.css')}}">
 <link rel="stylesheet" href="{{url('assets/plugins/fontawesome/css/all.min.css')}}">
 <link rel="stylesheet" href="{{url('assets/plugins/fontawesome/css/regular.min.css')}}">
 
-<!-- tailwind -->
-<link rel="stylesheet" href="{{url('css/app.css')}}">
+<!-- Ionicons icon -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
 <!-- default CSS -->
 <link rel="stylesheet" href="{{url('assets/css/user.css')}}">
 
 <!-- layout CSS -->
 <link rel="stylesheet" href="{{url('assets/css/layout.css')}}">
+
+<!-- ingredient CSS -->
+<link rel="stylesheet" href="{{url('assets/css/navBar.css')}}">
+<link rel="stylesheet" href="{{url('assets/css/footer.css')}}">
