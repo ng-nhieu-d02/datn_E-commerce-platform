@@ -9,16 +9,17 @@
     <div class="container--layout">
         <div class="container--navBar">
             @include('home.layout.ingredient.navBar')
-        </div>
             
+        </div>
+
         <div class="container--content">
             <!-- Content -->
 
             @yield('content')
-            
+
             <!-- End Content -->
         </div>
-        
+
         <div class="container--footer">
             @include('home.layout.ingredient.footer')
         </div>
