@@ -54,4 +54,5 @@
         </li>
 
     </div>
+    @include('home.layout.ingredient.cartBar')
 </div>
