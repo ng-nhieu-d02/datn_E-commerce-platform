@@ -20,6 +20,7 @@
 .ingredient--footer--title div h2 {
   font-size: 1.8rem;
   filter: opacity(85%);
+  margin-bottom: 0;
 }
 .ingredient--footer--title .right {
   text-align: right;
@@ -32,6 +33,7 @@
   margin-top: 20px;
 }
 .ingredient--footer--content div p a {
+  font-weight: 300;
   color: var(--text-default-color);
   filter: opacity(90%);
 }

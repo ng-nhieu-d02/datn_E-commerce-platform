@@ -19,6 +19,7 @@
             h2 {
                 font-size: 1.8rem;
                 filter: opacity(85%);
+                margin-bottom: 0;
             }
         }
         .right {
@@ -34,6 +35,7 @@
         div {
             p {
                 a {
+                    font-weight: 300;
                     color: var(--text-default-color);
                     filter: opacity(90%);
                     &:hover {
