@@ -1,0 +1,105 @@
+.ingredient--navBar {
+    width: var(--max-width);
+    height: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--logo {
+        display: flex;
+        align-items: center;
+        gap:10px;
+        .img--logo {
+            width: 40px;
+            img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+            }
+        }
+        .word--logo {
+            h2 {
+                margin-bottom: 0;
+                font-weight: 700;
+                text-shadow: #FC0 1px 0 10px;
+                a {
+                    text-decoration: none;
+                    color: var(--text-default-color);
+                    span {
+                        margin: 0;
+                        padding: 0;
+                        &:last-child {
+                            color: #12f5f5;
+                        }
+                    }
+                    &:hover {
+                        span {
+                            margin: 0;
+                            padding: 0;
+                            color: #2af1f1;
+                            &:last-child {
+                                color: var(--text-default-color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &--menu {
+        padding: 0 5px;
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0;
+            li {
+                cursor: pointer;
+                padding: 5px 20px;
+                filter: opacity(80%);
+                border-radius: 15px;
+                a {
+                    text-decoration: none;
+                    color: var(--text-default-color);
+                }
+                &:hover {
+                    filter: opacity(100%);
+                    background-color: var(--background--hover);
+                }
+            }
+        }
+    }
+    &--action {
+        list-style: none;
+        display: flex;
+        gap: 2px;
+        li {
+            position: relative;
+            i {
+                font-size: 1.755rem;
+                cursor: pointer;
+                padding: 11px;
+                filter: opacity(80%);
+                border-radius: 15px;
+                &:hover {
+                    filter: opacity(100%);
+                    background-color: var(--background--hover);
+                }
+            }
+            span {
+                width: 13px;
+                height: 13px;
+                position: absolute;
+                top: 4px;
+                transform: translateX(-120%);
+                border-radius: 50%;
+                background-color: #06fafa;
+                font-size: 1.2rem;
+                text-align: center;
+                line-height: 13px;
+                color: #ff0000;
+            }
+        }
+    }
+}

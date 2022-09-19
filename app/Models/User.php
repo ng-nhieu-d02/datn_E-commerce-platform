@@ -17,7 +17,11 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $guarded = [''];
+
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
@@ -30,15 +34,12 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'id_user')->withDefault();
+    }
+
 }
