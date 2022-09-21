@@ -7,15 +7,30 @@
 <script>
     $(document).ready(function() {
         var statusModals = false;
-        $('.ingredient--navBar--action--modals').click(function(e) {
+        $('#toggle-modals').click(function(e) {
             e.preventDefault();
             const modals = $(this).attr('data-modals');
             if (statusModals == false) {
-                $('.div--'+modals).addClass('active');
+                $('.div--' + modals).addClass('active modals-true');
             } else {
-                $('.div--'+modals).removeClass('active');
+                $('.div--' + modals).removeClass('active');
             }
             statusModals = !statusModals;
         });
+
+        window.addEventListener('click', (e) => {
+            const $target = $(e.target);
+            if ($target.closest('#toggle-modals').length == 0) {
+                if ($target.closest('.modals-true').length == 0) {
+                    $('.modals-true').removeClass('active');
+                    statusModals = !statusModals;
+                }
+            }
+        });
+        window.addEventListener('scroll', (e) => {
+            $('.modals-true').removeClass('active');
+            statusModals = false;
+        });
+
     });
 </script>

@@ -48,8 +48,8 @@
             <i class="fa-regular fa-user"></i>
             <span class="tip">2</span>
         </li>
-        <li class="ingredient--navBar--action--modals" data-modals="shopping-cart">
-            <i class="fa fa-cart-shopping"></i>
+        <li class="ingredient--navBar--action--modals" >
+            <i class="fa fa-cart-shopping" id="toggle-modals" data-modals="shopping-cart"></i>
             <span class="tip">3</span>
 
             <div class="div--modals div--shopping-cart">
