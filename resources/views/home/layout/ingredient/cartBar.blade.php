@@ -1,4 +1,4 @@
-<div class="ingredent--cartBar">
+{{-- <div class="ingredent--cartBar">
     <div class="ingredent--cartBar--table_cart">
         <div class="ingredent--cartBar--list_cart">
             <h3 class="list_cart--title">
@@ -123,4 +123,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
