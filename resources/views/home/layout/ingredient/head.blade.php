@@ -28,3 +28,4 @@
 <link rel="stylesheet" href="{{ url('assets/css/navBar.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/footer.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/cart.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/productDetail.css') }}">

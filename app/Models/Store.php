@@ -19,4 +19,12 @@ class Store extends Model
     {
         return $this->hasOne(TickerCreateStore::class, 'id_store');
     }
+    public function comment()
+    {
+        return $this->hasMany(CommentProduct::class, 'id_store');
+    }
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'id_store');
+    }
 }

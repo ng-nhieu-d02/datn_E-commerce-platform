@@ -9,7 +9,7 @@
     <div class="container--layout">
         <div class="container--navBar">
             @include('home.layout.ingredient.navBar')
-            
+
         </div>
 
         <div class="container--content">

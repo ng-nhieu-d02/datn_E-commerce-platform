@@ -3,11 +3,6 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 10px;
 }
-.ingredent--cartBar {
-    position: absolute;
-    right: 80px;
-    top: 100%;
-}
 .ingredent--cartBar--table_cart .ingredent--cartBar--list_cart {
     padding: 20px 25px;
     overflow: auto;
@@ -45,13 +40,9 @@
     background-color: #f4f4f4;
     border-radius: 10px;
 }
-.list_cart--items .item--right {
-}
 .list_cart--items .item--right .item--product_price {
     display: flex;
     justify-content: space-between;
-}
-.item--product_price .info {
 }
 .item--product_price .info .text--info a {
     text-decoration: none;
@@ -103,7 +94,7 @@
     border: none;
 }
 .ingredent--cartBar--table_cart .list_cart--subtotal {
-    padding: 10px 25px;
+    padding: 10px 25px 20px 25px;
     background-color: #f9fafb;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;

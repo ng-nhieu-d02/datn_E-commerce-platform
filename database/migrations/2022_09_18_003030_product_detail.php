@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('sale');
             $table->string('url_image');
+            $table->enum('status', [0,1])->comment('0 là hiện ,1 là ẩn');
             $table->timestamps();
         });
         Schema::table('product_detail', function ($table) {
