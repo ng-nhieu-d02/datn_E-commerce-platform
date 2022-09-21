@@ -19,12 +19,15 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('parent_id')->default(0);
             $table->string('path');
-            $table->integer('create_by');
-            $table->integer('store');
+            $table->bigInteger('create_by')->unsigned();
+            $table->string('avatar')->default('687f3967b7c2fe6a134a2c11894eea4b_tn.png');
             $table->string('title')->comment('on sale');
             $table->string('keyword')->comment('on sale');
             $table->enum('status', [0,1])->comment('0 là hiện, 1 là ẩn')->default(0);
             $table->timestamps();
+        });
+        Schema::table('category_product', function ($table) {
+            $table->foreign('create_by')->references('id')->on('users');
         });
     }
 

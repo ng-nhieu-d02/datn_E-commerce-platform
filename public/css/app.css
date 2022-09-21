@@ -508,6 +508,9 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.mt-5 {
+  margin-top: 1.25rem;
+}
 .table {
   display: table;
 }

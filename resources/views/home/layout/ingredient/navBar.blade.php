@@ -40,19 +40,24 @@
         <li>
             <i class="fa fa-magnifying-glass"></i>
         </li>
-        <li>
+        <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-bell"></i>
-            <span>1</span>
+            <span class="tip">1</span>
         </li>
-        <li>
+        <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-user"></i>
-            <span>2</span>
+            <span class="tip">2</span>
         </li>
-        <li>
+        <li class="ingredient--navBar--action--modals" data-modals="shopping-cart">
             <i class="fa fa-cart-shopping"></i>
-            <span>3</span>
+            <span class="tip">3</span>
+
+            <div class="div--modals div--shopping-cart">
+                @include('home.layout.ingredient.cartBar')
+            </div>
+            
         </li>
 
     </div>
-    @include('home.layout.ingredient.cartBar')
+    
 </div>
