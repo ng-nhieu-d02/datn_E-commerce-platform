@@ -2,7 +2,7 @@
 @section('content')
     <div class="pages--productDetail">
         <div class="pages--productDetail--container">
-            <div class="productDetail--info row justify-content-between">
+            <div class="productDetail--info justify-content-between">
                 <div class="col-md-51">
                     <div class="box-image col-md-12">
                         <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
