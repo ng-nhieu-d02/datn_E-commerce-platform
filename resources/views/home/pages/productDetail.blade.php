@@ -37,7 +37,10 @@
                 </div>
                 <div class="col-md-61">
                     <div class="list--info--product col-md-12">
-                        <div class="name"><span>Heavy Weight Shoes</span></div>
+                        <div class="name">
+                            <span>Heavy Weight Shoes</span>
+                            <img src="assets/images/sale.png" alt="">
+                        </div>
                         <div class="price--meta row">
                             <div class="price col-md-2">
                                 <span>$112.00</span>

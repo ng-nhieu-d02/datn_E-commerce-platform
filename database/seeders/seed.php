@@ -162,7 +162,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Rey Nylon Backpack',
-            'slug'      => 'rey-nylon-backpack-'.time(),
+            'slug'      => 'rey-nylon-backpack-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -180,7 +180,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Round Buckle 1" Belt',
-            'slug'      => 'round-buckle-1-belt-'.time(),
+            'slug'      => 'round-buckle-1-belt-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -198,7 +198,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Waffle Knit Beanie',
-            'slug'      => 'waffle-knit-beanie-'.time(),
+            'slug'      => 'waffle-knit-beanie-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -216,7 +216,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Travel Pet Carrier',
-            'slug'      => 'travel-pet-carrier-'.time(),
+            'slug'      => 'travel-pet-carrier-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -234,7 +234,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Leather Gloves',
-            'slug'      => 'leather-gloves-'.time(),
+            'slug'      => 'leather-gloves-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -252,7 +252,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Hoodie Sweatshirt',
-            'slug'      => 'hoodie-sweatshirt-'.time(),
+            'slug'      => 'hoodie-sweatshirt-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' => '0',
@@ -270,10 +270,10 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Wool Cashmere Jacket',
-            'slug'      => 'wool-cashmere-jacket-'.time(),
+            'slug'      => 'wool-cashmere-jacket-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
-            'type' =>'0',
+            'type' => '0',
             'category_path' => '1_5',
             'category_id' => 5,
             'thumb'   => '7/9.838d27ae66ef44d4a73b.png',
@@ -288,7 +288,7 @@ class seed extends Seeder
             'id_store'   => 1,
             'create_by'  => 1,
             'name'  => 'Ella Leather Tote',
-            'slug'      => 'ella-leather-tote-'.time(),
+            'slug'      => 'ella-leather-tote-' . time(),
             'description'    => 'Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.',
             'long_description' => 'The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater satisfaction.The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes in Valley Park, Missouri ceased in 1978.',
             'type' =>   '0',
@@ -301,5 +301,104 @@ class seed extends Seeder
             'keyword'   => 'Ella Leather Tote, Ella Leather Tote, on top sale',
             'status'    => '0'
         ]);
+
+        for ($i = 1; $i < 9; $i++) {
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#b047e1',
+                'size_value'  => 'M',
+                'quantity'      => 43,
+                'price' =>   310000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#b047e1',
+                'size_value'  => 'X',
+                'quantity'      => 32,
+                'price' =>   320000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#b047e1',
+                'size_value'  => 'XL',
+                'quantity'      => 23,
+                'price' =>   330000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#abe826',
+                'size_value'  => 'M',
+                'quantity'      => 42,
+                'price' =>   310000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#abe826',
+                'size_value'  => 'X',
+                'quantity'      => 47,
+                'price' =>   320000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#abe826',
+                'size_value'  => 'XL',
+                'quantity'      => 48,
+                'price' =>   330000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#16e4f3',
+                'size_value'  => 'M',
+                'quantity'      => 74,
+                'price' =>   310000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#16e4f3',
+                'size_value'  => 'X',
+                'quantity'      => 71,
+                'price' =>   320000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+
+            DB::table('product_detail')->insert([
+                'id_product'   => $i,
+                'color_value'  => '#16e4f3',
+                'size_value'  => 'XL',
+                'quantity'      => 74,
+                'price' =>   330000,
+                'sale' => 20000,
+                'url_image' => '1/17.7701cf9446a6b588de67.png',
+                'status'    => '0'
+            ]);
+        }
     }
 }
