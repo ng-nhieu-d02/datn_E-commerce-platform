@@ -9,6 +9,8 @@
     padding: 50px 0px;
 }
 .pages--productDetail--container .productDetail--info {
+    display: grid;
+    grid-template-columns: 45% 50%;
 }
 .pages--productDetail--container .productDetail--info .box-image {
     position: relative;
@@ -42,21 +44,21 @@
     font-size: 1.5rem;
 }
 .pages--productDetail--container .productDetail--info .box-image-gallery {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
     padding: 5px 0px;
 }
+
 .pages--productDetail--container
     .productDetail--info
     .box-image-gallery
-    .col-md-3
+    .col-md-31
     img {
-    width: 95%;
+    width: 100%;
 }
 .pages--productDetail--container .productDetail--info .box-image-gallery img {
     border-radius: 10px;
-}
-.productDetail--info .list--info--product {
 }
 .productDetail--info .list--info--product .name {
     font-size: 4rem;
@@ -157,8 +159,6 @@
     background-color: #399bbb;
     color: #fff;
 }
-.productDetail--info .list--info--product .cart {
-}
 .list--info--product .cart .form-submit-cart {
     display: flex;
     padding-bottom: 25px;
@@ -213,8 +213,6 @@
 .list--info--product .faqs .button-faq:hover {
     background-color: rgba(216, 220, 224, 0.8);
 }
-.productDetail--info .list--info--product .list-benefit-items {
-}
 .list--info--product .list-benefit-items .benefit-item {
     background-color: rgb(254 242 242/1);
     padding: 1.25rem;
@@ -237,8 +235,6 @@
 /* CSS thông tin chi tiết sản phẩm */
 .pages--productDetail--container .productDetail--text_detail {
     margin-top: 6rem;
-}
-.productDetail--text_detail .text_detail {
 }
 .productDetail--text_detail .text_detail h2 {
     font-size: 2.8rem;
@@ -272,12 +268,6 @@
 .user_review .user_review-container {
     margin-top: 4rem;
 }
-.user_review .user_review-container .list-review-items {
-}
-.list-review-items .review-item {
-}
-.list-review-items .review-item .box-info-user {
-}
 .review-item .box-info-user .box-image-review {
     width: 40px;
     height: 40px;
@@ -289,8 +279,6 @@
 .review-item .box-info-user .box-text-meta {
     margin-left: 1rem;
     width: 100%;
-}
-.box-text-meta .name_user {
 }
 .box-text-meta .name_user span.full_name {
     font-size: 1.8rem;
