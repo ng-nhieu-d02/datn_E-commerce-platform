@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_user')->unsigned();
             $table->bigInteger('id_store')->unsigned();
-            $table->string('message');
+            $table->string('message')->nullable();
             $table->enum('status', [0,1,2])->comment('0 là đang xử lí, 1 là đã duyệt, 2 là bị từ chối')->default(0);
             $table->timestamps();
         });

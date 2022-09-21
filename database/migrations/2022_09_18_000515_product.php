@@ -20,21 +20,21 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->longText('description');
+            $table->longText('long_description');
             $table->enum('type',[0,1,2])->comment('0 là có màu + size, 1 là có màu không size, 2 là có size không màu')->default(0);
             $table->string('category_path');
             $table->bigInteger('category_id')->unsigned();
             $table->string('thumb');
-            $table->float('rate');
-            $table->integer('like');
-            $table->bigInteger('view');
-            $table->integer('sold');
-            $table->integer('total_quantity');
+            $table->float('rate')->default(0);
+            $table->integer('total_rate')->default(0);
+            $table->integer('like')->default(0);
+            $table->bigInteger('view')->default(0);
+            $table->integer('sold')->default(0);
             $table->string('brand');
             $table->string('origin');
             $table->string('title')->comment('on sale');
             $table->string('keyword')->comment('on sale');
             $table->enum('status', [0,1])->comment('0 là hiện, 1 là ẩn')->default(0);
-            $table->integer('update_by');
             $table->timestamps();
         });
         Schema::table('product', function ($table) {
