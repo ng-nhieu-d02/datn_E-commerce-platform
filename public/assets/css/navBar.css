@@ -86,7 +86,7 @@
   filter: opacity(100%);
   background-color: var(--background--hover);
 }
-.ingredient--navBar--action li span {
+.ingredient--navBar--action li .tip {
   width: 13px;
   height: 13px;
   position: absolute;
@@ -98,4 +98,16 @@
   text-align: center;
   line-height: 13px;
   color: #ff0000;
+}
+.ingredient--navBar--action--modals {
+  position: relative;
+}
+.ingredient--navBar--action--modals .div--modals {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 30px);
+}
+.ingredient--navBar--action--modals .div--modals.active {
+  display: block;
 }

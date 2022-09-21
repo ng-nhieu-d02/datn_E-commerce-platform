@@ -87,7 +87,7 @@
                     background-color: var(--background--hover);
                 }
             }
-            span {
+            .tip {
                 width: 13px;
                 height: 13px;
                 position: absolute;
@@ -99,6 +99,18 @@
                 text-align: center;
                 line-height: 13px;
                 color: #ff0000;
+            }
+        }
+        &--modals {
+            position: relative;
+            .div--modals {
+                display: none;
+                position: absolute;
+                right: 0;
+                top: calc(100% + 30px);
+                &.active {
+                    display: block;
+                }
             }
         }
     }
