@@ -40,13 +40,9 @@
     background-color: #f4f4f4;
     border-radius: 10px;
 }
-.list_cart--items .item--right {
-}
 .list_cart--items .item--right .item--product_price {
     display: flex;
     justify-content: space-between;
-}
-.item--product_price .info {
 }
 .item--product_price .info .text--info a {
     text-decoration: none;

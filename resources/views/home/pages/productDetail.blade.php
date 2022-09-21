@@ -2,8 +2,8 @@
 @section('content')
     <div class="pages--productDetail">
         <div class="pages--productDetail--container">
-            <div class="productDetail--info row">
-                <div class="col-md-5">
+            <div class="productDetail--info row justify-content-between">
+                <div class="col-md-51">
                     <div class="box-image col-md-12">
                         <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
                         <div class="icon-heart">
@@ -17,25 +17,25 @@
                         </div>
                     </div>
                     <div class="box-image-gallery col-md-12">
-                        <div class="col-md-3">
+                        <div class="col-md-31">
                             <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}"
                                 alt="">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-31">
                             <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}"
                                 alt="">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-31">
                             <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}"
                                 alt="">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-31">
                             <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}"
                                 alt="">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 px-5">
+                <div class="col-md-61">
                     <div class="list--info--product col-md-12">
                         <div class="name"><span>Heavy Weight Shoes</span></div>
                         <div class="price--meta row">
