@@ -20,4 +20,9 @@ class CommentProduct extends Model
     {
         return $this->belongsTo(Store::class, 'id_store');
     }
+
+    public function commentParent($parent)
+    {
+        return $this->hasMany(CommentProduct::class, 'parent_id')->where('parent_id',$parent)->get();
+    }
 }

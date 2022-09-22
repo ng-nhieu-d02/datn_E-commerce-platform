@@ -19,7 +19,9 @@ return new class extends Migration
             $table->bigInteger('id_store')->unsigned();
             $table->bigInteger('id_product')->unsigned();
             $table->longText('message');
-            $table->string('derImg');
+            $table->string('derImg')->nullable();
+            $table->integer('parent_id');
+            $table->string('parent_path');
             $table->timestamps();
         });
         Schema::table('comment_product', function ($table) {

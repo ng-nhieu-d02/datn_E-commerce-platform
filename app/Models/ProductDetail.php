@@ -25,4 +25,9 @@ class ProductDetail extends Model
             };            
         });
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_product');
+    }
 }
