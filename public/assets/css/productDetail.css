@@ -129,18 +129,19 @@
 .list-box-color .box-color-image {
     border: 2px solid #333;
     height: 30px;
-    width: 67px;
+    width: 30px;
     overflow: hidden;
     border-radius: 20px;
     padding: 2px;
     margin-right: 5px;
     cursor: pointer;
 }
-.list-box-color .box-color-image img {
+.list-box-color .box-color-image div.color-item {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
+    /* background-color: red; */
 }
 .box-color-image.active {
     border: 2px solid #399bbb;
@@ -245,6 +246,68 @@
 .pages--productDetail--container .productDetail--text_detail {
     margin-top: 6rem;
 }
+.pages--productDetail--container .productDetail--text_detail .stores {
+    margin-bottom: 3rem;
+}
+.productDetail--text_detail .stores .stores-container {
+    padding: 20px 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 15px;
+    background: #fff;
+}
+.stores .stores-container .list-info-stores {
+}
+.stores-container .list-info-stores .info-store {
+}
+.list-info-stores .info-store .image-store {
+}
+.info-store .image-store img {
+}
+.list-info-stores .info-store .meta-store ul.address-store {
+    list-style: none;
+    padding-left: 0px;
+}
+.meta-store ul.address-store li {
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+.meta-store .star-store > i.fa-star {
+    color: #eab308;
+}
+.meta-store .star-store:not(span) {
+    color: #0f172a;
+}
+.stores-container .list-info-stores .contact-store {
+    display: flex;
+    justify-content: flex-end;
+}
+.list-info-stores .contact-store .form-contact {
+}
+.contact-store .form-contact a {
+    border-radius: 5px;
+    padding: 10px;
+
+    text-decoration: none;
+}
+.contact-store .form-contact a:first-child {
+    background-color: #ff1d58;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #ff1d58;
+}
+.contact-store .form-contact a:first-child:hover {
+    background-color: #fd0e4e;
+}
+.contact-store .form-contact a:last-child {
+    border: 2px solid #ff1d58;
+    color: #ff1d58;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8;
+}
+.contact-store .form-contact a:last-child:hover {
+    opacity: 1;
+}
+
 .productDetail--text_detail .text_detail h2 {
     font-size: 2.8rem;
 }
@@ -324,6 +387,6 @@
     border-width: 1px;
     transition: all 0.3s ease-in-out;
 }
-.user_review-container .form-show-more .form-button:hover{
+.user_review-container .form-show-more .form-button:hover {
     background-color: #cccbcb;
 }

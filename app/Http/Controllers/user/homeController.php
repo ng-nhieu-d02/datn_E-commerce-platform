@@ -10,13 +10,13 @@ class homeController extends Controller
 {
     public function __construct()
     {
-        
     }
     public function home()
     {
         return view('home.pages.home');
     }
-    public function product(){
+    public function product()
+    {
         $product =  Product::find(1);
         return view('home.pages.productDetail', [
             'product' => $product
