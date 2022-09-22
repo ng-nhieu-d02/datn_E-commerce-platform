@@ -39,7 +39,12 @@ class User extends Authenticatable
 
     public function cart()
     {
-        return $this->hasMany(Cart::class, 'id_user')->withDefault();
+        return $this->hasMany(Cart::class, 'id_user');
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(CommentProduct::class, 'create_by');
     }
 
 }

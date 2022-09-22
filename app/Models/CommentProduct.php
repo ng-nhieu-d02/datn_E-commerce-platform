@@ -16,6 +16,11 @@ class CommentProduct extends Model
         return $this->belongsTo(Product::class, 'id_product');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'create_by');
+    }
+
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store');
