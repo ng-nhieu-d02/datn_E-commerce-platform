@@ -1,5 +1,9 @@
 @extends('home.layout.main')
 @section('content')
+
+    <!-- {{$product->comment()->paginate(4)}} lấy 4 comment -->
+    <!-- {{$product->comment()->paginate(4)->user()}} lấy user comment -->
+
     <div class="pages--productDetail">
         <div class="pages--productDetail--container">
             <div class="productDetail--info justify-content-between">
