@@ -1,8 +1,7 @@
 @extends('home.layout.main')
 @section('content')
-
-    <!-- {{$product->comment()->paginate(4)}} lấy 4 comment -->
-    <!-- {{$product->comment()->paginate(4)->user()}} lấy user comment -->
+    <!-- {{ $product->comment()->paginate(4) }} lấy 4 comment -->
+    {{-- <!-- {{ $product->comment()->paginate(4)->user() }} lấy user comment --> --}}
 
     <div class="pages--productDetail">
         <div class="pages--productDetail--container">
@@ -66,19 +65,19 @@
                             <span>Color: <b>Black</b></span>
                             <div class="list-box-color">
                                 <div class="box-color-image active col-md-2">
-                                    <img src="{{ asset('assets/images/image_product/download.jfif') }}" alt="">
+                                    <div class="color-item" style="background-color: red"></div>
                                 </div>
                                 <div class="box-color-image col-md-2">
-                                    <img src="{{ asset('assets/images/image_product/download.jfif') }}" alt="">
+                                    <div class="color-item" style="background-color: blue"></div>
                                 </div>
                                 <div class="box-color-image col-md-2">
-                                    <img src="{{ asset('assets/images/image_product/download.jfif') }}" alt="">
+                                    <div class="color-item" style="background-color: green"></div>
                                 </div>
                                 <div class="box-color-image col-md-2">
-                                    <img src="{{ asset('assets/images/image_product/download.jfif') }}" alt="">
+                                    <div class="color-item" style="background-color: pink"></div>
                                 </div>
                                 <div class="box-color-image col-md-2">
-                                    <img src="{{ asset('assets/images/image_product/download.jfif') }}" alt="">
+                                    <div class="color-item" style="background-color: yellow"></div>
                                 </div>
                             </div>
                         </div>
@@ -155,6 +154,38 @@
                 </div>
             </div>
             <div class="productDetail--text_detail">
+                <div class="stores col-md-12">
+                    <div class="stores-container col-md-12">
+                        <div class="list-info-stores col-md-12 d-flex">
+                            <div class="info-store col-md-6 d-flex">
+                                <div class="image-store">
+                                    <img src="{{ asset('assets/images/image_product/logo.png') }}" alt="">
+                                </div>
+                                <div class="meta-store">
+                                    <h2>Docker Store</h2>
+                                    <ul class="address-store d-flex">
+                                        <li><i class="fas fa-map-marker-alt"></i> Quận 1, Thành phố. Hồ Chí Minh</li>
+                                        <li><i class="fas fa-clock"></i> Đăng sản phẩm vài giây trước</li>
+                                    </ul>
+                                    <div class="star-store">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>4.6 (25)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact-store col-md-6">
+                                <div class="form-contact">
+                                    <a href="">Nhắn tin</a>
+                                    <a href="">Xem gian hàng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="text_detail">
                     <h2>Product Details</h2>
                     <div class="text">
