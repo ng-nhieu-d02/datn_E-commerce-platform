@@ -399,6 +399,17 @@ class seed extends Seeder
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
+
+            for($x = 0; $x < 50; $x ++) {
+                DB::table('comment_product')->insert([
+                    'create_by'   => 2,
+                    'id_store'  => 0,
+                    'id_product'  => $i,
+                    'message'      => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
+                    'parent_id'     => 0,
+                    'parent_path'   => $x.'_'
+                ]);
+            }
         }
     }
 }
