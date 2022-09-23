@@ -22,4 +22,7 @@ class homeController extends Controller
             'product' => $product
         ]);
     }
+    public function checkout(){
+        return view('home.pages.checkout');
+    }
 }
