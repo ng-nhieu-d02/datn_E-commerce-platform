@@ -198,6 +198,17 @@
 .list--info--product .color .list-box-color input:checked::before {
     opacity: 1;
 }
+.list--info--product .color .list-box-color input:checked::after {
+    content: " ";
+    position: absolute;
+    top: 15%;
+    right: 5px;
+    width: 10px;
+    transform: translateY(50%);
+    height: 10px;
+    background-color: #01cfc5;
+    border-radius: 50%;
+}
 
 .productDetail--info .list--info--product .size {
     margin-bottom: 25px;
@@ -251,6 +262,17 @@
 .list--info--product .size .list-sizes-item input:checked::before {
     opacity: 1;
 }
+/* .list--info--product .size .list-sizes-item input:checked::after {
+    content: " ";
+    position: absolute;
+    top: 15%;
+    right: 5px;
+    width: 10px;
+    transform: translateY(50%);
+    height: 10px;
+    background-color: #01cfc5;
+    border-radius: 50%;
+} */
 
 .list--info--product .size .list-sizes-item input:hover {
     border: solid 2px #07b3aad2;

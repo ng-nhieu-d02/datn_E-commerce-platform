@@ -108,6 +108,8 @@
             accessibility: true,
             arrows: false,
             asNavFor: '.slider-nav',
+            autoplay: true,
+            autoplaySpeed: 15000,
         });
         $('.slider-nav').slick({
             slidesToShow: 4,
