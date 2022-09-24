@@ -2,54 +2,89 @@
 
 @section('content')
 
-    <div class="page--checkout">
-        <div class="container">
-            <main>
-                <div class="row g-5">
-                    <div class="col-md-6 col-lg-6 order-md-last">
-                        <h2>Order summary</h2>
-                        <form class="card p-2 bg--none border--none">
-                            <label class="form-check-label" for="discount-code">Discount Code</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control discode--input rounded--1r" id="discount-code" placeholder="Discount Code">
-                                <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply">Apply</button>
+<div class="page--checkout">
+    <div>
+        <main>
+            <div class="checkout-div">
+                <div class="order-md-last container--checkout-submit">
+                    <!-- <h2 class="mb-5">Order summary</h2> -->
+                    <div class="list--product list_cart--items mt-5">
+                        <div class="item row">
+                            <div class="item--left col-md-3">
+                                <a href=""><img class="image-product" src="{{ asset('assets/images/image_cart/17.7701cf9446a6b588de67.png') }}" alt=""></a>
                             </div>
-                        </form>
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between lh-sm border--none bg--none">
-                                <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-muted">Subtotal</small>
+                            <div class="item--right col-md-9 d-flex flex-column justify-content-between">
+                                <div class="item--product_price d-flex">
+                                    <div class="info">
+                                        <h3 class="text--info">
+                                            <a href="">Rey Nylon Backpack</a>
+                                        </h3>
+                                        <p>
+                                            <span>Natural</span>
+                                            <span> | </span>
+                                            <span>XL</span>
+                                        </p>
+                                    </div>
+                                    <div class="price">
+                                        <span>$74.00</span>
+                                    </div>
                                 </div>
-                                <span class="text-muted">$249.00</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between lh-sm border--none bg--none">
-                                <div>
-                                <h6 class="my-0">Shipping estimate</h6>
-                                <small class="text-muted">Brief description</small>
+                                <div class="item--qty_remove align-items-center">
+                                    <p class="input--cart m-0">
+                                        <span class="summation">+</span>
+                                        <input type="number" value="1" id="qty">
+                                        <span class="subtraction">-</span>
+                                    </p>
+                                    <div class="remove">
+                                        <button>Remove</button>
+                                    </div>
                                 </div>
-                                <span class="text-muted">$5.00</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between lh-sm border--none bg--none">
-                                <div>
-                                <h6 class="my-0">Tax estimate</h6>
-                                <small class="text-muted">Brief description</small>
-                                </div>
-                                <span class="text-muted">$24.90</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between border--none bg--none">
-                                <span class="text--order--total">Order total</span>
-                                <strong>$276.00</strong>
-                            </li>
-                        </ul>
-                        
-                        <div class="row p-4">
-                            <button type="submit" class="btn btn-secondary btn--confirm--order bg--color">Confirm Order</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6">
-                        <h2>Billing address</h2>
-                        <form class="needs-validation" novalidate="">
+                    <hr class="my-4">
+                    <form class="card bg--none border--none">
+                        <label class="form-check-label pb-3" for="discount-code">Discount Code</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control discode--input rounded--1r" id="discount-code" placeholder="Discount Code">
+                            <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply">Apply</button>
+                        </div>
+                    </form>
+                    <ul class="list-group mb-3 mt-5">
+                        <li class="py-3 d-flex justify-content-between align-items-center lh-sm border--none bg--none">
+                            <div>
+                                <h5 class="my-0">Product name</h5>
+                                <small class="text-muted">Subtotal</small>
+                            </div>
+                            <span class="text-muted">$249.00</span>
+                        </li>
+                        <li class="py-3 d-flex justify-content-between align-items-center lh-sm border--none bg--none">
+                            <div>
+                                <h6 class="my-0">Shipping estimate</h6>
+                                <small class="text-muted">Brief description</small>
+                            </div>
+                            <span class="text-muted">$5.00</span>
+                        </li>
+                        <li class="py-3 d-flex justify-content-between align-items-center lh-sm border--none bg--none">
+                            <div>
+                                <h6 class="my-0">Tax estimate</h6>
+                                <small class="text-muted">Brief description</small>
+                            </div>
+                            <span class="text-muted">$24.90</span>
+                        </li>
+                        <li class="py-3 d-flex justify-content-between align-items-center border--none bg--none">
+                            <span class="text--order--total">Order total</span>
+                            <strong>$276.00</strong>
+                        </li>
+                    </ul>
+
+                    <div class="py-4">
+                        <button type="submit" class="btn btn-secondary btn--confirm--order bg--color w-100">Confirm Order</button>
+                    </div>
+                </div>
+                <div class="">
+                    <h2 class="mb-5">Billing address</h2>
+                    <form class="needs-validation" novalidate="">
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">First name</label>
@@ -91,7 +126,7 @@
                             <div class="col-md-6">
                                 <label for="state" class="form-label">Quận / Huyện</label>
                                 <select class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-                                <option class="fs--12" value="">Choose...</option>
+                                    <option class="fs--12" value="">Choose...</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid Quận / Huyện.
@@ -100,7 +135,7 @@
                             <div class="col-md-6">
                                 <label for="state" class="form-label">Phường / Xã</label>
                                 <select class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-                                <option class="fs--12" value="">Choose...</option>
+                                    <option class="fs--12" value="">Choose...</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid Phường / Xã.
@@ -181,13 +216,13 @@
                             </div>
                         </div> -->
 
-                        <button class="w-100 btn btn-secondary btn--confirm--order bg--color" type="submit">Back To Cart</button>
-                        </form>
-                    </div>
+                        <button class="w-100 mt-4 btn btn-secondary btn--confirm--order bg--color" type="submit">Back To Cart</button>
+                    </form>
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
+</div>
 
-    <!-- css page--checkout width = var(--max-width) margin auto -->
+<!-- css page--checkout width = var(--max-width) margin auto -->
 @endsection
