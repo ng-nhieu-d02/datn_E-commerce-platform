@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('order_detail', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_order')->unsigned();
+            $table->bigInteger('id_order_store')->unsigned();
             $table->bigInteger('id_product')->unsigned();
             $table->bigInteger('id_product_detail')->unsigned();
             $table->integer('quantity');
@@ -25,6 +26,7 @@ return new class extends Migration
         });
         Schema::table('order_detail', function ($table) {
             $table->foreign('id_order')->references('id')->on('order');
+            $table->foreign('id_order_store')->references('id')->on('order_store');
             $table->foreign('id_product')->references('id')->on('product');
             $table->foreign('id_product_detail')->references('id')->on('product_detail');
         });
