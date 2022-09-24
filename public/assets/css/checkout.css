@@ -1,0 +1,133 @@
+
+.rounded--1r {
+    border-radius: 1em;
+}
+.fs--1r{
+    font-size: 1em;
+}
+.border--none{
+    border: none;
+}
+.bg--none{
+    background: none;
+}
+.text--order--total {
+    font-size: 1.25em;
+    font-weight: 600;
+}
+.ml--10{
+    margin-left: 1.6em!important;
+}
+.flex{
+    display: flex;
+}
+.icon--card{
+    width: 1.5em;
+    float: right;
+}
+.page--checkout{
+    box-sizing: border-box;
+    width: var(--max-width);
+    margin: auto;
+}
+.checkout--input{
+    padding: 1em 0.75em;
+}
+.checkout--select{
+    padding: 1em 0.75em;
+}
+/* Billing Address */
+.form--check--payment{
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.form--check--payment > input,label,col,img {
+    display: table-cell;
+    vertical-align: middle;
+  }
+.justify--content--between {
+    justify-content: space-between;
+}
+.bg--color{
+    background-color: #0F172A;
+}
+/* Order Summany */
+.btn--confirm--order{
+    font-size: 1em;
+    line-height: 1.5em;
+    padding-bottom: 0.875em;
+    padding-top: 0.875em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    border-radius: 9999px;
+}
+.discode--input{
+    padding: 1em 0.75em;
+    border-top-right-radius: 1em!important;
+    border-bottom-right-radius: 1em!important;
+}
+.btn--apply{
+    width: 6em;
+    border-top-left-radius: 1em!important;
+    border-bottom-left-radius: 1em!important;
+    background-color: #0F172A;
+}
+.flex-col {
+    flex-direction: column;
+}
+.flex-1 {
+    flex: 1 1;
+}
+.flex-15-1{
+    flex: 1.5 1;
+}
+.flex--end {
+    Justify-content: flex-end;
+}
+.justify--between{
+    justify-content: space-between;
+}
+.items-center {
+    align-items: center;
+}
+.items-end {
+    align-items: flex-end;
+}
+.mt--1r{
+    padding-top: 4em;
+}
+.along--line{
+    --tw-border-opacity: 1;
+    border-color: rgb(226 232 240/var(--tw-border-opacity));
+    border-left-width: 1px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.card--checkout{
+    border: none;
+    background: none;
+}
+.card--checkout--title .price > span {
+    border: 2px solid #22c55e;
+    padding: 0px 0.625em;
+    border-radius: 8px;
+    font-size: 1.7em;
+    line-height: 14px;
+    color: #22c55e;
+}
+.card--checkout--img{
+    width: 130px;
+    height: 170px;
+}
+.amount{
+    width: 7em;
+}
+.amount--minus, .amount--plus{
+    border-width: 1px;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    width: 2em;
+    height: 2em;
+}

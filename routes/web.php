@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
     Route::get('/',[homeController::class, 'home'])->name('user.home');
     Route::get('/product',[homeController::class, 'product'])->name('user.product');
+    Route::get('/checkout',[homeController::class, 'checkout'])->name('user.checkout');
 });
 
 /*
