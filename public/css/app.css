@@ -598,6 +598,9 @@ video {
 .table {
   display: table;
 }
+.hidden {
+  display: none;
+}
 .flex-wrap {
   flex-wrap: wrap;
 }

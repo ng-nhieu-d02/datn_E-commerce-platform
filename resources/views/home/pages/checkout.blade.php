@@ -116,8 +116,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="country" class="form-label">Tỉnh / Thành Phố</label>
-                                <select class="form-select checkout--select rounded--1r fs--12" id="country" required="">
-                                    <option class="fs--12" value="">Choose...</option>
+                                <select id="city" class="form-select checkout--select rounded--1r fs--12" id="country" required="">
+                                    
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid Tỉnh / Thành Phố.
@@ -125,8 +125,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="state" class="form-label">Quận / Huyện</label>
-                                <select class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-                                    <option class="fs--12" value="">Choose...</option>
+                                <select id="district" class="form-select checkout--select rounded--1r fs--12" id="state" required="">
+                                    
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid Quận / Huyện.
@@ -134,8 +134,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="state" class="form-label">Phường / Xã</label>
-                                <select class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-                                    <option class="fs--12" value="">Choose...</option>
+                                <select id="ward" class="form-select checkout--select rounded--1r fs--12" id="state" required="">
+                                    
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid Phường / Xã.
