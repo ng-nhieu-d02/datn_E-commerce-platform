@@ -1,6 +1,9 @@
 <!-- jQuery -->
 <script src="{{ url('assets/js/jquery-3.6.0.min.js')}}"></script>
 
+<!-- Slick -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
@@ -96,6 +99,32 @@
                 }
             })
         })
-
     });
+
+    $(document).ready(function() {
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            accessibility: true,
+            arrows: false,
+            asNavFor: '.slider-nav',
+        });
+        $('.slider-nav').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            arrows: false,
+            focusOnSelect: true
+        });
+    });
+
+    function zoom(e) {
+        var zoom = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = (offsetX / zoom.offsetWidth) * 100
+        y = (offsetY / zoom.offsetHeight) * 100
+        zoom.style.backgroundPosition = x + "% " + y + "%";
+    }
 </script>

@@ -7,19 +7,106 @@
     <div class="pages--productDetail--container">
         <div class="productDetail--info justify-content-between">
             <div class="col-md-51">
-                <div class="box-image col-md-12">
-                    <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                    <div class="icon-heart">
-                        <form class="form--heart" action="">
-                            <button><i class="fa-regular fa-heart"></i></button>
-                        </form>
+                <div class="slider-for col-md-12">
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon-spakles">
-                        <i class="fa-duotone fa-sparkles"></i>
-                        <span>New in </span>
+
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
                     </div>
+
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                 </div>
-                <div class="box-image-gallery col-md-12">
+                <div class="slider-nav">
+                    <div class="col-md-31">
+                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
+                    </div>
+                    <div class="col-md-31">
+                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
+                    </div>
                     <div class="col-md-31">
                         <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
                     </div>
@@ -160,7 +247,7 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
-                        
+
                         <span> 4.6 (25)</span>
                     </div>
                 </div>
