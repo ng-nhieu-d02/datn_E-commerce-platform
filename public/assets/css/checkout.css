@@ -26,6 +26,10 @@
     width: 1.5em;
     float: right;
 }
+.icon--cardBank {
+    height: 24px;
+    padding-right: 10px;
+}
 .page--checkout{
     box-sizing: border-box;
     width: 100%;

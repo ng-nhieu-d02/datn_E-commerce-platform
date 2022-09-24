@@ -60,33 +60,21 @@
                     <div class="color">
                         <span>Color: <b>Black</b></span>
                         <div class="list-box-color">
-                            <div class="box-color-image active col-md-2" style="color: red">
-                                <div class="color-item"></div>
-                            </div>
-                            <div class="box-color-image col-md-2" style="color: yellow">
-                                <div class="color-item"></div>
-                            </div>
-                            <div class="box-color-image col-md-2" style="color: pink">
-                                <div class="color-item"></div>
-                            </div>
-                            <div class="box-color-image col-md-2" style="color: blue">
-                                <div class="color-item"></div>
-                            </div>
-                            <div class="box-color-image col-md-2" style="color: black">
-                                <div class="color-item"></div>
-                            </div>
+                            <input label="black" style="color: black" type="radio" id="color" name="color" value="black">
+                            <input label="pink" style="color: pink" type="radio" id="color" name="color" value="pink">
+                            <input label="blue" style="color: blue" type="radio" id="color" name="color" value="blue">
+                            <input label="red" style="color: red" type="radio" id="color" name="color" value="red">
+                            <input label="yellow" style="color: yellow" type="radio" id="color" name="color" value="yellow">
                         </div>
                     </div>
                     <div class="size">
                         <span>Size: <b>XS</b></span>
                         <div class="list-sizes-item">
-                            <div class="item-size active">XS</div>
-                            <div class="item-size">S</div>
-                            <div class="item-size">M</div>
-                            <div class="item-size">L</div>
-                            <div class="item-size">XL</div>
-                            <div class="item-size">2XL</div>
-                            <div class="item-size">3XL</div>
+                            <input label="XS" type="radio" id="size" name="size" value="XS">
+                            <input label="S" type="radio" id="size" name="size" value="S">
+                            <input label="M" type="radio" id="size" name="size" value="M">
+                            <input label="L" type="radio" id="size" name="size" value="L">
+                            <input label="XL" type="radio" id="size" name="size" value="XL">
                         </div>
                     </div>
                     <div class="cart">

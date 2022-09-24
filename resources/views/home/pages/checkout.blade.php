@@ -8,7 +8,7 @@
             <div class="checkout-div">
                 <div class="order-md-last container--checkout-submit">
                     <!-- <h2 class="mb-5">Order summary</h2> -->
-                    <div class="list--product list_cart--items mt-5">
+                    <div class="list--product list_cart--items">
                         <div class="item row">
                             <div class="item--left col-md-3">
                                 <a href=""><img class="image-product" src="{{ asset('assets/images/image_cart/17.7701cf9446a6b588de67.png') }}" alt=""></a>
@@ -157,7 +157,10 @@
                                     <input id="VNPAY" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
                                     <label class="form-check-label" for="VNPAY">VNPAY</label>
                                 </div>
-                                <img src="{{ url('assets/images/icons/vnpay.png') }}" class="icon--card">
+                                <div>
+                                    <img src="{{ url('assets/images/icons/vnpay.png') }}" class="icon--card">
+                                    <img src="{{ url('assets/images/icons/bank.png') }}" class="icon--cardBank">
+                                </div>
                             </div>
                             <div class="form-check form--check--payment justify--content--between items-end">
                                 <div>
