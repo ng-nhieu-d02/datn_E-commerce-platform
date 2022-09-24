@@ -306,7 +306,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
                 'quantity'      => 43,
                 'price' =>   310000,
                 'sale' => 20000,
@@ -316,7 +317,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
                 'quantity'      => 32,
                 'price' =>   320000,
                 'sale' => 20000,
@@ -326,7 +328,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
                 'quantity'      => 23,
                 'price' =>   330000,
                 'sale' => 20000,
@@ -337,7 +340,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
                 'quantity'      => 42,
                 'price' =>   310000,
                 'sale' => 20000,
@@ -348,7 +352,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
                 'quantity'      => 47,
                 'price' =>   320000,
                 'sale' => 20000,
@@ -359,7 +364,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
                 'quantity'      => 48,
                 'price' =>   330000,
                 'sale' => 20000,
@@ -370,7 +376,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
                 'quantity'      => 74,
                 'price' =>   310000,
                 'sale' => 20000,
@@ -381,7 +388,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
                 'quantity'      => 71,
                 'price' =>   320000,
                 'sale' => 20000,
@@ -392,7 +400,8 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
                 'quantity'      => 74,
                 'price' =>   330000,
                 'sale' => 20000,
