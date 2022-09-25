@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('order_store', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_order')->unsigned();
             $table->bigInteger('id_store')->unsigned();
@@ -26,8 +26,8 @@ return new class extends Migration
             $table->enum('status_payment_store', [0,1,2])->comment('0 là đang đợi xác nhận, 1 là đã thành toán, 2 là từ chối - giao dịch lỗi')->default(0);
             $table->timestamps();
         });
-        Schema::table('order', function ($table) {
-            $table->foreign('create_by')->references('id')->on('users');
+        Schema::table('order_store', function ($table) {
+            $table->foreign('id_order')->references('id')->on('order');
             $table->foreign('id_store')->references('id')->on('store');
         });
     }
