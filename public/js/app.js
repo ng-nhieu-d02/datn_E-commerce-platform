@@ -21829,6 +21829,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/user/componentCardProduct.scss":
+/*!*******************************************************!*\
+  !*** ./resources/sass/user/componentCardProduct.scss ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/user/auth.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/user/auth.scss ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -22228,6 +22254,8 @@ process.umask = function() { return 0; };
 /******/ 			"assets/css/layout": 0,
 /******/ 			"assetsadmin/css/layout": 0,
 /******/ 			"css/app": 0,
+/******/ 			"assets/css/auth": 0,
+/******/ 			"assets/css/componentCardProduct": 0,
 /******/ 			"assets/css/footer": 0,
 /******/ 			"assets/css/navBar": 0
 /******/ 		};
@@ -22279,14 +22307,16 @@ process.umask = function() { return 0; };
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/admin/admin.scss")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/admin/layout.scss")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/user.scss")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/layout.scss")))
-/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/navBar.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/footer.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/admin/admin.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/admin/layout.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/user.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/layout.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/navBar.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/footer.scss")))
+/******/ 	__webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/componentCardProduct.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["assets/css/user","assetsadmin/css/admin","assets/css/layout","assetsadmin/css/layout","css/app","assets/css/auth","assets/css/componentCardProduct","assets/css/footer","assets/css/navBar"], () => (__webpack_require__("./resources/sass/user/auth.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

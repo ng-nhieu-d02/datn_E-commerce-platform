@@ -36,6 +36,7 @@
     max-width: var(--max-width);
     margin: auto;
     padding-top: 60px;
+    padding-bottom: 90px;
 }
 .checkout--input{
     padding: 7px 15px;
@@ -50,6 +51,14 @@
     display: flex;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+.form--check--payment > div:first-child {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+.form--check--payment > div:first-child > label {
+    cursor: pointer;
 }
 .form--check--payment > input,label,col,img {
     display: table-cell;

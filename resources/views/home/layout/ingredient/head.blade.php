@@ -33,3 +33,5 @@
 <link rel="stylesheet" href="{{ url('assets/css/cart.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/productDetail.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/checkout.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/componentCardProduct.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/auth.css') }}">

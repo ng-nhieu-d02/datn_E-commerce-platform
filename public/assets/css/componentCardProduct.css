@@ -1,0 +1,65 @@
+.component--cardProductCart {
+  width: 100%;
+  padding: 7px 0;
+  display: grid;
+  grid-template-columns: 20% 1fr 20%;
+  align-items: end;
+  gap: 8px;
+  border-bottom: solid 1px var(--border-line);
+}
+.component--cardProductCart--content .images-content {
+  border-radius: 5px;
+}
+.component--cardProductCart--content .images-content img {
+  width: 100%;
+  height: 80px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+.component--cardProductCart--content .link-content {
+  color: var(--text-default-color);
+  text-decoration: none;
+}
+.component--cardProductCart--content .link-content p {
+  font-weight: 500;
+}
+.component--cardProductCart--content .link-content div {
+  display: flex;
+  gap: 20px;
+  opacity: 0.6;
+}
+.component--cardProductCart--content .link-content div p {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.component--cardProductCart--content .link-content div p span {
+  margin-left: 3px;
+  font-weight: 700;
+}
+.component--cardProductCart--content .link-content div p .color {
+  width: 15px;
+  height: 15px;
+  position: relative;
+}
+.component--cardProductCart--content .link-content div p .color::after {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  content: " ";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+.component--cardProductCart--content:last-child {
+  text-align: right;
+}
+.component--cardProductCart--content:last-child p:last-child {
+  font-weight: 500;
+  color: #049e9e;
+}

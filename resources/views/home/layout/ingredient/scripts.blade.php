@@ -121,6 +121,19 @@
         });
     });
 
+    $(document).ready(function() {
+        $('.input_auth').focus(function(e) {
+            e.preventDefault();
+            let parent = $(this).parents('.input__content');
+            parent.addClass('active');
+        })
+        $('.input_auth').focusout(function(e) {
+            e.preventDefault();
+            let parent = $(this).parents('.input__content');
+            parent.removeClass('active');
+        })
+    });
+
     function zoom(e) {
         var zoom = e.currentTarget;
         e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX

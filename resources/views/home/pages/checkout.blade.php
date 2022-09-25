@@ -9,38 +9,8 @@
                 <div class="order-md-last container--checkout-submit">
                     <!-- <h2 class="mb-5">Order summary</h2> -->
                     <div class="list--product list_cart--items">
-                        <div class="item row">
-                            <div class="item--left col-md-3">
-                                <a href=""><img class="image-product" src="{{ asset('assets/images/image_cart/17.7701cf9446a6b588de67.png') }}" alt=""></a>
-                            </div>
-                            <div class="item--right col-md-9 d-flex flex-column justify-content-between">
-                                <div class="item--product_price d-flex">
-                                    <div class="info">
-                                        <h3 class="text--info">
-                                            <a href="">Rey Nylon Backpack</a>
-                                        </h3>
-                                        <p>
-                                            <span>Natural</span>
-                                            <span> | </span>
-                                            <span>XL</span>
-                                        </p>
-                                    </div>
-                                    <div class="price">
-                                        <span>$74.00</span>
-                                    </div>
-                                </div>
-                                <div class="item--qty_remove align-items-center">
-                                    <p class="input--cart m-0">
-                                        <span class="summation">+</span>
-                                        <input type="number" value="1" id="qty">
-                                        <span class="subtraction">-</span>
-                                    </p>
-                                    <div class="remove">
-                                        <button>Remove</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-cardProductCart></x-cardProductCart>
+                        <x-cardProductCart></x-cardProductCart>
                     </div>
                     <hr class="my-4">
                     <form class="card bg--none border--none">
@@ -150,12 +120,12 @@
                             </div>
                         </div>
                         <hr class="my-4">
-                        <h4 class="mb-3">Payment</h4>
+                        <h2 class="mb-5 mt-5">Payment</h2>
                         <div class="my-3">
                             <div class="form-check form--check--payment justify--content--between items-end">
                                 <div>
-                                    <input id="VNPAY" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                                    <label class="form-check-label" for="VNPAY">VNPAY</label>
+                                    <input id="vnpay" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                                    <label class="form-check-label" for="vnpay">Credit or debit card</label>
                                 </div>
                                 <div>
                                     <img src="{{ url('assets/images/icons/vnpay.png') }}" class="icon--card">
@@ -164,22 +134,22 @@
                             </div>
                             <div class="form-check form--check--payment justify--content--between items-end">
                                 <div>
-                                    <input id="VNPAY" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                                    <label class="form-check-label" for="VNPAY">MOMO</label>
+                                    <input id="momo" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                                    <label class="form-check-label" for="momo">Momo</label>
                                 </div>
                                 <img src="{{ url('assets/images/icons/momo.png') }}" class="icon--card">
                             </div>
                             <div class="form-check form--check--payment justify--content--between items-end">
                                 <div>
-                                    <input id="VNPAY" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                                    <label class="form-check-label" for="VNPAY">Beespay</label>
+                                    <input id="beespay" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                                    <label class="form-check-label" for="beespay">Beespay</label>
                                 </div>
                                 <img src="{{ url('assets/images/icons/beespay.png') }}" class="icon--card">
                             </div>
                             <div class="form-check form--check--payment justify--content--between items-end">
                                 <div>
-                                    <input id="VNPAY" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                                    <label class="form-check-label" for="VNPAY">Thanh toán khi nhận hàng</label>
+                                    <input id="cod" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                                    <label class="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
                                 </div>
                                 <img src="{{ url('assets/images/icons/receive.png') }}" class="icon--card">
                             </div>
