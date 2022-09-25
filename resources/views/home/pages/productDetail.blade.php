@@ -1,16 +1,16 @@
 @extends('home.layout.main')
 @section('content')
-<!-- {{ $product->comment()->paginate(4) }} lấy 4 comment -->
-{{-- <!-- {{ $product->comment()->paginate(4)->user() }} lấy user comment --> --}}
 
 <div class="pages--productDetail">
     <div class="pages--productDetail--container">
         <div class="productDetail--info justify-content-between">
             <div class="col-md-51">
                 <div class="slider-for col-md-12">
+                   
+                    @foreach($product->images as $images)
                     <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
+                        <div class="box-image" style="background: url('<?= asset('assets/images/image_product/'.$images->url) ?>')" onmousemove="zoom(event)">
+                            <img src="{{ asset('assets/images/image_product/'.$images->url) }}" alt="">
                             <div class="icon-heart">
                                 <form class="form--heart" action="">
                                     <button><i class="fa-regular fa-heart"></i></button>
@@ -22,122 +22,33 @@
                             </div>
                         </div>
                     </div>
-
-                    <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                            <div class="icon-heart">
-                                <form class="form--heart" action="">
-                                    <button><i class="fa-regular fa-heart"></i></button>
-                                </form>
-                            </div>
-                            <div class="icon-spakles">
-                                <i class="fa-duotone fa-sparkles"></i>
-                                <span>New in </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                            <div class="icon-heart">
-                                <form class="form--heart" action="">
-                                    <button><i class="fa-regular fa-heart"></i></button>
-                                </form>
-                            </div>
-                            <div class="icon-spakles">
-                                <i class="fa-duotone fa-sparkles"></i>
-                                <span>New in </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                            <div class="icon-heart">
-                                <form class="form--heart" action="">
-                                    <button><i class="fa-regular fa-heart"></i></button>
-                                </form>
-                            </div>
-                            <div class="icon-spakles">
-                                <i class="fa-duotone fa-sparkles"></i>
-                                <span>New in </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                            <div class="icon-heart">
-                                <form class="form--heart" action="">
-                                    <button><i class="fa-regular fa-heart"></i></button>
-                                </form>
-                            </div>
-                            <div class="icon-spakles">
-                                <i class="fa-duotone fa-sparkles"></i>
-                                <span>New in </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="box-image" style="background: url('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg');" onmousemove="zoom(event)">
-                            <img src="{{ asset('assets/images/image_product/detail1.f45e3a4d9bfeafd2f70b.jpg') }}" alt="">
-                            <div class="icon-heart">
-                                <form class="form--heart" action="">
-                                    <button><i class="fa-regular fa-heart"></i></button>
-                                </form>
-                            </div>
-                            <div class="icon-spakles">
-                                <i class="fa-duotone fa-sparkles"></i>
-                                <span>New in </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    
+                    @endforeach
                 </div>
-                <div class="slider-nav">
+                <div class="slider-nav pt-3">
+                    @foreach($product->images as $images)
                     <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
+                        <img src="{{ asset('assets/images/image_product/'.$images->url) }}" alt="">
                     </div>
-                    <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
-                    </div>
-                    <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
-                    </div>
-                    <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
-                    </div>
-                    <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
-                    </div>
-                    <div class="col-md-31">
-                        <img src="{{ asset('assets/images/image_product/detail2.15a523b16c02d0246953.jpg') }}" alt="">
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <div class="col-md-61">
                 <div class="list--info--product col-md-12">
                     <div class="name">
-                        <span>Heavy Weight Shoes</span>
-                        <img src="assets/images/sale.png" alt="">
+                        <span>{{$product->name}}</span>
+                        <img src="{{ asset('assets/images/sale.png') }}" alt="">
                     </div>
                     <div class="price--meta row">
                         <div class="price col-md-2">
                             <span>$112.00</span>
                         </div>
                         <div class="meta col-md-9">
-                            <a href="">
+                            <a>
                                 <div class="star">
                                     <i class="fa-solid fa-star"></i>
-                                    <span>4.9</span>
+                                    <span>{{$product->rate}}</span>
                                 </div>
-                                <div class="review"><span>142 reviews</span></div>
+                                <div class="review"><span>{{$product->total_rate}} reviews</span></div>
                             </a>
                             <div class="new-in">
                                 <span>New in</span>
@@ -145,23 +56,19 @@
                         </div>
                     </div>
                     <div class="color">
-                        <span>Color: <b>Black</b></span>
+                        <span class="d-flex align-items-center gap-3">Color: <ion-icon style="font-size: 1.7rem;color:red" name="color-palette"></ion-icon></span>
                         <div class="list-box-color">
-                            <input label="black" style="color: black" type="radio" id="color" name="color" value="black">
-                            <input label="pink" style="color: pink" type="radio" id="color" name="color" value="pink">
-                            <input label="blue" style="color: blue" type="radio" id="color" name="color" value="blue">
-                            <input label="red" style="color: red" type="radio" id="color" name="color" value="red">
-                            <input label="yellow" style="color: yellow" type="radio" id="color" name="color" value="yellow">
+                            @foreach($product->color as $color)
+                            <input label="{{$color->color_value}}" style="color: <?= $color->color_value ?>" type="radio" id="color" name="color" value="{{$color->color_value}}">
+                            @endforeach
                         </div>
                     </div>
                     <div class="size">
-                        <span>Size: <b>XS</b></span>
+                        <span>{{$product->attributes[0]->attribute}}: <b>XS</b></span>
                         <div class="list-sizes-item">
-                            <input label="XS" type="radio" id="size" name="size" value="XS">
-                            <input label="S" type="radio" id="size" name="size" value="S">
-                            <input label="M" type="radio" id="size" name="size" value="M">
-                            <input label="L" type="radio" id="size" name="size" value="L">
-                            <input label="XL" type="radio" id="size" name="size" value="XL">
+                            @foreach($product->attribute_values as $attribute)
+                            <input label="{{$attribute->attribute_value}}" type="radio" id="size" name="size" value="{{$attribute->attribute_value}}">
+                            @endforeach
                         </div>
                     </div>
                     <div class="cart">
@@ -228,17 +135,17 @@
 </div>
 <div class="page--productDetail--store">
     <div class="img-background" style="background-image: linear-gradient(to left top, rgba(255, 255, 255, 0.219), rgba(90, 245, 224, 0.267)),
-    url(https://media.istockphoto.com/photos/light-bulb-with-hanging-lights-background-picture-id1023387542?k=20&m=1023387542&s=170667a&w=0&h=h6s4UXOmEqhU-kk8aX2k9HiKF6dwW-GOvRiO3xi4Mz0=);"></div>
+    url(<?= asset('assets/images/'.$product->store->background) ?>);"></div>
     <div class="stores-container">
         <div class="list-info-stores col-md-12 d-flex">
-            <div class="info-store col-md-6 d-flex align-items-center gap-5">
+            <div class="info-store col-md-9 d-flex align-items-center gap-5">
                 <div class="image-store">
                     <img src="{{ asset('assets/images/image_product/logo.png') }}" alt="">
                 </div>
                 <div class="meta-store">
-                    <h2>Docker Store</h2>
+                    <h2>{{$product->store->name}}</h2>
                     <ul class="address-store d-flex">
-                        <li><i class="fas fa-map-marker-alt"></i> Quận 1, Thành phố. Hồ Chí Minh</li>
+                        <li><i class="fas fa-map-marker-alt"></i>{{$product->store->city}}, {{$product->store->district}}, {{$product->store->address}}</li>
                         <li><i class="fas fa-clock"></i> Đăng sản phẩm vài giây trước</li>
                     </ul>
                     <div class="star-store">
@@ -252,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <div class="contact-store col-md-6 align-items-center">
+            <div class="contact-store col-md-3 align-items-center">
                 <div class="form-contact">
                     <a href="">Nhắn tin</a>
                     <a href="">Xem gian hàng</a>
@@ -281,123 +188,7 @@
             </div>
         </div>
         <hr class="line">
-        <div class="user_review">
-            <h2>
-                <i class="fa-solid fa-star"></i>
-                <span>4,87 · 142 Reviews</span>
-            </h2>
-            <div class="user_review-container">
-                <div class="list-review-items col-md-12 d-flex flex-wrap justify-content-between">
-                    <div class="review-item col-md-5 mb-5">
-                        <div class="box-info-user d-flex align-items-center">
-                            <div class="box-image-review">
-                                <img src="{{ asset('assets/images/image_product/Image-8.5ae85a64aab1965e33a5.png') }}" alt="">
-                            </div>
-                            <div class="box-text-meta d-flex justify-content-between align-items-center">
-                                <div class="name_user d-flex flex-column">
-                                    <span class="full_name">Cody Fisher</span>
-                                    <span>May 20, 2021
-                                    </span>
-                                </div>
-                                <div class="review_star">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text_review">
-                            <p>Very nice feeling sweater. I like it better than a regular hoody because it is
-                                tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The
-                                head opening is a little tight which makes it a little.</p>
-                        </div>
-                    </div>
-                    <div class="review-item col-md-5">
-                        <div class="box-info-user d-flex align-items-center">
-                            <div class="box-image-review">
-                                <img src="{{ asset('assets/images/image_product/Image-8.5ae85a64aab1965e33a5.png') }}" alt="">
-                            </div>
-                            <div class="box-text-meta d-flex justify-content-between align-items-center">
-                                <div class="name_user d-flex flex-column">
-                                    <span class="full_name">Cody Fisher</span>
-                                    <span>May 20, 2021
-                                    </span>
-                                </div>
-                                <div class="review_star">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text_review">
-                            <p>Very nice feeling sweater. I like it better than a regular hoody because it is
-                                tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The
-                                head opening is a little tight which makes it a little.</p>
-                        </div>
-                    </div>
-                    <div class="review-item col-md-5">
-                        <div class="box-info-user d-flex align-items-center">
-                            <div class="box-image-review">
-                                <img src="{{ asset('assets/images/image_product/Image-8.5ae85a64aab1965e33a5.png') }}" alt="">
-                            </div>
-                            <div class="box-text-meta d-flex justify-content-between align-items-center">
-                                <div class="name_user d-flex flex-column">
-                                    <span class="full_name">Cody Fisher</span>
-                                    <span>May 20, 2021
-                                    </span>
-                                </div>
-                                <div class="review_star">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text_review">
-                            <p>Very nice feeling sweater. I like it better than a regular hoody because it is
-                                tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The
-                                head opening is a little tight which makes it a little.</p>
-                        </div>
-                    </div>
-                    <div class="review-item col-md-5">
-                        <div class="box-info-user d-flex align-items-center">
-                            <div class="box-image-review">
-                                <img src="{{ asset('assets/images/image_product/Image-8.5ae85a64aab1965e33a5.png') }}" alt="">
-                            </div>
-                            <div class="box-text-meta d-flex justify-content-between align-items-center">
-                                <div class="name_user d-flex flex-column">
-                                    <span class="full_name">Cody Fisher</span>
-                                    <span>May 20, 2021
-                                    </span>
-                                </div>
-                                <div class="review_star">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text_review">
-                            <p>Very nice feeling sweater. I like it better than a regular hoody because it is
-                                tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The
-                                head opening is a little tight which makes it a little.</p>
-                        </div>
-                    </div>
-                </div>
-                <form action="" class="form-show-more">
-                    <button class="form-button">Show me all 142 reviews</button>
-                </form>
-            </div>
-        </div>
+         <x-productDetailReview :comment="$product->comment()->where('parent_id',0)->paginate(8)" :product="$product"></x-productDetailReview>
         <hr class="line">
     </div>
 </div>
