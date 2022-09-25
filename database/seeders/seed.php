@@ -419,6 +419,12 @@ class seed extends Seeder
                     'parent_path'   => $x.'_'
                 ]);
             }
+            for($x = 0; $x < 5; $x ++) {
+                DB::table('product_images')->insert([
+                    'id_product'   => $i,
+                    'url'   => 'detail1.f45e3a4d9bfeafd2f70b.jpg'
+                ]);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\dashboardController;
 use App\Http\Controllers\user\homeController;
+use App\Http\Controllers\user\productController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
     Route::get('/',[homeController::class, 'home'])->name('user.home');
-    Route::get('/product',[homeController::class, 'product'])->name('user.product');
     Route::get('/checkout',[homeController::class, 'checkout'])->name('user.checkout');
+    Route::get('/product/{slug}', [productController:: class, 'detail'])->name('user.productDetail');
     Route::get('/auth',[homeController::class, 'auth'])->name('user.auth');
 });
 
