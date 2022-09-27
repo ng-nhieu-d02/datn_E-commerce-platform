@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class CommentProduct extends Model
@@ -29,5 +30,10 @@ class CommentProduct extends Model
     public function commentParent($parent)
     {
         return $this->hasMany(CommentProduct::class, 'parent_id')->where('parent_id',$parent)->get();
+    }
+
+    protected function getDateTimeAttribute()
+    {
+        return date("d-m-Y", strtotime($this->created_at));
     }
 }

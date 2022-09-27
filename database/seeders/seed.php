@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -416,7 +417,8 @@ class seed extends Seeder
                     'id_product'  => $i,
                     'message'      => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
                     'parent_id'     => 0,
-                    'parent_path'   => $x.'_'
+                    'parent_path'   => $x.'_',
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ]);
             }
             for($x = 0; $x < 5; $x ++) {

@@ -22,13 +22,13 @@
     cursor: zoom-in;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-color: hsla(0,0%,100%,1);
+    background-color: hsla(0, 0%, 100%, 1);
     background-blend-mode: overlay;
     border-radius: 20px;
 }
-.pages--productDetail--container .productDetail--info .box-image:hover{
+.pages--productDetail--container .productDetail--info .box-image:hover {
     transition: background-color 1s;
-    background-color: hsla(0,0%,100%,0);
+    background-color: hsla(0, 0%, 100%, 0);
     background-blend-mode: overlay;
     border-radius: 20px;
 }
@@ -140,8 +140,8 @@
     font-size: 1.8rem;
 }
 
-.productDetail--info .list--info--product .color>span,
-.productDetail--info .list--info--product .size>span {
+.productDetail--info .list--info--product .color > span,
+.productDetail--info .list--info--product .size > span {
     margin-bottom: 15px;
 }
 
@@ -334,14 +334,33 @@
     text-align: left;
     width: 95%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 15px;
     border: none;
     font-size: 1.8rem;
     outline: none;
 }
 
+.list--info--product .faqs .button-faq > .faq-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list--info--product .faqs .button-faq > .faq-title:after {
+    content: "\2b";
+    font-size: 2rem;
+}
+.faqs .button-faq > .faq-title.active:after {
+    content: "-";
+    font-size: 2rem;
+}
+.list--info--product .faqs .button-faq .faq-body {
+    border-top: 1px dashed #dedede;
+    padding-top: 0.5rem;
+    display: none;
+    font-size: 1.5rem;
+}
 .list--info--product .faqs .button-faq:hover {
     background-color: rgba(216, 220, 224, 0.8);
 }
@@ -418,18 +437,11 @@
 .list-info-stores .info-store .meta-store h2 {
     font-size: 2.3rem;
     font-weight: 700;
-    text-shadow:
-        1px 1px #fff,
-        -1px 1px #fff,
-        1px -1px #fff,
-        -1px -1px #fff,
+    text-shadow: 1px 1px #fff, -1px 1px #fff, 1px -1px #fff, -1px -1px #fff,
         1px 1px 5px #555;
-        text-shadow:
-        1px 1px rgba(252, 248, 28, 0.5),
-        -1px 1px rgba(252, 248, 28, 0.5),
-        1px -1px rgba(252, 248, 28, 0.5),
-        -1px -1px rgba(252, 248, 28, 0.5),
-        1px 1px 5px rgb(50, 236, 221);
+    text-shadow: 1px 1px rgba(252, 248, 28, 0.5),
+        -1px 1px rgba(252, 248, 28, 0.5), 1px -1px rgba(252, 248, 28, 0.5),
+        -1px -1px rgba(252, 248, 28, 0.5), 1px 1px 5px rgb(50, 236, 221);
 }
 
 .list-info-stores .info-store .meta-store ul.address-store {
@@ -445,11 +457,11 @@
     align-items: center;
 }
 
-.meta-store .star-store>span {
+.meta-store .star-store > span {
     margin-left: 20px;
 }
 
-.meta-store .star-store>i.fa-star {
+.meta-store .star-store > i.fa-star {
     color: #eab308;
     text-shadow: rgb(255, 196, 0) 1px 0 5px;
 }
@@ -510,7 +522,7 @@
     margin-top: 6rem;
 }
 
-.user_review>h2 {
+.user_review > h2 {
     font-size: 2.6rem;
     line-height: 36px;
     color: #0f172a;
@@ -594,10 +606,13 @@
 }
 .slider-nav .slick-list .slick-track .slick-slide.slick-current.slick-active {
     border-radius: 7px;
-    border:#0efaee solid 2px;
+    border: #0efaee solid 2px;
     position: relative;
 }
-.slider-nav .slick-list .slick-track .slick-slide.slick-current.slick-active::after {
+.slider-nav
+    .slick-list
+    .slick-track
+    .slick-slide.slick-current.slick-active::after {
     content: " ";
     position: absolute;
     top: 10px;
