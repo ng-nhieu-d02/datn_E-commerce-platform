@@ -1,11 +1,13 @@
 <!-- jQuery -->
-<script src="{{ url('assets/js/jquery-3.6.0.min.js')}}"></script>
+<script src="{{ url('assets/js/jquery-3.6.0.min.js') }}"></script>
 
 <!-- Slick -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+</script>
 
 <script>
     $(document).ready(function() {
@@ -53,7 +55,8 @@
             success: function(data) {
                 let length = data.data.length;
                 for (let i = length - 1; i > 0; i--) {
-                    list_city += `<option class='fs--12' value=${data.data[i].ProvinceID}>${data.data[i].ProvinceName}</option>`
+                    list_city +=
+                        `<option class='fs--12' value=${data.data[i].ProvinceID}>${data.data[i].ProvinceName}</option>`
                 }
                 city.html(list_city);
             }
@@ -66,7 +69,8 @@
                 url: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district",
                 type: "GET",
                 beforeSend: function(request) {
-                    request.setRequestHeader("Token", "f2a7666f-4923-11ec-ac64-422c37c6de1b");
+                    request.setRequestHeader("Token",
+                        "f2a7666f-4923-11ec-ac64-422c37c6de1b");
                 },
                 data: {
                     "province_id": $(this).val()
@@ -74,7 +78,8 @@
                 success: function(data) {
                     let length = data.data.length;
                     for (let i = length - 1; i > 0; i--) {
-                        list_district += `<option class='fs--12' value=${data.data[i].DistrictID}>${data.data[i].DistrictName}</option>`
+                        list_district +=
+                            `<option class='fs--12' value=${data.data[i].DistrictID}>${data.data[i].DistrictName}</option>`
                     }
                     district.html(list_district);
                 }
@@ -88,12 +93,14 @@
                 url: `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${$(this).val()}`,
                 type: "GET",
                 beforeSend: function(request) {
-                    request.setRequestHeader("Token", "f2a7666f-4923-11ec-ac64-422c37c6de1b");
+                    request.setRequestHeader("Token",
+                        "f2a7666f-4923-11ec-ac64-422c37c6de1b");
                 },
                 success: function(data) {
                     let length = data.data.length;
                     for (let i = 0; i < length; i++) {
-                        list_ward += `<option  class='fs--12' value=${data.data[i].WardCode}>${data.data[i].WardName}</option>`
+                        list_ward +=
+                            `<option  class='fs--12' value=${data.data[i].WardCode}>${data.data[i].WardName}</option>`
                     }
                     ward.html(list_ward);
                 }
@@ -132,6 +139,24 @@
             let parent = $(this).parents('.input__content');
             parent.removeClass('active');
         })
+        faqs()
+
+        function faqs() {
+            let faq_title = $(".faq-title");
+            for (let i = 0; i < faq_title.length; i++) {
+                faq_title[i].addEventListener('click', function() {
+                    $(this).toggleClass('active');
+                    let icon = $('.faq-title  fa-solid');
+                    let faq_body = this.nextElementSibling;
+
+                    if (faq_body.style.display === "block") {
+                        faq_body.style.display = "none";
+                    } else {
+                        faq_body.style.display = "block";
+                    }
+                })
+            }
+        }
     });
 
     function zoom(e) {

@@ -47,17 +47,26 @@
         <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-user"></i>
             <span class="tip">2</span>
+            <!-- Authentication -->
+            @if (Auth::check())
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <button>Đăng xuất</button>
+                </form>
+            @endif
+
         </li>
-        <li class="ingredient--navBar--action--modals" >
+        <li class="ingredient--navBar--action--modals">
             <i class="fa fa-cart-shopping" id="toggle-modals" data-modals="shopping-cart"></i>
             <span class="tip">3</span>
 
             <div class="div--modals div--shopping-cart">
                 @include('home.layout.ingredient.cartBar')
             </div>
-            
+
         </li>
 
     </div>
-    
+
 </div>
