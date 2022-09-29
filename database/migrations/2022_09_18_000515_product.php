@@ -25,11 +25,8 @@ return new class extends Migration
             $table->string('category_path');
             $table->bigInteger('category_id')->unsigned();
             $table->string('thumb');
-            $table->float('rate')->default(0);
-            $table->integer('total_rate')->default(0);
             $table->integer('like')->default(0);
             $table->bigInteger('view')->default(0);
-            $table->integer('sold')->default(0);
             $table->string('brand');
             $table->string('origin');
             $table->string('title')->comment('on sale');

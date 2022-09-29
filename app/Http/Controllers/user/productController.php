@@ -15,10 +15,8 @@ class productController extends Controller
     public function detail($slug)
     {
         $product = Product::where('slug', $slug)->first();
-        $getTotalCommentByProduct = $product->comment()->count();
         return view('home.pages.productDetail', [
-            'product' => $product,
-            'getTotalCommentByProduct' => $getTotalCommentByProduct,
+            'product' => $product
         ]);
     }
 

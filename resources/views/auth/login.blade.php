@@ -16,7 +16,7 @@
                 <div class="pages--auth--content__grid__box">
                     <div class="pages--auth--content__grid__box__head">
                         <p>start for free</p>
-                        <h2>Create new account <span>.</span></h2>
+                        <h2>Login now for start <span>.</span></h2>
                         <p>I dont't Account? <a href="{{ route('register') }}">Register</a></p>
                     </div>
                     <form action="{{ route('login') }}" method="POST">
@@ -40,10 +40,11 @@
                                 <ion-icon name="eye-outline"></ion-icon>
                             </div>
                             <div class="input-form">
-                                <input type="checkbox" name="remember" id=""><span>Ghi nhớ tôi?</span>
+                                <input type="checkbox" name="remember" id="remember"><label for="remember">Ghi nhớ tôi?</label>
                             </div>
                             <div class="button__group">
-                                <a href="{{ route('password.request') }}">Forgot password</a>
+                                <button><a href="{{ route('password.request') }}">Forgot password</a></button>
+                                
                                 <button type="submit">Login</button>
                             </div>
                         </div>

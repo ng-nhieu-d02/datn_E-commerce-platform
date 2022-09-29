@@ -1,8 +1,8 @@
-@props(['comments', 'product', 'getTotalCommentByProduct'])
+@props(['comments', 'product'])
 <div class="user_review">
     <h2>
         <i class="fa-solid fa-star"></i>
-        <span>{{ $product->rate }} · {{ $getTotalCommentByProduct }} Reviews</span>
+        <span>{{ $product->comment()->sum('rate') / $product->comment()->count()}} · {{ $product->comment()->count() }} Reviews</span>
     </h2>
     <div class="user_review-container">
         <div class="list-review-items gap-5 col-md-12 d-flex flex-wrap justify-content-between">

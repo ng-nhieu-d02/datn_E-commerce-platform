@@ -26,6 +26,7 @@
     background-blend-mode: overlay;
     border-radius: 20px;
 }
+
 .pages--productDetail--container .productDetail--info .box-image:hover {
     transition: background-color 1s;
     background-color: hsla(0, 0%, 100%, 0);
@@ -39,6 +40,7 @@
     transition: opacity 0.5s;
     display: block;
 }
+
 .pages--productDetail--container .productDetail--info .box-image img:hover {
     opacity: 0;
 }
@@ -74,11 +76,12 @@
 .productDetail--info .list--info--product .name {
     font-size: 4rem;
     font-weight: 700;
-    line-height: 36px;
+    line-height: 4.5rem;
     color: #0f172a;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    padding-bottom: 15px;
 }
 
 .productDetail--info .list--info--product .name img {
@@ -88,12 +91,21 @@
 
 .productDetail--info .list--info--product .price--meta {
     margin-top: 15px;
+    margin-bottom: 30px;
 }
 
-.productDetail--info .list--info--product .price--meta .price:after {
+.productDetail--info .list--info--product .price--meta .sale--price:after {
     content: "|";
     color: #dedede;
     padding-left: 13px;
+}
+.productDetail--info .list--info--product .price--meta .sale--price span:first-child {
+    text-decoration: line-through;
+    opacity: 0.6;
+    padding-right: 5px;
+}
+.productDetail--info .list--info--product .price--meta .sale--price span:last-child {
+    color: #f57224;
 }
 
 .price--meta .price span {
@@ -140,15 +152,15 @@
     font-size: 1.8rem;
 }
 
-.productDetail--info .list--info--product .color > span,
-.productDetail--info .list--info--product .size > span {
-    margin-bottom: 15px;
+.productDetail--info .list--info--product .color>span,
+.productDetail--info .list--info--product .size>span {
+    margin-bottom: 20px;
 }
 
 .list--info--product .color .list-box-color {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 5px;
+    margin-top: 10px;
     gap: 10px;
 }
 
@@ -182,22 +194,27 @@
     height: 26px;
     opacity: 0.3;
 }
+
 .list--info--product .color .list-box-color input:hover {
     border: solid 2px #07b3aad2;
     box-shadow: 0 1px 1px #0000002e;
     text-shadow: 0 1px 0px #79485f7a;
 }
+
 .list--info--product .color .list-box-color input:hover::before {
     opacity: 1;
 }
+
 .list--info--product .color .list-box-color input:checked {
     border: solid 2px #07b3aad2;
     box-shadow: 0 1px 1px #0000002e;
     text-shadow: 0 1px 0px #79485f7a;
 }
+
 .list--info--product .color .list-box-color input:checked::before {
     opacity: 1;
 }
+
 .list--info--product .color .list-box-color input:checked::after {
     content: " ";
     position: absolute;
@@ -217,7 +234,7 @@
 .list--info--product .size .list-sizes-item {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 5px;
+    margin-top: 10px;
     gap: 10px;
 }
 
@@ -256,12 +273,15 @@
     line-height: 30px;
     opacity: 0.2;
 }
+
 .list--info--product .size .list-sizes-item input:hover::before {
     opacity: 1;
 }
+
 .list--info--product .size .list-sizes-item input:checked::before {
     opacity: 1;
 }
+
 /* .list--info--product .size .list-sizes-item input:checked::after {
     content: " ";
     position: absolute;
@@ -288,13 +308,20 @@
 
 .list--info--product .cart .form-submit-cart {
     display: flex;
-    padding-bottom: 25px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    gap: 10px;
+}
+.list--info--product .cart .form-submit-cart > p {
+    flex: 1 1;
+    text-align: right;
+    margin: 0;
 }
 
 .cart .form-submit-cart .quantity {
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: 5px 10px;
     background-color: #dedede;
     border-radius: 20px;
     margin-right: 20px;
@@ -310,15 +337,26 @@
     align-items: center;
     font-size: 3rem;
     border-radius: 50%;
+    cursor: pointer;
+    -moz-user-select: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
 }
 
 .cart .form-submit-cart button {
     color: #fff;
     background-color: #1e293b;
-    padding: 10px 80px;
-    font-size: 2rem;
+    padding: 10px 50px;
+    font-size: 1.8rem;
     border-radius: 30px;
     border: none;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .productDetail--info .list--info--product .faqs {
@@ -342,25 +380,29 @@
     outline: none;
 }
 
-.list--info--product .faqs .button-faq > .faq-title {
+.list--info--product .faqs .button-faq>.faq-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.list--info--product .faqs .button-faq > .faq-title:after {
+
+.list--info--product .faqs .button-faq>.faq-title:after {
     content: "\2b";
     font-size: 2rem;
 }
-.faqs .button-faq > .faq-title.active:after {
+
+.faqs .button-faq>.faq-title.active:after {
     content: "-";
     font-size: 2rem;
 }
+
 .list--info--product .faqs .button-faq .faq-body {
     border-top: 1px dashed #dedede;
     padding-top: 0.5rem;
     display: none;
     font-size: 1.5rem;
 }
+
 .list--info--product .faqs .button-faq:hover {
     background-color: rgba(216, 220, 224, 0.8);
 }
@@ -457,11 +499,11 @@
     align-items: center;
 }
 
-.meta-store .star-store > span {
+.meta-store .star-store>span {
     margin-left: 20px;
 }
 
-.meta-store .star-store > i.fa-star {
+.meta-store .star-store>i.fa-star {
     color: #eab308;
     text-shadow: rgb(255, 196, 0) 1px 0 5px;
 }
@@ -522,7 +564,7 @@
     margin-top: 6rem;
 }
 
-.user_review > h2 {
+.user_review>h2 {
     font-size: 2.6rem;
     line-height: 36px;
     color: #0f172a;
@@ -596,23 +638,24 @@
 .slider-nav .slick-list {
     padding: 0;
 }
+
 .slider-nav .slick-list .slick-track {
     display: flex;
     gap: 5px;
 }
+
 .slider-nav .slick-list .slick-track .slick-slide img {
     width: 100%;
     border-radius: 7px;
 }
+
 .slider-nav .slick-list .slick-track .slick-slide.slick-current.slick-active {
     border-radius: 7px;
     border: #0efaee solid 2px;
     position: relative;
 }
-.slider-nav
-    .slick-list
-    .slick-track
-    .slick-slide.slick-current.slick-active::after {
+
+.slider-nav .slick-list .slick-track .slick-slide.slick-current.slick-active::after {
     content: " ";
     position: absolute;
     top: 10px;

@@ -87,9 +87,11 @@ small, .small {
     border-bottom-right-radius: 8px!important;
 }
 .btn--apply{
-    width: 6em;
+    width: 10em;
     border-top-left-radius: 8px!important;
     border-bottom-left-radius: 8px!important;
+    border-top-right-radius: 8px!important;
+    border-bottom-right-radius: 8px!important;
     background-color: #0F172A;
 }
 .flex-col {
@@ -152,7 +154,6 @@ small, .small {
 }
 .checkout-div {
     display: grid;
-    grid-template-columns: 60% 1fr;
     gap: 50px;
 }
 
@@ -161,4 +162,14 @@ small, .small {
     border: solid 1px var(--border-line);
     border-radius: 10px;
     box-shadow: rgba(100, 99, 99, 0.16) 0px 1px 5px;
+}
+
+.list_cart--items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.confirm_total {
+    font-size: 2.3rem;
+    color: #0a918a;
 }

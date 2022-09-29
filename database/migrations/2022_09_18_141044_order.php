@@ -26,7 +26,6 @@ return new class extends Migration
             $table->integer('ship');
             $table->integer('id_coupon_frs')->default(0);
             $table->enum('payment_method',[0,1,2,3])->comment('0 là tt khi nhận, 1 là qua user pay, 2 là qua vnpay, 3 là qua momo')->default(0);
-            $table->longText('message');
             $table->enum('payment_status', [0,1])->comment('0 là chưa thanh toán, 1 là đã thanh toán');
             $table->enum('status_order',[0,1,2,3,4])->comment('0 là chờ xử lí, 1 là đã xác nhận - đang xử lí, 2 là đang giao hàng, 3 là thành công, 4 là thất bại')->default(0);
             $table->enum('status_payment_store', [0,1,2])->comment('0 là đang đợi xác nhận, 1 là đã thành toán, 2 là từ chối - giao dịch lỗi')->default(0);

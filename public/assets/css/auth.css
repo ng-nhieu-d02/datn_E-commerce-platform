@@ -66,6 +66,18 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
+.pages--auth--content__grid__box__content .input-form {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.pages--auth--content__grid__box__content .input-form label {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.pages--auth--content__grid__box__content .input-form label:hover {
+  opacity: 1;
+}
 .pages--auth--content__grid__box__content .button__group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
