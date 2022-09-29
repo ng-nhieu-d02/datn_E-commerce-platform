@@ -5,11 +5,11 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
 </script>
 
 <script>
+    // toggle menu-modals
     $(document).ready(function() {
         var statusModals = false;
         $('#toggle-modals').click(function(e) {
@@ -38,76 +38,83 @@
         });
     });
 
-    $(document).ready(function() {
-        const city = $("#city");
-        const district = $("#district");
-        const ward = $("#ward");
-        let list_city = "<option class='fs--12'>Choose...</option>";
-        let list_district = "<option class='fs--12'>Choose...</option>";
-        let list_ward = "<option class='fs--12'>Choose...</option>";
+    // api address
+    // $(document).ready(function() {
 
-        $.ajax({
-            url: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-            type: "GET",
-            beforeSend: function(request) {
-                request.setRequestHeader("Token", "f2a7666f-4923-11ec-ac64-422c37c6de1b");
-            },
-            success: function(data) {
-                let length = data.data.length;
-                for (let i = length - 1; i > 0; i--) {
-                    list_city +=
-                        `<option class='fs--12' value=${data.data[i].ProvinceID}>${data.data[i].ProvinceName}</option>`
-                }
-                city.html(list_city);
-            }
-        })
+    //     $('input:radio[name="option"]').change(function() {
+    //         alert($(this).val());
+    //     });
 
-        city.change(function() {
-            $("#city_selected").val(city.find(':selected').text());
-            list_district = "<option class='fs--12'>Choose...</option>";
-            $.ajax({
-                url: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district",
-                type: "GET",
-                beforeSend: function(request) {
-                    request.setRequestHeader("Token",
-                        "f2a7666f-4923-11ec-ac64-422c37c6de1b");
-                },
-                data: {
-                    "province_id": $(this).val()
-                },
-                success: function(data) {
-                    let length = data.data.length;
-                    for (let i = length - 1; i > 0; i--) {
-                        list_district +=
-                            `<option class='fs--12' value=${data.data[i].DistrictID}>${data.data[i].DistrictName}</option>`
-                    }
-                    district.html(list_district);
-                }
-            })
-        })
+    //     const city = $("#city");
+    //     const district = $("#district");
+    //     const ward = $("#ward");
+    //     let list_city = "<option class='fs--12'>Choose...</option>";
+    //     let list_district = "<option class='fs--12'>Choose...</option>";
+    //     let list_ward = "<option class='fs--12'>Choose...</option>";
 
-        district.change(function() {
-            $("#district_selected").val(district.find(':selected').text());
-            list_ward = "<option class='fs--12'>Choose...</option>";
-            $.ajax({
-                url: `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${$(this).val()}`,
-                type: "GET",
-                beforeSend: function(request) {
-                    request.setRequestHeader("Token",
-                        "f2a7666f-4923-11ec-ac64-422c37c6de1b");
-                },
-                success: function(data) {
-                    let length = data.data.length;
-                    for (let i = 0; i < length; i++) {
-                        list_ward +=
-                            `<option  class='fs--12' value=${data.data[i].WardCode}>${data.data[i].WardName}</option>`
-                    }
-                    ward.html(list_ward);
-                }
-            })
-        })
-    });
+    //     $.ajax({
+    //         url: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
+    //         type: "GET",
+    //         beforeSend: function(request) {
+    //             request.setRequestHeader("Token", "f2a7666f-4923-11ec-ac64-422c37c6de1b");
+    //         },
+    //         success: function(data) {
+    //             let length = data.data.length;
+    //             for (let i = length - 1; i > 0; i--) {
+    //                 list_city +=
+    //                     `<option class='fs--12' value=${data.data[i].ProvinceID}>${data.data[i].ProvinceName}</option>`
+    //             }
+    //             city.html(list_city);
+    //         }
+    //     })
 
+    //     city.change(function() {
+    //         $("#city_selected").val(city.find(':selected').text());
+    //         list_district = "<option class='fs--12'>Choose...</option>";
+    //         $.ajax({
+    //             url: "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district",
+    //             type: "GET",
+    //             beforeSend: function(request) {
+    //                 request.setRequestHeader("Token",
+    //                     "f2a7666f-4923-11ec-ac64-422c37c6de1b");
+    //             },
+    //             data: {
+    //                 "province_id": $(this).val()
+    //             },
+    //             success: function(data) {
+    //                 let length = data.data.length;
+    //                 for (let i = length - 1; i > 0; i--) {
+    //                     list_district +=
+    //                         `<option class='fs--12' value=${data.data[i].DistrictID}>${data.data[i].DistrictName}</option>`
+    //                 }
+    //                 district.html(list_district);
+    //             }
+    //         })
+    //     })
+
+    //     district.change(function() {
+    //         $("#district_selected").val(district.find(':selected').text());
+    //         list_ward = "<option class='fs--12'>Choose...</option>";
+    //         $.ajax({
+    //             url: `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${$(this).val()}`,
+    //             type: "GET",
+    //             beforeSend: function(request) {
+    //                 request.setRequestHeader("Token",
+    //                     "f2a7666f-4923-11ec-ac64-422c37c6de1b");
+    //             },
+    //             success: function(data) {
+    //                 let length = data.data.length;
+    //                 for (let i = 0; i < length; i++) {
+    //                     list_ward +=
+    //                         `<option  class='fs--12' value=${data.data[i].WardCode}>${data.data[i].WardName}</option>`
+    //                 }
+    //                 ward.html(list_ward);
+    //             }
+    //         })
+    //     })
+    // });
+
+    // slide product
     $(document).ready(function() {
         $('.slider-for').slick({
             slidesToShow: 1,
@@ -128,6 +135,7 @@
         });
     });
 
+    // input auth
     $(document).ready(function() {
         $('.input_auth').focus(function(e) {
             e.preventDefault();
@@ -159,6 +167,7 @@
         }
     });
 
+    // zoom product
     function zoom(e) {
         var zoom = e.currentTarget;
         e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
@@ -167,4 +176,51 @@
         y = (offsetY / zoom.offsetHeight) * 100
         zoom.style.backgroundPosition = x + "% " + y + "%";
     }
+
+    // click attribute
+    $(document).ready(function() {
+
+        function changeDetail(data_detail) {
+            $('.price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price)+'đ');
+            $('.sale_price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price + data_detail[0].sale)+'đ');
+            $('.percent_detail').html('-'+new Intl.NumberFormat(['ban', 'id']).format((data_detail[0].sale / (data_detail[0].price/100)).toFixed(0))+'%');
+            $('.quantity_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].quantity - data_detail[0].sold))
+        }
+
+        $('.attribute').click(function(e) {
+            $('#attribute_value').html($(this).val());
+            if (type == 0) {
+                const radio = document.querySelector('input[name="colors"]:checked');
+                if (radio) {
+                    const color = radio.value;
+                    const data_detail = detail.filter(({attribute_value, color_value}) => attribute_value == $(this).val() && color_value == color);
+                    changeDetail(data_detail);
+                }
+            }
+        });
+        $('.colors').click(function(e) {
+            $('#color_value').html($(this).val());
+            if (type == 0) {
+                const radio = document.querySelector('input[name="attributes"]:checked');
+                if (radio) {
+                    const attribute = radio.value;
+                    const data_detail = detail.filter(({attribute_value, color_value}) => attribute_value == attribute && color_value == $(this).val());
+                    changeDetail(data_detail);
+                }
+            }
+        });
+
+        $('.quantity-function').click(function(e) {
+            const action = $(this).attr('data-action');
+            let input = $('.input-quantity-function').val();
+            if (action == 'plus') {
+                $('.input-quantity-function').val(Number(input) + 1);
+            } else {
+                if (input == 1) {
+                    return;
+                }
+                $('.input-quantity-function').val(Number(input) - 1);
+            }
+        })
+    })
 </script>

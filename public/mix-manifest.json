@@ -1,12 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=d9ad4be844d665e61b0191009d8b92d0",
+    "/js/app.js": "/js/app.js?id=62e05c8200e85558d9fd2d658e1368c7",
     "/assets/css/user.css": "/assets/css/user.css?id=266548cbd739ceba6e6afa8115312c83",
     "/assetsadmin/css/admin.css": "/assetsadmin/css/admin.css?id=9b4eec7e509015b0d51560886b042ae3",
     "/assets/css/layout.css": "/assets/css/layout.css?id=41cc69d5a952e8406ed79e760db20298",
     "/assetsadmin/css/layout.css": "/assetsadmin/css/layout.css?id=8273bc0c77a5ceffaede69fa074ed4db",
-    "/css/app.css": "/css/app.css?id=91f86151882e7255456b0255f0a1fe64",
-    "/assets/css/auth.css": "/assets/css/auth.css?id=1785841b64d3ad832daa20671b299c53",
-    "/assets/css/componentCardProduct.css": "/assets/css/componentCardProduct.css?id=84cc2a543f112690eceee50972c39bc4",
+    "/css/app.css": "/css/app.css?id=05dd731b8de20900842105807a4368d2",
+    "/assets/css/home.css": "/assets/css/home.css?id=5348e837d6c799de790ef556e9ebd671",
+    "/assets/css/auth.css": "/assets/css/auth.css?id=9f42ca742c7e5cc1842e9e91f8de9447",
+    "/assets/css/componentCardProduct.css": "/assets/css/componentCardProduct.css?id=b9cd04913229772e18da03113d6941ad",
     "/assets/css/footer.css": "/assets/css/footer.css?id=c8f1c21d7246ae8c35f707f2520943d1",
-    "/assets/css/navBar.css": "/assets/css/navBar.css?id=20b6a347147d2078246d54512d9f5df6"
+    "/assets/css/navBar.css": "/assets/css/navBar.css?id=8ab75846f095464162d02c80d4e9c78b"
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -29,6 +30,11 @@ class Product extends Model
     public function attribute_values()
     {
         return $this->hasMany(ProductDetail::class, 'id_product')->groupBy('attribute_value');
+    }
+
+    public function price_minmax($id)
+    {
+        return ProductDetail::select(DB::raw('MIN(price) as min_price, MIN(sale) as min_sale, MAX(price) as max_price'))->where('id_product', $id)->first();
     }
 
     public function images()

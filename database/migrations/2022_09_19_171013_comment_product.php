@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('id_store')->unsigned();
             $table->bigInteger('id_product')->unsigned();
             $table->longText('message');
+            $table->float('rate')->default(0);
             $table->string('derImg')->nullable();
             $table->integer('parent_id');
             $table->string('parent_path');
@@ -26,6 +27,7 @@ return new class extends Migration
         });
         Schema::table('comment_product', function ($table) {
             $table->foreign('create_by')->references('id')->on('users');
+            $table->foreign('id_store')->references('id')->on('store');
             $table->foreign('id_product')->references('id')->on('product');
         });
     }

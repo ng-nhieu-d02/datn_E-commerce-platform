@@ -13,21 +13,14 @@ class homeController extends Controller
     }
     public function home()
     {
-        return view('home.pages.home');
-    }
-    public function product()
-    {
-        $product =  Product::find(1);
-        return view('home.pages.productDetail', [
+        $product = Product::paginate(8);
+        return view('home.pages.home', [
             'product' => $product
         ]);
     }
+
     public function checkout()
     {
         return view('home.pages.checkout');
-    }
-    public function auth()
-    {
-        return view('home.pages.auth');
     }
 }

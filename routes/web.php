@@ -24,8 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
     Route::get('/', [homeController::class, 'home'])->name('user.home');
-    Route::get('/checkout', [homeController::class, 'checkout'])->middleware('auth')->name('user.checkout');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
+
+    Route::prefix('/')->middleware('auth')->group(function () {
+        Route::get('/checkout', [homeController::class, 'checkout'])->name('user.checkout');
+    });
 });
 
 /*

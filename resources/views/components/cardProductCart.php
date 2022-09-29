@@ -14,7 +14,7 @@
         </a>
     </div>
     <div class="component--cardProductCart--content">
-        <p>300.000</p>
+        <p>300.000đ</p>
         <p>Quantity: 1</p>
     </div>
 </div>

@@ -1,11 +1,11 @@
 <div class="ingredient--navBar">
     <div class="ingredient--navBar--logo">
         <div class="img--logo">
-            <a href=""><img src="/assets/images/logo.png" alt=""></a>
+            <a href="{{route('user.home')}}"><img src="/assets/images/logo.png" alt=""></a>
         </div>
         <div class="word--logo">
             <h2>
-                <a href="">
+                <a href="{{route('user.home')}}">
                     <span>F</span>
                     <span>F</span>
                     <span>BEES</span>
@@ -22,7 +22,7 @@
                 <a href="">Component</a>
             </li>
             <li>
-                <a href="">Cart</a>
+                <a href="{{route('user.checkout')}}">Cart</a>
             </li>
             <li>
                 <a href="">Privacy Policy</a>
@@ -40,23 +40,32 @@
         <li>
             <i class="fa fa-magnifying-glass"></i>
         </li>
+        @if (Auth::check())
         <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-bell"></i>
-            <span class="tip">1</span>
+            <span class="tip">0</span>
         </li>
+        @endif
+        @if (Auth::check())
         <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-user"></i>
             <span class="tip">2</span>
             <!-- Authentication -->
-            @if (Auth::check())
+            <!-- @if (Auth::check())
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <button>Đăng xuất</button>
                 </form>
-            @endif
-
+            @endif -->
         </li>
+        @else
+        <a href="{{route('login')}}">
+            <li class="ingredient--navBar--action--modals">
+                <i class="fa-regular fa-user"></i>
+            </li>
+        </a>
+        @endif
         <li class="ingredient--navBar--action--modals">
             <i class="fa fa-cart-shopping" id="toggle-modals" data-modals="shopping-cart"></i>
             <span class="tip">3</span>

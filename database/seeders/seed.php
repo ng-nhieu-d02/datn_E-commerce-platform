@@ -311,7 +311,8 @@ class seed extends Seeder
                 'attribute_value' => 'M',
                 'quantity'      => 43,
                 'price' =>   310000,
-                'sale' => 20000,
+                'sale' => 30000,
+                'sold' => rand(1,20),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -323,6 +324,7 @@ class seed extends Seeder
                 'quantity'      => 32,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(1,30),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -333,7 +335,8 @@ class seed extends Seeder
                 'attribute_value' => 'XL',
                 'quantity'      => 23,
                 'price' =>   330000,
-                'sale' => 20000,
+                'sale' => 25000,
+                'sold' => rand(1,10),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -346,6 +349,7 @@ class seed extends Seeder
                 'quantity'      => 42,
                 'price' =>   310000,
                 'sale' => 20000,
+                'sold' => rand(20,30),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -358,6 +362,7 @@ class seed extends Seeder
                 'quantity'      => 47,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(20,47),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -370,6 +375,7 @@ class seed extends Seeder
                 'quantity'      => 48,
                 'price' =>   330000,
                 'sale' => 20000,
+                'sold' => rand(20,48),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -382,6 +388,7 @@ class seed extends Seeder
                 'quantity'      => 74,
                 'price' =>   310000,
                 'sale' => 20000,
+                'sold' => rand(10,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -394,6 +401,7 @@ class seed extends Seeder
                 'quantity'      => 71,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(10,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -406,6 +414,7 @@ class seed extends Seeder
                 'quantity'      => 74,
                 'price' =>   330000,
                 'sale' => 20000,
+                'sold' => rand(20,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -413,9 +422,10 @@ class seed extends Seeder
             for($x = 0; $x < 50; $x ++) {
                 DB::table('comment_product')->insert([
                     'create_by'   => 2,
-                    'id_store'  => 0,
+                    'id_store'  => 1,
                     'id_product'  => $i,
                     'message'      => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
+                    'rate' => rand(1,5),
                     'parent_id'     => 0,
                     'parent_path'   => $x.'_',
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

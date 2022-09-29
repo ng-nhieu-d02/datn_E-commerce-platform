@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('attribute')->nullable();
             $table->string('attribute_value')->nullable();
             $table->integer('quantity');
+            $table->integer('sold')->default(0);
             $table->integer('price');
             $table->integer('sale');
             $table->string('url_image');
