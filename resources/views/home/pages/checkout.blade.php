@@ -29,8 +29,7 @@
                                 </div>
                             </div>
                             <div class="component--checkout--store--product__product">
-                                <x-cardProductCart></x-cardProductCart>
-                                <x-cardProductCart></x-cardProductCart>
+                               
                             </div>
                             <div class="component--checkout--store--product__total">
                                 <div class="box__total">
@@ -71,8 +70,7 @@
                                 </div>
                             </div>
                             <div class="component--checkout--store--product__product">
-                                <x-cardProductCart></x-cardProductCart>
-                                <x-cardProductCart></x-cardProductCart>
+                                
                             </div>
                             <div class="component--checkout--store--product__total">
                                 <div class="box__total">

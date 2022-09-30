@@ -4,15 +4,14 @@
             <!-- <h3 class="list_cart--title">
                 Shopping Cart
             </h3> -->
-            <div class="list_cart--items">
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
-                <x-cardProductCart></x-cardProductCart>
+            <div class="list_cart--items list__product__cart__bar">
+                @if(Auth::check())
+                    @foreach(Auth::user()->cart()->orderBy('id','desc')->get() as $card_product)
+                        <x-cardProductCart :data="$card_product"></x-cardProductCart>
+                    @endforeach
+                @else
+                    <p>Giỏ hàng trống</p>
+                @endif
             </div>
 
         </div>

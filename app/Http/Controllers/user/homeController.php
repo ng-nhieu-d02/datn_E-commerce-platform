@@ -10,6 +10,7 @@ class homeController extends Controller
 {
     public function __construct()
     {
+        
     }
     public function home()
     {
