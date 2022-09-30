@@ -7,7 +7,7 @@
                 <div class="slider-for col-md-12">
                     @foreach ($product->images as $images)
                     <div>
-                        <div class="box-image" style="background: url('<?= asset('assets/images/image_product/' . $images->url) ?>')" onmousemove="zoom(event)">
+                        <div class="box-image background_image_mouser" style=" background: url(<?= asset('assets/images/image_product/' . $images->url) ?>)" onmousemove="zoom(event)">
                             <img src="{{ asset('assets/images/image_product/' . $images->url) }}" alt="">
                             <div class="icon-heart">
                                 <form class="form--heart" action="">
@@ -40,8 +40,8 @@
                             <span class="price_detail">{{ number_format($product->price_minmax($product->id)->min_price, 0, ',', '.') }}đ - {{ number_format($product->price_minmax($product->id)->max_price, 0, ',', '.') }}đ</span>
                         </div>
                         <div class="sale--price">
-                            <span class="sale_price_detail">{{number_format($product->price_minmax($product->id)->min_price + $product->price_minmax($product->id)->min_sale, 0, ',', '.')}}đ</span>
-                            <span class="percent_detail">-{{number_format($product->price_minmax($product->id)->min_sale / ($product->price_minmax($product->id)->min_price / 100), 0)}}%</span>
+                            <span class="sale_price_detail">{{number_format($product->price_minmax($product->id)->max_price + $product->price_minmax($product->id)->max_sale, 0, ',', '.')}}đ</span>
+                            <span class="percent_detail">-{{number_format($product->price_minmax($product->id)->max_sale / ($product->price_minmax($product->id)->min_price / 100), 0)}}%</span>
                         </div>
                         <div class="meta">
                             <a>
@@ -79,7 +79,7 @@
                                 <input type="number" onKeyUp="if(this.value>999){this.value='999';}else if(this.value<1){this.value='1';}" class="input-quantity-function" value="1">
                                 <span class="cong quantity-function" data-action="plus">+</span>
                             </div>
-                            <button><i class="fa-sharp fa-solid fa-cart-shopping"></i> Add to cart</button>
+                            <button class="btn-submit-add-cart"><i class="fa-sharp fa-solid fa-cart-shopping"></i> Add to cart</button>
                             <p> <span class="quantity_detail">{{$product->detail->sum('quantity') - $product->detail->sum('sold')}}</span>  sản phẩm trong kho</p>
                         </div>
                     </div>

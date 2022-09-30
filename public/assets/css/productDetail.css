@@ -20,10 +20,7 @@
     position: relative;
     overflow: hidden;
     cursor: zoom-in;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
     background-color: hsla(0, 0%, 100%, 1);
-    background-blend-mode: overlay;
     border-radius: 20px;
 }
 
@@ -36,9 +33,11 @@
 
 .pages--productDetail--container .productDetail--info .box-image img {
     width: 100%;
+    object-fit: cover;
     border-radius: 20px;
     transition: opacity 0.5s;
     display: block;
+    background-color: #dbd8d8;
 }
 
 .pages--productDetail--container .productDetail--info .box-image img:hover {

@@ -180,11 +180,35 @@
     // click attribute
     $(document).ready(function() {
 
+        let first = false;
+        let data_detail = [];
+
         function changeDetail(data_detail) {
-            $('.price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price)+'đ');
-            $('.sale_price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price + data_detail[0].sale)+'đ');
-            $('.percent_detail').html('-'+new Intl.NumberFormat(['ban', 'id']).format((data_detail[0].sale / (data_detail[0].price/100)).toFixed(0))+'%');
-            $('.quantity_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].quantity - data_detail[0].sold))
+            if (first == true) {
+                $('.slider-for').slick('slickRemove', 0);
+            }
+            $('.price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price) + 'đ');
+            $('.sale_price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price + data_detail[0].sale) + 'đ');
+            $('.percent_detail').html('-' + new Intl.NumberFormat(['ban', 'id']).format((data_detail[0].sale / (data_detail[0].price / 100)).toFixed(0)) + '%');
+            $('.quantity_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].quantity - data_detail[0].sold));
+            const element = `<div>
+                        <div class="box-image" style="background: linear-gradient(180deg, rgba(231, 231, 236, 0.3), rgba(109, 225, 230, 0.2)), url('<?= asset('upload/product') ?>/` + data_detail[0].url_image + `') no-repeat" onmousemove="zoom(event)">
+                            <img src="<?= asset('upload/product') ?>/` + data_detail[0].url_image + `" alt="">
+                            <div class="icon-heart">
+                                <form class="form--heart" action="">
+                                    <button><i class="fa-regular fa-heart"></i></button>
+                                </form>
+                            </div>
+                            <div class="icon-spakles">
+                                <i class="fa-duotone fa-sparkles"></i>
+                                <span>New in </span>
+                            </div>
+                        </div>
+                    </div>`;
+            $('.slider-for').slick('slickAdd', element, 0, true).slick('slickGoTo', 0, true);
+            if (first == false) {
+                first = true;
+            }
         }
 
         $('.attribute').click(function(e) {
@@ -193,9 +217,17 @@
                 const radio = document.querySelector('input[name="colors"]:checked');
                 if (radio) {
                     const color = radio.value;
-                    const data_detail = detail.filter(({attribute_value, color_value}) => attribute_value == $(this).val() && color_value == color);
+                    data_detail = detail.filter(({
+                        attribute_value,
+                        color_value
+                    }) => attribute_value == $(this).val() && color_value == color);
                     changeDetail(data_detail);
                 }
+            } else {
+                data_detail = detail.filter(({
+                    attribute_value
+                }) => attribute_value == $(this).val());
+                changeDetail(data_detail);
             }
         });
         $('.colors').click(function(e) {
@@ -204,9 +236,17 @@
                 const radio = document.querySelector('input[name="attributes"]:checked');
                 if (radio) {
                     const attribute = radio.value;
-                    const data_detail = detail.filter(({attribute_value, color_value}) => attribute_value == attribute && color_value == $(this).val());
+                    data_detail = detail.filter(({
+                        attribute_value,
+                        color_value
+                    }) => attribute_value == attribute && color_value == $(this).val());
                     changeDetail(data_detail);
                 }
+            } else {
+                data_detail = detail.filter(({
+                    color_value
+                }) => color_value == $(this).val());
+                changeDetail(data_detail);
             }
         });
 
@@ -220,6 +260,57 @@
                     return;
                 }
                 $('.input-quantity-function').val(Number(input) - 1);
+            }
+        })
+
+        $('.btn-submit-add-cart').click(function(e) {
+            let _storeCartUrl = '{{route("user.store_cart")}}';
+            let _csrf = '{{csrf_token()}}';
+            let quantity = $('.input-quantity-function').val();
+            e.preventDefault();
+
+            if (data_detail.length == 1) {
+                $.ajax({
+                    url: _storeCartUrl,
+                    type: 'POST',
+                    data: {
+                        'detail': data_detail[0].id,
+                        'quantity': quantity,
+                        _token: _csrf
+                    },
+                    success: function(res) {
+                        const response = JSON.parse(res);
+                        if (response.status == 200) {
+                            alert('update');
+                            $(`.quantity__change__for_update_${response.data.id}`).html(response.data.quantity);
+                        } else if (response.status == 201) {
+                            alert('success')
+                            $('.list__product__cart__bar').prepend(`
+                                <div class="component--cardProductCart">
+                                    <div class="component--cardProductCart--content">
+                                        <a href="/product/${response.data.product.slug}" class="images-content">
+                                            <img class="image-product" src="<?= asset('upload/product') ?>/${response.data.detail.url_image}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="component--cardProductCart--content">
+                                        <a href="/product/${response.data.product.slug}" class="link-content">
+                                            <p>${response.data.product.name}</p>
+                                            <div>
+                                                <p>Color: <ion-icon name="color-palette-outline"></ion-icon> <span class="color" style="color: ${response.data.detail.color_value}"></span></p>
+                                                <p>${response.data.detail.attribute}: <span>${response.data.detail.attribute_value}</span></p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="component--cardProductCart--content">
+                                        <p>${new Intl.NumberFormat(['ban', 'id']).format(response.data.detail.price)}đ</p>
+                                        <p>Quantity: <span class="quantity__change__for_update_${response.data.id}">${response.data.quantity}</span></p>
+                                    </div>
+                                </div>`);
+                        } else {
+                            alert('error');
+                        }
+                    }
+                });
             }
         })
     })

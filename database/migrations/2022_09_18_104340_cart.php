@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('id_product')->unsigned();
             $table->bigInteger('id_product_detail')->unsigned();
             $table->integer('quantity');
+            $table->enum('status', [0,1])->comment('0 là chưa chọn, 1 là đã chọn')->default(0);
             $table->timestamps();
         });
         Schema::table('cart', function ($table) {

@@ -34,7 +34,7 @@ class Product extends Model
 
     public function price_minmax($id)
     {
-        return ProductDetail::select(DB::raw('MIN(price) as min_price, MIN(sale) as min_sale, MAX(price) as max_price'))->where('id_product', $id)->first();
+        return ProductDetail::select(DB::raw('MIN(price) as min_price, MIN(sale) as min_sale, Max(sale) as max_sale, MAX(price) as max_price'))->where('id_product', $id)->first();
     }
 
     public function images()

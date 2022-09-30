@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Models\CommentProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class productController extends Controller
 {
     public function __construct()
     {
+    
     }
     public function detail($slug)
     {
         $product = Product::where('slug', $slug)->first();
         return view('home.pages.productDetail', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 

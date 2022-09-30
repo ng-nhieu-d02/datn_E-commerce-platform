@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class, 'id_user');
     }
 
+    public function cartById($id)
+    {
+        return $this->hasOne(Cart::class, 'id_user')->where('id', $id)->get();
+    }
+
     public function store()
     {
         return $this->hasMany(Cart::class, 'id_user')->groupBy('id_store')->orderBy('created_at')->get();

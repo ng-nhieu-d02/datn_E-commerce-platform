@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\dashboardController;
 use App\Http\Controllers\user\homeController;
 use App\Http\Controllers\user\productController;
+use App\Http\Controllers\user\userController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,7 @@ Route::prefix('/')->group(function () {
 
     Route::prefix('/')->middleware('auth')->group(function () {
         Route::get('/checkout', [homeController::class, 'checkout'])->name('user.checkout');
+        Route::post('/check', [userController::class, 'store_cart'])->name('user.store_cart');
     });
 });
 
