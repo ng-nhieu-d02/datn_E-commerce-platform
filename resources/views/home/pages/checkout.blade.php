@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="page--checkout">
-        <div class="container">
+        <div class="container ">
             <main>
                 <div class="row g-5">
                     <div class="col-md-6 col-lg-6 order-md-last">
@@ -44,7 +44,7 @@
                         </ul>
                         
                         <div class="row p-4">
-                            <button type="submit" class="btn btn-secondary btn--confirm--order bg--color">Confirm Order</button>
+                            <button type="submit" class="btn btn-secondary btn--confirm--order bg--color" onclick="ToastSuccess()">Confirm Order</button>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6">
@@ -186,8 +186,10 @@
                     </div>
                 </div>
             </main>
+            <!-- success -->
+            <div id="toast">
+            </div>
         </div>
     </div>
-
     <!-- css page--checkout width = var(--max-width) margin auto -->
 @endsection
