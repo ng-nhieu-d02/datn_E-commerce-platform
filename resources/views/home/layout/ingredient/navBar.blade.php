@@ -22,7 +22,7 @@
                 <a href="">Component</a>
             </li>
             <li>
-                <a href="{{route('user.checkout')}}">Cart</a>
+                <a href="{{route('user.cart')}}">Cart</a>
             </li>
             <li>
                 <a href="">Privacy Policy</a>
@@ -49,7 +49,7 @@
         @if (Auth::check())
         <li class="ingredient--navBar--action--modals">
             <i class="fa-regular fa-user"></i>
-            <span class="tip">2</span>
+            <span class="tip">{{Auth::user()->cart()->count()}}</span>
             <!-- Authentication -->
             <!-- @if (Auth::check())
                 <form method="POST" action="{{ route('logout') }}">
@@ -68,8 +68,9 @@
         @endif
         <li class="ingredient--navBar--action--modals">
             <i class="fa fa-cart-shopping" id="toggle-modals" data-modals="shopping-cart"></i>
-            <span class="tip">3</span>
-
+            @if(Auth::check())
+            <span class="tip tip__cartBar">{{Auth::user()->cart()->count()}}</span>
+            @endif
             <div class="div--modals div--shopping-cart">
                 @include('home.layout.ingredient.cartBar')
             </div>

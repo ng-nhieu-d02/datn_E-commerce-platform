@@ -43,14 +43,9 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class, 'id_user');
     }
 
-    public function cartById($id)
+    public function cartStore()
     {
-        return $this->hasOne(Cart::class, 'id_user')->where('id', $id)->get();
-    }
-
-    public function store()
-    {
-        return $this->hasMany(Cart::class, 'id_user')->groupBy('id_store')->orderBy('created_at')->get();
+        return $this->hasMany(Cart::class, 'id_user')->groupBy('id_store')->orderBy('created_at','desc')->get();
     }
 
     public function comment()

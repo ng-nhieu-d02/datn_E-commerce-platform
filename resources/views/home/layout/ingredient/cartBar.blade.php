@@ -23,7 +23,7 @@
             <p>Shipping and taxes calculated at checkout.
             </p> -->
             <div class="button--cart">
-                <button>View cart</button>
+                <button> <a href="{{route('user.cart')}}">View cart</a> </button>
             </div>
         </div>
     </div>
