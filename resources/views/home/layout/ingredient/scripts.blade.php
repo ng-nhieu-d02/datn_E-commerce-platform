@@ -5,7 +5,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
 </script>
 
 <script>
@@ -188,11 +189,16 @@
                 $('.slider-for').slick('slickRemove', 0);
             }
             $('.price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price) + 'đ');
-            $('.sale_price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price + data_detail[0].sale) + 'đ');
-            $('.percent_detail').html('-' + new Intl.NumberFormat(['ban', 'id']).format((data_detail[0].sale / (data_detail[0].price / 100)).toFixed(0)) + '%');
-            $('.quantity_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].quantity - data_detail[0].sold));
-            const element = `<div>
-                        <div class="box-image" style="background: linear-gradient(180deg, rgba(231, 231, 236, 0.3), rgba(109, 225, 230, 0.2)), url('<?= asset('upload/product') ?>/` + data_detail[0].url_image + `') no-repeat" onmousemove="zoom(event)">
+            $('.sale_price_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].price +
+                data_detail[0].sale) + 'đ');
+            $('.percent_detail').html('-' + new Intl.NumberFormat(['ban', 'id']).format((data_detail[0].sale / (
+                data_detail[0].price / 100)).toFixed(0)) + '%');
+            $('.quantity_detail').html(new Intl.NumberFormat(['ban', 'id']).format(data_detail[0].quantity -
+                data_detail[0].sold));
+            const element =
+                `<div>
+                        <div class="box-image" style="background: linear-gradient(180deg, rgba(231, 231, 236, 0.3), rgba(109, 225, 230, 0.2)), url('<?= asset('upload/product') ?>/` +
+                data_detail[0].url_image + `') no-repeat" onmousemove="zoom(event)">
                             <img src="<?= asset('upload/product') ?>/` + data_detail[0].url_image + `" alt="">
                             <div class="icon-heart">
                                 <form class="form--heart" action="">
@@ -264,8 +270,8 @@
         })
 
         $('.btn-submit-add-cart').click(function(e) {
-            let _storeCartUrl = '{{route("user.store_cart")}}';
-            let _csrf = '{{csrf_token()}}';
+            let _storeCartUrl = '{{ route('user.store_cart') }}';
+            let _csrf = '{{ csrf_token() }}';
             let quantity = $('.input-quantity-function').val();
             e.preventDefault();
 
@@ -282,7 +288,8 @@
                         const response = JSON.parse(res);
                         if (response.status == 200) {
                             alert('update');
-                            $(`.quantity__change__for_update_${response.data.id}`).html(response.data.quantity);
+                            $(`.quantity__change__for_update_${response.data.id}`).html(
+                                response.data.quantity);
                         } else if (response.status == 201) {
                             alert('success')
                             $('.list__product__cart__bar').prepend(`
@@ -314,4 +321,24 @@
             }
         })
     })
+
+    $(document).ready(function() {
+
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.file_image').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(".file-upload").on('change', function() {
+            readURL(this);
+        });
+
+    });
 </script>

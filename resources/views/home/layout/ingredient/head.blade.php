@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="{{ url('assets/css/layout.css') }}">
 
 <!-- slick CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
 <!-- ingredient CSS -->
 <link rel="stylesheet" href="{{ url('assets/css/navBar.css') }}">
@@ -36,3 +36,4 @@
 <link rel="stylesheet" href="{{ url('assets/css/componentCardProduct.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/auth.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/home.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/profile.css') }}">

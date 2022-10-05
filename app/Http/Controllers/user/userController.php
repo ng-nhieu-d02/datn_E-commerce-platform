@@ -5,8 +5,10 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\ProductDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class userController extends Controller
 {
@@ -22,7 +24,7 @@ class userController extends Controller
         $quantity = $request->quantity;
         $cart = Cart::where('id_user', Auth::id())->where('id_product_detail', $request->detail)->first();
         if ($cart) {
-            $cart->update(['quantity'=> $cart->quantity + $quantity]);
+            $cart->update(['quantity' => $cart->quantity + $quantity]);
             $response = [
                 'status' => 200,
                 'data'  => $cart,
@@ -65,5 +67,34 @@ class userController extends Controller
             }
         }
         return json_encode($response);
+    }
+
+    public function profile()
+    {
+        return view('home.pages.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $validated = $request->validate([
+            'username' => 'bail|required|unique:users,name',
+            'phone' => 'bail|required|digits:10|numeric',
+            'email' => 'bail|required|unique:users,email,' . auth()->user()->id . '|email:rfc,dns',
+            'name' => 'bail|required',
+            'gender' => 'bail|required|string',
+            'file_image' => 'mimes:jpg,jpeg,png'
+        ]);
+        $getImageUrl = User::where('id', auth()->user()->id)->value('avatar');
+
+        $file_image = $request->file('file_image');
+        if (!empty($file_image)) {
+            Storage::disk('public')->delete($getImageUrl);
+            $path = Storage::disk('public')->put('avatars', $file_image);
+            $validated['avatar'] = $path;
+        }
+
+        $user = User::find(auth()->user()->id);
+        $user->update($validated);
+        return redirect()->back()->with('Update success', 'Update Successfully');
     }
 }

@@ -20,14 +20,12 @@
             <div>
                 <x-input-label for="password" :value="__('Password')" />
 
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+                <x-text-input id="password" class="block mt-1 w-full form-control" type="password" name="password"
+                    required autocomplete="current-password" />
             </div>
 
             <div class="flex justify-end mt-4">
-                <x-primary-button>
+                <x-primary-button class="btn btn-primary">
                     {{ __('Confirm') }}
                 </x-primary-button>
             </div>

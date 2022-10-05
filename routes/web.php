@@ -30,6 +30,8 @@ Route::prefix('/')->group(function () {
     Route::prefix('/')->middleware('auth')->group(function () {
         Route::get('/checkout', [homeController::class, 'checkout'])->name('user.checkout');
         Route::post('/check', [userController::class, 'store_cart'])->name('user.store_cart');
+        Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
+        Route::post('/profile', [userController::class, 'updateProfile'])->name('user.update_profile');
     });
 });
 
