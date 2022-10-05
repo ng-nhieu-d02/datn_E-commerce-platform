@@ -261,5 +261,4 @@
     </div>
 </form>
 
-<!-- css page--checkout width = var(--max-width) margin auto -->
 @endsection

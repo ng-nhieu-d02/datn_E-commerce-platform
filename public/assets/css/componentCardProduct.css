@@ -7,8 +7,40 @@
   gap: 8px;
   border-bottom: solid 1px var(--border-line);
 }
+.component--cardProductCart.cardProductCartDetail {
+  grid-template-columns: 5% 80px 1fr 15% 10% 10%;
+}
 .component--cardProductCart:last-child {
   border-bottom: none;
+}
+.component--cardProductCart--content.center {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.component--cardProductCart--content.center > input {
+  cursor: pointer;
+}
+.component--cardProductCart--content.center .quantity {
+  padding: 5px 10px;
+  background-color: #dedede;
+  border-radius: 30px;
+  display: flex;
+}
+.component--cardProductCart--content.center .quantity .tru,
+.component--cardProductCart--content.center .quantity .cong {
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-user-select: none !important;
+     -moz-user-select: none !important;
+          user-select: none !important;
 }
 .component--cardProductCart--content .images-content {
   border-radius: 5px;
@@ -59,12 +91,22 @@
   border-radius: 50%;
   background-color: currentColor;
 }
-.component--cardProductCart--content:last-child {
+.component--cardProductCart--content.price {
   text-align: right;
 }
-.component--cardProductCart--content:last-child p:last-child {
+.component--cardProductCart--content.price p:last-child {
   font-weight: 500;
   color: #049e9e;
+}
+.component--cardProductCart--content.remove {
+  justify-content: flex-end;
+}
+.component--cardProductCart--content.remove button {
+  padding: 2px 10px;
+  border: solid 1px #049e9e;
+  border-radius: 30px;
+  color: #0a918a;
+  background-color: #f1eeee;
 }
 
 .component--cardProduct {
@@ -86,7 +128,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   background-color: rgba(248, 250, 252, 0.753);
-  --tw-drop-shadow: drop-shadow(0 20px 13px rgba(0,0,0,.03)) drop-shadow(0 8px 5px rgba(0,0,0,.08));
+  --tw-drop-shadow: drop-shadow(0 20px 13px rgba(0, 0, 0, .03)) drop-shadow(0 8px 5px rgba(0, 0, 0, .08));
   border-radius: 10px;
 }
 .component--cardProduct--img i {
@@ -388,4 +430,47 @@
   align-items: center;
   text-decoration: none;
   color: #0a918a;
+}
+
+.div-input-group__cart {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.6rem;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 25px 20px;
+  border-radius: 10px;
+}
+.div-input-group__cart > div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.div-input-group__cart > div .input {
+  display: flex;
+  gap: 5px;
+}
+.div-input-group__cart > div .input p {
+  cursor: pointer;
+  margin: 0;
+}
+.div-input-group__cart > div .input p:hover {
+  color: #049e9e;
+}
+.div-input-group__cart > div .div_price {
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
+}
+.div-input-group__cart > div .div_price p {
+  margin: 0;
+}
+.div-input-group__cart > div .div_price .price {
+  color: #049e9e;
+  font-weight: 500;
+  font-size: 2.5rem;
+}
+.div-input-group__cart > div button {
+  padding: 10px 15px;
+  font-size: 1.7rem;
 }

@@ -9,7 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'Cart';
+    protected $table = 'cart';
 
     protected $fillable = [
         'id_user',
@@ -37,6 +37,11 @@ class Cart extends Model
 
     public function cart($store)
     {
-        return $this->hasMany(Cart::class, 'id_user', 'id_user')->where('id_store', $store)->get();
+        return $this->hasMany(Cart::class, 'id_user', 'id_user')->where('id_store', $store)->orderBy('created_at','desc')->get();
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'id_store');
     }
 }

@@ -20,8 +20,4 @@ class homeController extends Controller
         ]);
     }
 
-    public function checkout()
-    {
-        return view('home.pages.checkout');
-    }
 }
