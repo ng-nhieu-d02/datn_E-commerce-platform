@@ -1,0 +1,90 @@
+.background-container {
+    position: relative;
+}
+.background-container .image-cover {
+    height: 50vh;
+    overflow: hidden;
+}
+.background-container .image-cover img {
+    object-fit: cover;
+}
+
+.pages--profile {
+    position: relative;
+    max-width: var(--max-width);
+    margin: auto;
+    height: 25vh;
+}
+.tab-profile {
+    position: relative;
+    max-width: var(--max-width);
+    margin: auto;
+}
+.pages--profile .info-profile {
+    position: absolute;
+    top: -35%;
+    gap: 15px;
+
+    /* position: absolute;
+    height: 200px;
+    width: 200px;
+    bottom: -30%;
+    left: 10%;
+    background-color: #dedede;
+    padding: 5px 5px 5px 5px;
+    border-radius: 50%; */
+}
+.pages--profile .info-profile .image-avatar {
+    height: 200px;
+    width: 200px;
+    background-color: #fff;
+    padding: 5px 5px 5px 5px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.pages--profile .image-avatar img {
+}
+.tab-profile {
+}
+.tab-profile .nav-pills {
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    padding: 10px 0px;
+}
+.nav-pills .nav-link {
+    font-size: 2rem;
+    color: #7a7a7a;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    color: #000;
+    background-color: transparent;
+    border-bottom: 2px solid #333;
+    border-radius: 0px;
+}
+
+.show-profile .avatar {
+    position: relative;
+
+    overflow: hidden;
+}
+.avatar:hover {
+    opacity: .2;
+}
+.avatar .text-change-image {
+    position: absolute;
+    top: 35%;
+}
+.avatar > input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.file_image {
+    transition: all 0.3s ease;
+    object-fit: cover;
+    height: 204px;
+    width: 204px;
+}
