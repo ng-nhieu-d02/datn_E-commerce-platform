@@ -20,8 +20,8 @@
             </div>
         </a>
     </div>
-    <div class="component--cardProductCart--content">
+    <div class="component--cardProductCart--content price">
         <p>{{number_format($data->detail->price,0,',','.')}}đ</p>
-        <p>Quantity: <span class="quantity__change__for_update_{{$data->id}}">{{$data->quantity}}</span></p>
+        <p>Qty: <span class="quantity__change__for_update_{{$data->id}}">{{$data->quantity}}</span></p>
     </div>
 </div>

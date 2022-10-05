@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('color_value');
             $table->string('attribute')->nullable();
             $table->string('attribute_value')->nullable();
+            $table->integer('weight');
             $table->integer('quantity');
             $table->integer('sold')->default(0);
             $table->integer('price');

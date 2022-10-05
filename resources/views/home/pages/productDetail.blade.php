@@ -238,6 +238,6 @@
 </div>
 <script>
     const detail = JSON.parse('<?= json_encode($product->detail) ?>');
-    const type = <?= $product->type ?>
+    const type = '{{ $product->type }}';
 </script>
 @endsection

@@ -249,7 +249,6 @@
                 changeDetail(data_detail);
             }
         });
-
         $('.quantity-function').click(function(e) {
             const action = $(this).attr('data-action');
             let input = $('.input-quantity-function').val();
@@ -261,13 +260,18 @@
                 }
                 $('.input-quantity-function').val(Number(input) - 1);
             }
-        })
-
+        });
         $('.btn-submit-add-cart').click(function(e) {
             let _storeCartUrl = '{{route("user.store_cart")}}';
             let _csrf = '{{csrf_token()}}';
             let quantity = $('.input-quantity-function').val();
+            let isLogin = '{{Auth::check()}}';
+            let urlLogin = '{{route("login")}}';
             e.preventDefault();
+
+            if (!isLogin) {
+                return window.location = urlLogin;
+            }
 
             if (data_detail.length == 1) {
                 $.ajax({
@@ -284,7 +288,8 @@
                             alert('update');
                             $(`.quantity__change__for_update_${response.data.id}`).html(response.data.quantity);
                         } else if (response.status == 201) {
-                            alert('success')
+                            alert('success');
+                            $('.tip__cartBar').text(Number($('.tip__cartBar').text()) + 1);
                             $('.list__product__cart__bar').prepend(`
                                 <div class="component--cardProductCart">
                                     <div class="component--cardProductCart--content">
@@ -301,17 +306,125 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <div class="component--cardProductCart--content">
+                                    <div class="component--cardProductCart--content price">
                                         <p>${new Intl.NumberFormat(['ban', 'id']).format(response.data.detail.price)}đ</p>
-                                        <p>Quantity: <span class="quantity__change__for_update_${response.data.id}">${response.data.quantity}</span></p>
+                                        <p>Qty: <span class="quantity__change__for_update_${response.data.id}">${response.data.quantity}</span></p>
                                     </div>
                                 </div>`);
                         } else {
-                            alert('error');
+                            alert(response.message);
+                        }
+                    }
+                });
+            } else {
+                alert('Chọn loại sản phẩm muốn thêm');
+            }
+        });
+    })
+
+    // click cart
+    $(document).ready(function() {
+        var wait = false;
+
+        async function update_item_cart(id) {
+            let url__submit = '{{route("user.update_item_cart")}}';
+            let _csrf = '{{csrf_token()}}';
+            let quantity = $(`.input-quantity-function_${id}`).val();
+            $.ajax({
+                url: url__submit,
+                type: 'POST',
+                data: {
+                    'id': id,
+                    'quantity': quantity,
+                    _token: _csrf
+                },
+                success: function(res) {
+                    const response = JSON.parse(res);
+                    if (response.status == 200) {
+                        console.log(response.message);
+                    } else {
+                        console.log(response.message);
+                    }
+                }
+            });
+        };
+        $('.quantity-function-update').click(function(e) {
+            const id = $(this).attr('data-id');
+            let quantity = $(`.input-quantity-function_${id}`);
+            let quantity_detail = $(`.quantity_detail_${id}`);
+            const action = $(this).attr('data-action');
+            if (action == 'minus') {
+                if ((Number(quantity.val()) - 1) < 1) {
+                    return alert('Ko nhập thấp hơn 0');
+                } else {
+                    quantity.val(Number(quantity.val()) - 1);
+                }
+            } else {
+                if ((Number(quantity.val()) + 1) > Number(quantity_detail.val())) {
+                    return alert('Hàng không đủ');
+                } else {
+                    quantity.val(Number(quantity.val()) + 1);
+                }
+            }
+            if (wait) {
+                clearTimeout(wait);
+                wait = setTimeout(() => {
+                    update_item_cart(id);
+                    wait = false;
+                }, 1000);
+            } else {
+                wait = setTimeout(() => {
+                    update_item_cart(id);
+                    wait = false;
+                }, 1000);
+            }
+        });
+        $('.remove__item__cart').click(function(e) {
+            e.preventDefault();
+            const id = $(this).attr('data-id');
+            const parentElement = $(this).parents('.cardProductCartDetail');
+            const assert = confirm(`you are delete item ${id} in your cart. are you sure ?`);
+            if (assert == true) {
+                let url__submit = '{{route("user.delete_item_cart")}}';
+                let _csrf = '{{csrf_token()}}';
+                $.ajax({
+                    url: url__submit,
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        _token: _csrf
+                    },
+                    success: function(res) {
+                        const response = JSON.parse(res);
+                        if (response.status == 200) {
+                            alert('success');
+                            parentElement.remove();
+                            $('.tip__cartBar').text(Number($('.tip__cartBar').text()) - 1);
+                        } else {
+                            alert(`${response.data}`);
                         }
                     }
                 });
             }
+        });
+        $('.required_checkbox[required]').change(function() {
+            if ($('.required_checkbox[required]').is(':checked')) {
+                $('.required_checkbox[required]').removeAttr('required');
+            } else {
+                $('.required_checkbox[required]').attr('required', 'required');
+            }
+        });
+        $('.required_checkbox').change(function() {
+            const checkbox = $('.required_checkbox:checked');
+            let sum = 0;
+            let total = 0;
+            checkbox.each((index, value) => {
+                const val = detail.filter(({id}) => id == value.value);
+                total = checkbox.length;
+                sum += val[0].price;
+            });
+            $('.total_cart').text(total);
+            $('.price_cart').text(new Intl.NumberFormat(['ban', 'id']).format(sum));
         })
     })
 </script>
