@@ -22,6 +22,7 @@
                 $('.div--' + modals).removeClass('active');
             }
             statusModals = !statusModals;
+            
         });
 
         window.addEventListener('click', (e) => {
@@ -223,6 +224,7 @@
                 const radio = document.querySelector('input[name="colors"]:checked');
                 if (radio) {
                     const color = radio.value;
+
                     data_detail = detail.filter(({
                         attribute_value,
                         color_value
