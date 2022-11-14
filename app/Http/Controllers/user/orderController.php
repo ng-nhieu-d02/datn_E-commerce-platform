@@ -13,8 +13,10 @@ class orderController extends Controller
         
     }
     public function checkout(Request $request)
-    {
-        Auth::user()->cart()->where('status','1')->update(['status' => '0']);
+    {   
+        if(isset($request->checkout)) {
+            Auth::user()->cart()->where('status','1')->update(['status' => '0']);
+        }
         Auth::user()->cart()->whereIn('id',$request->checkout)->update(['status' => '1']);
         return view('home.pages.checkout');
     }

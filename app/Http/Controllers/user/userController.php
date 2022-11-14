@@ -108,6 +108,10 @@ class userController extends Controller
         $user->update($validated);
         return redirect()->back()->with('Update success', 'Update Successfully');
     }
+<<<<<<< HEAD
+=======
+        
+>>>>>>> eb0c6e68ac446d829f1d8bed55e7a4ca197105a4
     public function delete_item_cart(Request $request)
     {
         $request->validate([
@@ -149,4 +153,5 @@ class userController extends Controller
         }
         return json_encode($response);
     }
+    
 }

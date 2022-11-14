@@ -17,34 +17,6 @@ class seed extends Seeder
      */
     public function run()
     {
-        DB::table('category_store')->insert([
-            'name'      => 'Thực phẩm',
-            'slug'      => 'thuc-pham',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Làm đẹp',
-            'slug'      => 'lam-dep',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Thời trang',
-            'slug'      => 'thoi-trang',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Công nghệ',
-            'slug'      => 'công nghệ',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Giải trí',
-            'slug'      => 'giai-tri',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Dịch vụ',
-            'slug'      => 'dich-vu',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Vật liệu chuyên dụng',
-            'slug'      => 'vat-lieu-chuyen-dung',
-        ]);
 
         DB::table('users')->insert([
             'username'  => 'member',
@@ -55,6 +27,20 @@ class seed extends Seeder
             'money'     => 0,
             'gender'    => 'man',
             'status'    => 3
+        ]);
+        DB::table('user_address')->insert([
+            'user_id'  => 1,
+            'address'   => 'Phường Đông Hưng Thuận',
+            'district'  => 'Quận 12',
+            'city'  => 'Hồ Chí Minh',
+            'status'    => '0'
+        ]);
+        DB::table('user_address')->insert([
+            'user_id'  => 1,
+            'address'   => 'Thôn Hương Vân, Xã Đạ lây',
+            'district'  => 'Huyện đạ tẻh',
+            'city'  => 'Lâm Đồng',
+            'status'    => '1'
         ]);
         DB::table('users')->insert([
             'username'  => 'admin',
@@ -77,19 +63,37 @@ class seed extends Seeder
             'status'    => 1
         ]);
 
+        DB::table('store')->insert([
+            'name'      => 'Store Test',
+            'slug'      => 'store-test',
+            'address'   => 'Phường Tân Hưng Thuận',
+            'district'  => '12',
+            'city'      => 'Hồ Chí Minh',
+            'status'    => 1
+        ]);
+
         DB::table('store_cate')->insert([
-            'id_store'  => 1,
-            'id_category_store'    => 4
+            'id_store'  => 2,
+            'name'      => 'Thời trang',
+            'slug'      => 'thoi-trang',
         ]);
 
         DB::table('store_cate')->insert([
             'id_store'  => 1,
-            'id_category_store'    => 5
+            'name'      => 'Thực phẩm',
+            'slug'      => 'thuc-pham',
         ]);
 
         DB::table('store_cate')->insert([
             'id_store'  => 1,
-            'id_category_store'    => 6
+            'name'      => 'Làm đẹp',
+            'slug'      => 'lam-dep',
+        ]);
+
+        DB::table('store_cate')->insert([
+            'id_store'  => 1,
+            'name'      => 'Thời trang',
+            'slug'      => 'thoi-trang',
         ]);
 
         DB::table('ticket_create_store')->insert([
@@ -98,11 +102,23 @@ class seed extends Seeder
             'status'    => 1
         ]);
 
+        DB::table('ticket_create_store')->insert([
+            'id_user'   => 1,
+            'id_store'  => 2,
+            'status'    => 1
+        ]);
+
         DB::table('permission_store')->insert([
             'id_store'      => 1,
             'id_user'       => 1,
             'permission'    => '0'
         ]);
+        DB::table('permission_store')->insert([
+            'id_store'      => 2,
+            'id_user'       => 1,
+            'permission'    => '0'
+        ]);
+
         DB::table('category_product')->insert([
             'name'   => 'thời trang nam',
             'slug'  => 'thoi-trang-nam',
@@ -178,7 +194,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Round Buckle 1" Belt',
             'slug'      => 'round-buckle-1-belt-' . time(),
@@ -214,7 +230,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Travel Pet Carrier',
             'slug'      => 'travel-pet-carrier-' . time(),
@@ -250,7 +266,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Hoodie Sweatshirt',
             'slug'      => 'hoodie-sweatshirt-' . time(),
