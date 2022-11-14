@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('apply_store')->unsigned();
             $table->string('code')->unique();
             $table->string('name');
+            $table->string('avatar');
             $table->enum('type',[0,1,2])->comment('0 là giảm tiền, 1 giảm %, 2 là freeShip');
             $table->longText('message');
             $table->integer('money_apply_start');

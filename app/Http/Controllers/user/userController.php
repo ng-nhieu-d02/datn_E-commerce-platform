@@ -107,6 +107,7 @@ class userController extends Controller
         $user = User::find(auth()->user()->id);
         $user->update($validated);
         return redirect()->back()->with('Update success', 'Update Successfully');
+    }
         
     public function delete_item_cart(Request $request)
     {
@@ -149,4 +150,5 @@ class userController extends Controller
         }
         return json_encode($response);
     }
+    
 }
