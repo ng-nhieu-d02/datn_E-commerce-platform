@@ -281,6 +281,9 @@
   padding-right: 8px;
   color: rgb(146, 168, 209);
 }
+.select label.option span.title i.icon.active {
+  color: #ee4d2d;
+}
 .select label.option span.title:hover {
   color: #049e9e;
   background: rgba(255, 255, 255, 0.3);

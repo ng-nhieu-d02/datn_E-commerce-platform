@@ -3,8 +3,7 @@
 @section('content')
 <div class="page--checkout" id="form_radio">
     <div>
-        <form action="{{route('user.checkout')}}" method="POST">
-            @csrf
+        <form action="{{route('user.checkout')}}" method="GET">
             <div class="checkout-div">
                 <div class="container--checkout-submit">
                     <div class="list--product list_cart--items">
