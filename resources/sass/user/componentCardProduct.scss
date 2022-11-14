@@ -335,6 +335,9 @@
             i.icon {
                 padding-right: 8px;
                 color: rgba(146, 168, 209, 1);
+                &.active {
+                    color: #ee4d2d;
+                }
             }
 
             &:hover {

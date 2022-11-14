@@ -17,6 +17,7 @@ class userController extends Controller
     }
     public function cart()
     {
+        Auth::user()->cart()->where('status','1')->update(['status' => '0']);
         return view('home.pages.cart');
     }
     public function store_cart(Request $request)

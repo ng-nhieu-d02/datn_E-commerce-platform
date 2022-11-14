@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,14 +11,20 @@ class orderController extends Controller
 {
     public function __construct()
     {
-        
     }
     public function checkout(Request $request)
-    {   
-        if(isset($request->checkout)) {
-            Auth::user()->cart()->where('status','1')->update(['status' => '0']);
+    {
+        if(isset($request->address)) {
+            $address = UserAddress::where('id','=',$request->address)->first();
+        } else {
+            $address = UserAddress::where('user_id','=', Auth::user()->id)->where('status','=','0')->first();
         }
-        Auth::user()->cart()->whereIn('id',$request->checkout)->update(['status' => '1']);
-        return view('home.pages.checkout');
+        return view('home.pages.checkout', [
+            'address' => $address
+        ]);
+    }
+    public function chooseCart(Request $request)
+    {
+        Auth::user()->cart()->where('id', $request->id)->update(['status' => $request->status]);
     }
 }
