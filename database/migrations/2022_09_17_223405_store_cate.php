@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('store_cate', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_store')->unsigned();
-            $table->bigInteger('id_category_store')->unsigned();
+            $table->string('name');
+            $table->string('slug');
             $table->timestamps();
         });
         Schema::table('store_cate', function ($table) {
-            $table->foreign('id_category_store')->references('id')->on('category_store');
             $table->foreign('id_store')->references('id')->on('store');
         });
     }
