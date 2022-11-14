@@ -17,6 +17,7 @@ class userController extends Controller
     }
     public function cart()
     {
+        Auth::user()->cart()->where('status','1')->update(['status' => '0']);
         return view('home.pages.cart');
     }
     public function store_cart(Request $request)
@@ -109,9 +110,12 @@ class userController extends Controller
         return redirect()->back()->with('Update success', 'Update Successfully');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         
 >>>>>>> eb0c6e68ac446d829f1d8bed55e7a4ca197105a4
+=======
+>>>>>>> e4aed67ac5a6690b0e07a33b29c3d8625fce9e3f
     public function delete_item_cart(Request $request)
     {
         $request->validate([

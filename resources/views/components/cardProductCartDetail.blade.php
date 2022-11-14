@@ -1,7 +1,7 @@
 @props(['data'])
 <div class="component--cardProductCart cardProductCartDetail">
     <div class="component--cardProductCart--content center">
-        <input type="checkbox" data-id="{{$data->id}}" class="required_checkbox" name="checkout[]" value="{{$data->id}}" required>
+        <input type="checkbox" data-id="{{$data->id}}" class="required_checkbox" value="{{$data->id}}" required>
     </div>
     <div class="component--cardProductCart--content">
         <a href="{{route('user.productDetail', ['slug' => $data->product->slug])}}" class="images-content">

@@ -5,12 +5,10 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
 </script>
 
 <script>
-    
     // toggle menu-modals
     $(document).ready(function() {
         var statusModals = false;
@@ -276,7 +274,7 @@
             let quantity = $('.input-quantity-function').val();
             let isLogin = '{{Auth::check()}}';
             let urlLogin = '{{route("login")}}';
-            e.preventDefault(); 
+            e.preventDefault();
 
             if (!isLogin) {
                 return window.location = urlLogin;
@@ -353,7 +351,9 @@
                     if (response.status == 200) {
                         console.log(response.message);
                         const index = id;
-                        const val = detail.filter(({id}) => id == index);
+                        const val = detail.filter(({
+                            id
+                        }) => id == index);
                         val[0].quantity = quantity;
                         update_total();
                     } else {
@@ -428,12 +428,36 @@
                 $('.required_checkbox[required]').attr('required', 'required');
             }
         });
+        $('.required_checkbox').change(function() {
+            const id = $(this).attr('data-id');
+            const url__submit = '{{route("user.chooseCart")}}';
+            const _csrf = '{{csrf_token()}}';
+            let status = 0;
+            if ($('.required_checkbox').is(':checked')) {
+                status = 1
+            }
+            $.ajax({
+                url: url__submit,
+                type: 'POST',
+                data: {
+                    'id': id,
+                    'status': status,
+                    _token: _csrf
+                },
+                success: function(res) {
+                    
+                }
+            });
+        })
+
         function update_total() {
             const checkbox = $('.required_checkbox:checked');
             let sum = 0;
             let total = 0;
             checkbox.each((index, value) => {
-                const val = detail.filter(({id}) => id == value.value);
+                const val = detail.filter(({
+                    id
+                }) => id == value.value);
                 total = checkbox.length;
                 sum += val[0].price * val[0].quantity;
             });
@@ -441,7 +465,18 @@
             $('.price_cart').text(new Intl.NumberFormat(['ban', 'id']).format(sum));
         }
         $('.required_checkbox').change(function() {
-           update_total();
+            update_total();
+        })
+    })
+
+    // checkout
+    $(document).ready(function() {
+        $('.address_option').change(function() {
+            const address = $('input[name=option]:checked','#form_radio').val();
+            if(address != 'required') {
+                const url = '{{route("user.checkout")}}'+'?address='+address;
+                window.location= url;
+            }
         })
     })
 
@@ -454,7 +489,7 @@
                 reader.onload = function(e) {
                     $('.file_image').attr('src', e.target.result);
                 }
-                
+
                 reader.readAsDataURL(input.files[0]);
             }
         }

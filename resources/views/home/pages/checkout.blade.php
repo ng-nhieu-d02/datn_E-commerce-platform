@@ -54,14 +54,13 @@
                                     </div>
                                     <div class="right">
                                         @php
-                                            $adr = Auth::user()->address()->where('status','0')->first();
                                             $data = [
                                                 "pick_province" => $store->store->city,
                                                 "pick_district" => $store->store->district,
                                                 "pick_address" => $store->store->address,
-                                                "province"  => $adr->city,
-                                                "district" => $adr->district,
-                                                "address" => $adr->address,
+                                                "province"  => $address->city,
+                                                "district" => $address->district,
+                                                "address" => $address->address,
                                                 "weight" => $weight,
                                                 "value" => $total,
                                                 "transport" => "road",
@@ -91,84 +90,17 @@
                     <hr class="my-4">
                     <div class="select animated zoomIn">
                         <!-- You can toggle select (disabled) -->
-                        <input type="radio" id="input_radio" name="option" value="required" required>
+                        <input type="radio" id="input_radio" class="address_option" name="option" value="required" required>
                         <i class="toggle icon fa fa-chevron-down"></i>
                         <i class="toggle icon fa fa-chevron-up"></i>
                         <span class="placeholder">Choose...</span>
-                        @foreach(Auth::user()->address()->get() as $address)
+                        @foreach(Auth::user()->address()->get() as $addressChoose)
                             <label class="option">
-                                <input type="radio" id="input_radio" name="option" {{$address->status == 0 ? 'checked' : ''}} value="1" required>
-                                <span class="title animated fadeIn"><i class="icon fa fa-location-dot"></i>{{$address->address}}, {{$address->district}}, {{$address->city}}</span>
+                                <input type="radio" id="input_radio" class="address_option" name="option" {{$addressChoose->id == $address->id ? 'checked' : ''}} value="{{$addressChoose->id}}" required>
+                                <span class="title animated fadeIn"><i class="icon fa fa-location-dot {{$addressChoose->id == $address->id ? 'active' : ''}}"></i>{{$addressChoose->address}}, {{$addressChoose->district}}, {{$addressChoose->city}}</span>
                             </label>
                         @endforeach
                     </div>
-                    <!-- form thêm địa chỉ -->
-                    <!-- <form class="needs-validation" novalidate="">
-                        <div class="row g-3" style="display: none;">
-                            <div class="col-sm-6">
-                                <label for="firstName" class="form-label">First name</label>
-                                <input type="text" class="form-control checkout--input rounded--1r" id="firstName" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid last name is required.
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">Last name</label>
-                                <input type="text" class="form-control checkout--input rounded--1r" id="lastName" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control checkout--input rounded--1r" id="email" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid email is required.
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="phoneNumber" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control checkout--input rounded--1r" id="phoneNumber" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="country" class="form-label">Tỉnh / Thành Phố</label>
-                                <select id="city" class="form-select checkout--select rounded--1r fs--12" id="country" required="">
-
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid Tỉnh / Thành Phố.
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="state" class="form-label">Quận / Huyện</label>
-                                <select id="district" class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid Quận / Huyện.
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="state" class="form-label">Phường / Xã</label>
-                                <select id="ward" class="form-select checkout--select rounded--1r fs--12" id="state" required="">
-
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid Phường / Xã.
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="streets" class="form-label">Đường</label>
-                                <input type="text" class="form-control checkout--input rounded--1r" id="streets" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid Đường is required.
-                                </div>
-                            </div>
-                        </div>
-                    </form> -->
                     <hr class="my-4">
                     <div class="card bg--none border--none">
                         <label class="form-check-label pb-3" for="discount-code">Discount Code</label>
