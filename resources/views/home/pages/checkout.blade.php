@@ -9,15 +9,24 @@
                 <div class="container--checkout-submit">
                     <!-- <h2 class="mb-5">Order summary</h2> -->
                     <div class="list--product list_cart--items">
+                        @php
+                            $ship = 0;
+                            $price = 0;
+                        @endphp
+                        @foreach(Auth::user()->cartStoreActive() as $store)
+                        @php
+                            $total = 0;
+                            $weight = 0;
+                        @endphp
                         <div class="component--checkout--store--product">
                             <div class="component--checkout--store--product__store">
                                 <div class="left">
                                     <div class="img-store">
-                                        <img src="{{ asset('assets/images/image_product/logo.png') }}" alt="">
+                                        <img src="{{ asset('upload/store/'.$store->store->avatar) }}" alt="">
                                     </div>
                                     <div class="title">
                                         <a href="">
-                                            <p>Five Bees Store</p>
+                                            <p>{{$store->store->name}}</p>
                                         </a>
                                     </div>
                                 </div>
@@ -29,7 +38,13 @@
                                 </div>
                             </div>
                             <div class="component--checkout--store--product__product">
-                               
+                                @foreach($store->productCart($store->id_store) as $product)
+                                @php
+                                    $total += $product->detail->price * $product->quantity;
+                                    $weight += $product->detail->weight * $product->quantity;
+                                @endphp
+                                <x-cardProductCart :data='$product'></x-cardProductCart>
+                                @endforeach
                             </div>
                             <div class="component--checkout--store--product__total">
                                 <div class="box__total">
@@ -38,7 +53,23 @@
                                         <input type="text" class="message__input" id="message" placeholder="Message">
                                     </div>
                                     <div class="right">
-                                        <p>Phí vận chuyển: <span>23.000</span></p>
+                                        @php
+                                            $adr = Auth::user()->address()->where('status','0')->first();
+                                            $data = [
+                                                "pick_province" => $store->store->city,
+                                                "pick_district" => $store->store->district,
+                                                "pick_address" => $store->store->address,
+                                                "province"  => $adr->city,
+                                                "district" => $adr->district,
+                                                "address" => $adr->address,
+                                                "weight" => $weight,
+                                                "value" => $total,
+                                                "transport" => "road",
+                                                "deliver_option" => "none",
+                                                "tags"  => [1]
+                                            ];
+                                        @endphp
+                                        <p>Phí vận chuyển: <span>{{number_format($store->shipping_fees($data))}}</span>đ</p>
                                     </div>
                                 </div>
                                 <div class="box__total">
@@ -46,71 +77,30 @@
                                     <p>Voucher của shop</p>
                                 </div>
                                 <div class="box__total">
-                                    <p>TỔNG SỐ TIỀN (<span>2</span> sản phẩm): <span>600.000đ</span></p>
+                                    <p>TỔNG SỐ TIỀN (<span>{{count($store->productCart($store->id_store))}}</span> sản phẩm): <span> {{number_format($total + $store->shipping_fees($data), 0, ',', '.')}}đ</span></p>
                                 </div>
                             </div>
+                            @php
+                                $ship += $store->shipping_fees($data);
+                                $price += $total;
+                            @endphp
                         </div>
-                        <div class="component--checkout--store--product">
-                            <div class="component--checkout--store--product__store">
-                                <div class="left">
-                                    <div class="img-store">
-                                        <img src="{{ asset('assets/images/image_product/logo.png') }}" alt="">
-                                    </div>
-                                    <div class="title">
-                                        <a href="">
-                                            <p>Five Bees Store</p>
-                                        </a>
-                                    </div>
-                                </div>
+                        @endforeach
 
-                                <div class="right">
-                                    <a href="">
-                                        <i class="fa fa-message"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="component--checkout--store--product__product">
-                                
-                            </div>
-                            <div class="component--checkout--store--product__total">
-                                <div class="box__total">
-                                    <div class="left">
-                                        <p>Lời nhắn: </p>
-                                        <input type="text" class="message__input" id="message" placeholder="Message">
-                                    </div>
-                                    <div class="right">
-                                        <p>Phí vận chuyển: <span>23.000</span></p>
-                                    </div>
-                                </div>
-                                <div class="box__total">
-                                    <ion-icon name="ticket-outline"></ion-icon>
-                                    <p>Voucher của shop</p>
-                                </div>
-                                <div class="box__total">
-                                    <p>TỔNG SỐ TIỀN (<span>2</span> sản phẩm): <span>600.000đ</span></p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <hr class="my-4">
                     <div class="select animated zoomIn">
                         <!-- You can toggle select (disabled) -->
-                        <input type="radio" id="input_radio" name="option" required>
+                        <input type="radio" id="input_radio" name="option" value="required" required>
                         <i class="toggle icon fa fa-chevron-down"></i>
                         <i class="toggle icon fa fa-chevron-up"></i>
                         <span class="placeholder">Choose...</span>
-                        <label class="option">
-                            <input type="radio" id="input_radio" name="option" checked value="1" required>
-                            <span class="title animated fadeIn"><i class="icon fa fa-location-dot"></i>Address 1, Quận 12, Thành phố HCM</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" id="input_radio" name="option" value="2" required>
-                            <span class="title animated fadeIn"><i class="icon fa fa-location-dot"></i>Address 1, Quận 12, Thành phố HCM</span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" id="input_radio" name="option" value="3" required>
-                            <span class="title animated fadeIn"><i class="icon fa fa-location-dot"></i>Address 1, Quận 12, Thành phố HCM</span>
-                        </label>
+                        @foreach(Auth::user()->address()->get() as $address)
+                            <label class="option">
+                                <input type="radio" id="input_radio" name="option" {{$address->status == 0 ? 'checked' : ''}} value="1" required>
+                                <span class="title animated fadeIn"><i class="icon fa fa-location-dot"></i>{{$address->address}}, {{$address->district}}, {{$address->city}}</span>
+                            </label>
+                        @endforeach
                     </div>
                     <!-- form thêm địa chỉ -->
                     <!-- <form class="needs-validation" novalidate="">
@@ -194,25 +184,25 @@
                                 <h5 class="my-0">Product name</h5>
                                 <small class="text-muted">Subtotal</small>
                             </div>
-                            <span class="text-muted">249.000đ</span>
+                            <span class="text-muted">{{number_format($price, 0, ',', '.')}}đ</span>
                         </li>
                         <li class="py-3 d-flex justify-content-between align-items-center lh-sm border--none bg--none">
                             <div>
                                 <h6 class="my-0">Shipping estimate</h6>
                                 <small class="text-muted">Brief description</small>
                             </div>
-                            <span class="text-muted">5.000đ</span>
+                            <span class="text-muted">{{number_format($ship, 0, ',', '.')}}đ</span>
                         </li>
                         <li class="py-3 d-flex justify-content-between align-items-center lh-sm border--none bg--none">
                             <div>
                                 <h6 class="my-0">Tax estimate</h6>
                                 <small class="text-muted">Brief description</small>
                             </div>
-                            <span class="text-muted">24.000đ</span>
+                            <span class="text-muted">0đ</span>
                         </li>
                         <li class="py-3 d-flex justify-content-between align-items-center border--none bg--none">
                             <span class="text--order--total">Order total</span>
-                            <strong class="confirm_total">300.000đ</strong>
+                            <strong class="confirm_total">{{number_format($price + $ship, 0, ',', '.')}}đ</strong>
                         </li>
                     </ul>
 

@@ -40,8 +40,36 @@ class Cart extends Model
         return $this->hasMany(Cart::class, 'id_user', 'id_user')->where('id_store', $store)->orderBy('created_at','desc')->get();
     }
 
+    public function productCart($store)
+    {
+        return $this->hasMany(Cart::class, 'id_user', 'id_user')->where('id_store', $store)->where('status', '1')->orderBy('created_at','desc')->get();
+    }
+
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store');
+    }
+
+    public function shipping_fees($data)
+    {
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/fee?" . http_build_query($data),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_HTTPHEADER => array(
+                "Token: 89E02490AE6bf51aE3fE40D1F1FA0f09d6F87844",
+            ),
+        ));
+        
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($response)->fee;
+        if($response->delivery == false) {
+            return 100000000000;
+        } else {
+            return $response->fee;
+        }
     }
 }

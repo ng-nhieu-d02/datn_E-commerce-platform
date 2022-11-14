@@ -10,6 +10,7 @@
 </script>
 
 <script>
+    
     // toggle menu-modals
     $(document).ready(function() {
         var statusModals = false;
@@ -268,12 +269,12 @@
             }
         });
         $('.btn-submit-add-cart').click(function(e) {
-            let _storeCartUrl = '{{ route('user.store_cart') }}';
+            let _storeCartUrl = '{{ route("user.store_cart") }}';
             let _csrf = '{{ csrf_token() }}';
             let quantity = $('.input-quantity-function').val();
             let isLogin = '{{Auth::check()}}';
             let urlLogin = '{{route("login")}}';
-            e.preventDefault();
+            e.preventDefault(); 
 
             if (!isLogin) {
                 return window.location = urlLogin;
@@ -349,6 +350,10 @@
                     const response = JSON.parse(res);
                     if (response.status == 200) {
                         console.log(response.message);
+                        const index = id;
+                        const val = detail.filter(({id}) => id == index);
+                        val[0].quantity = quantity;
+                        update_total();
                     } else {
                         console.log(response.message);
                     }
@@ -421,17 +426,20 @@
                 $('.required_checkbox[required]').attr('required', 'required');
             }
         });
-        $('.required_checkbox').change(function() {
+        function update_total() {
             const checkbox = $('.required_checkbox:checked');
             let sum = 0;
             let total = 0;
             checkbox.each((index, value) => {
                 const val = detail.filter(({id}) => id == value.value);
                 total = checkbox.length;
-                sum += val[0].price;
+                sum += val[0].price * val[0].quantity;
             });
             $('.total_cart').text(total);
             $('.price_cart').text(new Intl.NumberFormat(['ban', 'id']).format(sum));
+        }
+        $('.required_checkbox').change(function() {
+           update_total();
         })
     })
 

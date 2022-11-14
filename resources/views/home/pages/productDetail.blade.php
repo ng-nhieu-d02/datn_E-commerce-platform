@@ -194,7 +194,11 @@
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
 
-                        <span> {{number_format($product->store->comment()->sum('rate') / $product->store->comment()->count(), 1, '.', ',') }} &nbsp; ({{$product->store->comment()->count()}} reviews)</span>
+                        <span>
+                            @if($product->store->comment()->count() > 0) 
+                                {{ number_format($product->store->comment()->sum('rate') / $product->store->comment()->count(), 1, '.', ',') }}
+                            @endif
+                            &nbsp; ({{$product->store->comment()->count()}} reviews)</span>
                     </div>
                 </div>
             </div>
