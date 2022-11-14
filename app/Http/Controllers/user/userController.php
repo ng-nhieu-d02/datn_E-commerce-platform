@@ -109,7 +109,6 @@ class userController extends Controller
         $user->update($validated);
         return redirect()->back()->with('Update success', 'Update Successfully');
     }
-        
     public function delete_item_cart(Request $request)
     {
         $request->validate([
