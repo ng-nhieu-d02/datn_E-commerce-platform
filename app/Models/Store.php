@@ -8,12 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'store';
+
+    protected $fillable = [
+        "name",
+        "slug",
+        "avatar",
+        "background",
+        "slogan",
+        "address",
+        "city",
+        "district",
+    ];
 
     public function store_cate()
     {
-        return $this->belongsToMany(CategoryStore::class, 'store_cate' , 'id_store', 'id_category_store')->withTimestamps();
+        return $this->belongsToMany(CategoryStore::class, 'store_cate', 'id_store', 'id_category_store')->withTimestamps();
     }
     public function ticket()
     {

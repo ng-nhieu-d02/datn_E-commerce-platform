@@ -4,11 +4,14 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\PermissionStore;
 use App\Models\ProductDetail;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class userController extends Controller
 {
@@ -17,7 +20,7 @@ class userController extends Controller
     }
     public function cart()
     {
-        Auth::user()->cart()->where('status','1')->update(['status' => '0']);
+        Auth::user()->cart()->where('status', '1')->update(['status' => '0']);
         return view('home.pages.cart');
     }
     public function store_cart(Request $request)
@@ -150,5 +153,75 @@ class userController extends Controller
         }
         return json_encode($response);
     }
-    
+
+    public function register_booth()
+    {
+        $checkStore = PermissionStore::where("id_user", request()->user()->id)->first();
+
+        return view("home.pages.register_booth", [
+            'checkStore' => $checkStore
+        ]);
+    }
+
+    public function store_booth(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $validated = $request->validate([
+            "name" => ["bail", "required", "unique:store,name"],
+            "name_cate" => ["bail", "required"],
+            "slogan" => ["bail", "required"],
+            "message" => ["bail", "required"],
+            "city" => ["bail", "required"],
+            "district" => ["bail", "required"],
+            "address" => ["bail", "required"],
+            "avatar" => ["bail", "required", "mimes:jpg,jpeg,png"],
+            "background" => ["bail", "required", "mimes:jpg,jpeg,png"],
+        ]);
+
+        $nameCates = explode(",", $validated["name_cate"]);
+
+        $extensionAvatar = $validated['avatar']->extension();
+        $fileNameAvatar = "avatar-store-of-user-" . $userId . "." . $extensionAvatar;
+
+        $extensionBackground = $validated['background']->extension();
+        $fileNameBackground = "background-store-of-user-" . $userId . "." . $extensionBackground;
+
+
+        $store['name'] = $validated['name'];
+        $store['slug'] = Str::slug($store['name'], '-');
+        $store['avatar'] = $fileNameAvatar;
+        $store['background'] = $fileNameBackground;
+        $store['slogan'] = $validated['slogan'];
+        $store['address'] = $validated['address'];
+        $store['city'] = $validated['city'];
+        $store['district'] = $validated['district'];
+
+        $modelStore = Store::create($store);
+
+        $validated['avatar']->move(public_path('upload/store/avatars'), $fileNameAvatar);
+        $validated['background']->move(public_path('upload/store/backgrounds'), $fileNameBackground);
+
+        foreach ($nameCates as $cate) {
+            \DB::table('store_cate')->insert([
+                'id_store' => $modelStore->id,
+                'name' => $cate,
+                'slug' => Str::slug($cate, '-'),
+            ]);
+        }
+
+        \DB::table('permission_store')->insert([
+            'id_store' => $modelStore->id,
+            'id_user' => $userId,
+            'permission' => "0",
+        ]);
+
+        \DB::table('ticket_create_store')->insert([
+            'id_user' => $userId,
+            'id_store' => $modelStore->id,
+            'message' => $validated["message"],
+        ]);
+
+        return back();
+    }
 }

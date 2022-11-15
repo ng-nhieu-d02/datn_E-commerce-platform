@@ -23,17 +23,20 @@
                 </div>
                 <div class="d-flex info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
-                        <img class="rounded-circle img-fluid" src="{{ auth()->user()->avatar != 'avatar-default.png' ? asset('/storage/' . auth()->user()->avatar) : asset('assets/images/avatar-default.png') }}" alt="">
+                        <img class="rounded-circle img-fluid"
+                            src="{{ auth()->user()->avatar != 'avatar-default.png' ? asset('/storage/' . auth()->user()->avatar) : asset('assets/images/avatar-default.png') }}"
+                            alt="">
                     </div>
                     <div class="name-profile">
                         <h2 class="name-profile-h2">Le Duong Bao Lam</h2>
-                        <span class="fs-2" style="opacity: 0.8;">Số dư: <b class="text-danger">1.000.000</b></span> <sup>đ</sup>
+                        <span class="fs-2" style="opacity: 0.8;">Số dư: <b class="text-danger">1.000.000</b></span>
+                        <sup>đ</sup>
                     </div>
                 </div>
                 <div class="menu-profile">
                     <ul>
-                        <li class="active">
-                            <a href="">Cập nhật thông tin</a>
+                        <li class="@if (request()->routeIs('user.profile')) active @endif">
+                            <a href="{{ route("user.profile") }}">Cập nhật thông tin</a>
                         </li>
                         <li>
                             <a href="">Ưu thích</a>
@@ -41,8 +44,8 @@
                         <li>
                             <a href="">Hoá đơn</a>
                         </li>
-                        <li>
-                            <a href="">Đăng ký gian hàng</a>
+                        <li class="@if (request()->routeIs('user.register_booth')) active @endif">
+                            <a href="{{ route('user.register_booth') }}">Đăng ký gian hàng</a>
                         </li>
                         <li>
                             <a href="">Quản lí gian hàng</a>
