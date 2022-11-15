@@ -275,11 +275,11 @@
             }
         });
         $('.btn-submit-add-cart').click(function(e) {
-            let _storeCartUrl = '{{ route('user.store_cart') }}';
+            let _storeCartUrl = "{{ route('user.store_cart') }}";
             let _csrf = '{{ csrf_token() }}';
             let quantity = $('.input-quantity-function').val();
             let isLogin = '{{ Auth::check() }}';
-            let urlLogin = '{{ route('login') }}';
+            let urlLogin = "{{ route('login') }}";
             e.preventDefault();
 
             if (!isLogin) {
@@ -341,7 +341,7 @@
         var wait = false;
 
         async function update_item_cart(id) {
-            let url__submit = '{{ route('user.update_item_cart') }}';
+            let url__submit = "{{ route('user.update_item_cart') }}";
             let _csrf = '{{ csrf_token() }}';
             let quantity = $(`.input-quantity-function_${id}`).val();
             $.ajax({
@@ -405,7 +405,7 @@
             const parentElement = $(this).parents('.cardProductCartDetail');
             const assert = confirm(`you are delete item ${id} in your cart. are you sure ?`);
             if (assert == true) {
-                let url__submit = '{{ route('user.delete_item_cart') }}';
+                let url__submit = "{{ route('user.delete_item_cart') }}";
                 let _csrf = '{{ csrf_token() }}';
                 $.ajax({
                     url: url__submit,
@@ -436,7 +436,7 @@
         });
         $('.required_checkbox').change(function() {
             const id = $(this).attr('data-id');
-            const url__submit = '{{ route('user.chooseCart') }}';
+            const url__submit = "{{ route('user.chooseCart') }}";
             const _csrf = '{{ csrf_token() }}';
             let status = 0;
             if ($('.required_checkbox').is(':checked')) {
@@ -480,7 +480,7 @@
         $('.address_option').change(function() {
             const address = $('input[name=option]:checked', '#form_radio').val();
             if (address != 'required') {
-                const url = '{{ route('user.checkout') }}' + '?address=' + address;
+                const url = '{{ route("user.checkout") }}' + '?address=' + address;
                 window.location = url;
             }
         });
