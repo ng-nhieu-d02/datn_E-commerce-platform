@@ -27,16 +27,22 @@
                             src="{{ auth()->user()->avatar != 'avatar-default.png' ? asset('/storage/' . auth()->user()->avatar) : asset('assets/images/avatar-default.png') }}"
                             alt="">
                     </div>
-                    <div class="name-profile">
+                    <div class="name-profile" style="flex-grow: 1;">
                         <h2 class="name-profile-h2">Le Duong Bao Lam</h2>
                         <span class="fs-2" style="opacity: 0.8;">Số dư: <b class="text-danger">1.000.000</b></span>
                         <sup>đ</sup>
+                    </div>
+                    <div style="padding-top:20px">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" style="border:none; background-color:#0000003d; padding: 10px 20px;border-radius: 5px; cursor:pointer">Đăng xuất</button>
+                        </form>
                     </div>
                 </div>
                 <div class="menu-profile">
                     <ul>
                         <li class="@if (request()->routeIs('user.profile')) active @endif">
-                            <a href="{{ route("user.profile") }}">Cập nhật thông tin</a>
+                            <a href="{{ route('user.profile') }}">Cập nhật thông tin</a>
                         </li>
                         <li>
                             <a href="">Ưu thích</a>
