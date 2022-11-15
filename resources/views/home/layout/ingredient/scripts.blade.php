@@ -477,6 +477,49 @@
                 const url = '{{route("user.checkout")}}'+'?address='+address;
                 window.location= url;
             }
+        });
+        $('.button_confirm_order').click(function(e) {
+            e.preventDefault();
+
+            const url__submit = '{{route("user.checkout-store")}}';
+            const _csrf = '{{csrf_token()}}';
+            const paymentMethod = $('input[name=paymentMethod]:checked','#form_radio').val();
+            const big_coupon = $('.big-event').val();
+            const address = $('input[name=option]:checked', '#form_radio').val();
+
+            if (address == 'required') {
+                alert('address is not null');
+                return;
+            }
+
+            if (paymentMethod == null) {
+                alert('paymentMethod is not null');
+                return;
+            }
+
+            let data = {};
+            document.querySelectorAll('.massage__input__checkout').forEach(element => {
+                const name = element.getAttribute('name');
+                data['message_'+name] = element.value;
+            });
+            document.querySelectorAll('.voucher__input__checkout').forEach(element => {
+                const name = element.getAttribute('name');
+                data['voucher_'+name] = element.value;
+            });
+            data.bigCoupon = big_coupon;
+            data.paymentMethod = paymentMethod;
+            data.address = address;
+            data._token = _csrf;
+
+            $.ajax({
+                url: url__submit,
+                type: 'POST',
+                data: data,
+                success: function(res) {
+                    
+                }
+            });
+
         })
     })
 

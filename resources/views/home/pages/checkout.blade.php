@@ -50,7 +50,7 @@
                                 <div class="box__total">
                                     <div class="left">
                                         <p>Lời nhắn: </p>
-                                        <input type="text" class="message__input" id="message" placeholder="Message">
+                                        <input type="text" class="message__input massage__input__checkout" name="{{$store->store->slug}}" id="message" placeholder="Message">
                                     </div>
                                     <div class="right">
                                         @php
@@ -74,6 +74,7 @@
                                 <div class="box__total">
                                     <ion-icon name="ticket-outline"></ion-icon>
                                     <p>Voucher của shop</p>
+                                    <input type="text" name="{{$store->store->slug}}" class="voucher__input__checkout" id="voucherShop" hidden>
                                 </div>
                                 <div class="box__total">
                                     <p>TỔNG SỐ TIỀN (<span>{{count($store->productCart($store->id_store))}}</span> sản phẩm): <span> {{number_format($total + $store->shipping_fees($data), 0, ',', '.')}}đ</span></p>
@@ -97,7 +98,7 @@
                         @foreach(Auth::user()->address()->get() as $addressChoose)
                             <label class="option">
                                 <input type="radio" id="input_radio" class="address_option" name="option" {{$addressChoose->id == $address->id ? 'checked' : ''}} value="{{$addressChoose->id}}" required>
-                                <span class="title animated fadeIn"><i class="icon fa fa-location-dot {{$addressChoose->id == $address->id ? 'active' : ''}}"></i>{{$addressChoose->address}}, {{$addressChoose->district}}, {{$addressChoose->city}}</span>
+                                <span class="title animated fadeIn"><i class="icon fa fa-location-dot {{$addressChoose->id == $address->id ? 'active' : ''}}"></i>{{$addressChoose->address}}, {{$addressChoose->district}}, {{$addressChoose->city}} - {{$addressChoose->name}}, {{$addressChoose->phone}}, {{$addressChoose->email}}</span>
                             </label>
                         @endforeach
                     </div>
@@ -105,7 +106,7 @@
                     <div class="card bg--none border--none">
                         <label class="form-check-label pb-3" for="discount-code">Discount Code</label>
                         <div class="input-group">
-                            <input type="text" class="form-control discode--input rounded--1r" id="discount-code" placeholder="Discount Code">
+                            <input type="text" class="form-control discode--input rounded--1r big-event" name="big-event" id="discount-code" placeholder="Discount Code">
                             <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply">Apply</button>
                             <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply">Chọn voucher</button>
                         </div>
@@ -175,7 +176,7 @@
                     </div>
 
                     <div class="py-4">
-                        <button type="submit" class="btn btn-secondary btn--confirm--order bg--color w-100">Confirm Order</button>
+                        <button type="submit" class="btn button_confirm_order btn-secondary btn--confirm--order bg--color w-100">Confirm Order</button>
                     </div>
                 </div>
             </div>

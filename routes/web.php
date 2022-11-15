@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\dashboardController;
 use App\Http\Controllers\user\homeController;
 use App\Http\Controllers\user\orderController;
+use App\Http\Controllers\user\paymentController;
 use App\Http\Controllers\user\productController;
 use App\Http\Controllers\user\userController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::prefix('/')->group(function () {
         Route::post('/delete-item-cart', [userController::class, 'delete_item_cart'])->name('user.delete_item_cart');
         Route::post('/update-item-cart', [userController::class, 'update_item_cart'])->name('user.update_item_cart');
         Route::post('/choose-cart', [orderController::class, 'chooseCart'])->name('user.chooseCart');
+        Route::post('/checkout-store', [paymentController::class, 'payment_vn_pay'])->name('user.checkout-store');
         
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
