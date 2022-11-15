@@ -5,8 +5,14 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
 </script>
+
+{{-- Input Bootstrap --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"
+    integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     // toggle menu-modals
@@ -21,7 +27,7 @@
                 $('.div--' + modals).removeClass('active');
             }
             statusModals = !statusModals;
-            
+
         });
 
         window.addEventListener('click', (e) => {
@@ -269,11 +275,11 @@
             }
         });
         $('.btn-submit-add-cart').click(function(e) {
-            let _storeCartUrl = '{{ route("user.store_cart") }}';
+            let _storeCartUrl = '{{ route('user.store_cart') }}';
             let _csrf = '{{ csrf_token() }}';
             let quantity = $('.input-quantity-function').val();
-            let isLogin = '{{Auth::check()}}';
-            let urlLogin = '{{route("login")}}';
+            let isLogin = '{{ Auth::check() }}';
+            let urlLogin = '{{ route('login') }}';
             e.preventDefault();
 
             if (!isLogin) {
@@ -335,8 +341,8 @@
         var wait = false;
 
         async function update_item_cart(id) {
-            let url__submit = '{{route("user.update_item_cart")}}';
-            let _csrf = '{{csrf_token()}}';
+            let url__submit = '{{ route('user.update_item_cart') }}';
+            let _csrf = '{{ csrf_token() }}';
             let quantity = $(`.input-quantity-function_${id}`).val();
             $.ajax({
                 url: url__submit,
@@ -399,8 +405,8 @@
             const parentElement = $(this).parents('.cardProductCartDetail');
             const assert = confirm(`you are delete item ${id} in your cart. are you sure ?`);
             if (assert == true) {
-                let url__submit = '{{route("user.delete_item_cart")}}';
-                let _csrf = '{{csrf_token()}}';
+                let url__submit = '{{ route('user.delete_item_cart') }}';
+                let _csrf = '{{ csrf_token() }}';
                 $.ajax({
                     url: url__submit,
                     type: 'POST',
@@ -430,8 +436,8 @@
         });
         $('.required_checkbox').change(function() {
             const id = $(this).attr('data-id');
-            const url__submit = '{{route("user.chooseCart")}}';
-            const _csrf = '{{csrf_token()}}';
+            const url__submit = '{{ route('user.chooseCart') }}';
+            const _csrf = '{{ csrf_token() }}';
             let status = 0;
             if ($('.required_checkbox').is(':checked')) {
                 status = 1
@@ -445,7 +451,7 @@
                     _token: _csrf
                 },
                 success: function(res) {
-                    
+
                 }
             });
         })
@@ -472,10 +478,10 @@
     // checkout
     $(document).ready(function() {
         $('.address_option').change(function() {
-            const address = $('input[name=option]:checked','#form_radio').val();
-            if(address != 'required') {
-                const url = '{{route("user.checkout")}}'+'?address='+address;
-                window.location= url;
+            const address = $('input[name=option]:checked', '#form_radio').val();
+            if (address != 'required') {
+                const url = '{{ route('user.checkout') }}' + '?address=' + address;
+                window.location = url;
             }
         })
     })
@@ -498,5 +504,95 @@
             readURL(this);
         });
 
+    });
+
+    // api address
+
+
+    let selecteCity = $("#city")
+    let selecteDistrict = $("#district")
+
+
+    selecteCity.on("change", function() {
+        let selectedCity = $(this).find(':selected').attr("data-codeCity");
+        console.log(selectedCity);
+        loadDistricts(selectedCity)
+    })
+
+    selecteDistrict.on("change", function() {
+        let selectedDistrict = $(this).find(':selected').attr("data-idDistrict");
+    })
+    loadCity()
+
+    function loadCity() {
+        let city = '<option checked readonly>Chọn thành phố</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+
+                data.forEach((item, index) => {
+                    city += `
+                        <option value="${item.name}" data-codeCity="${item.code}">${item.name}</option>
+                `;
+                })
+                $("#city").html(city)
+            }
+            // console.log(city);
+        })
+    }
+
+    function loadDistricts(codeCity) {
+        let district = '<option checked readonly>Chọn tỉnh</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                data.districts.forEach((item, index) => {
+                    district += `
+                        <option value="${item.name}" data-idDistrict="${item.code}">${item.name}</option>
+                    `;
+                })
+                $("#district").html(district)
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            console.log(input);
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('.image-upload-wrap').hide();
+
+                $('.file-upload-image').attr('src', e.target.result);
+                $('.file-upload-content').show();
+
+                $('.image-title').html(input.files[0].name);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+        $('.file-upload-content').hide();
+        $('.image-upload-wrap').show();
+    }
+    $('.image-upload-wrap').bind('dragover', function() {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function() {
+        $('.image-upload-wrap').removeClass('image-dropping');
     });
 </script>

@@ -28,7 +28,7 @@ Route::prefix('/')->group(function () {
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
 
-    Route::prefix('/')->middleware('auth')->group(function () {   
+    Route::prefix('/')->middleware('auth')->group(function () {
         // cart
         Route::get('/your-cart', [userController::class, 'cart'])->name('user.cart');
         Route::get('/checkout', [orderController::class, 'checkout'])->name('user.checkout');
@@ -36,10 +36,14 @@ Route::prefix('/')->group(function () {
         Route::post('/delete-item-cart', [userController::class, 'delete_item_cart'])->name('user.delete_item_cart');
         Route::post('/update-item-cart', [userController::class, 'update_item_cart'])->name('user.update_item_cart');
         Route::post('/choose-cart', [orderController::class, 'chooseCart'])->name('user.chooseCart');
-        
+
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
         Route::post('/profile', [userController::class, 'updateProfile'])->name('user.update_profile');
+
+        // register booth
+        Route::get("/register-booth", [userController::class, 'register_booth'])->name("user.register_booth");
+        Route::post("/register-booth", [userController::class, 'store_booth'])->name("user.store_booth");
     });
 });
 
