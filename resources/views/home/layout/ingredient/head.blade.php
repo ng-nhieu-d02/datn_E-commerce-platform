@@ -37,3 +37,8 @@
 <link rel="stylesheet" href="{{ url('assets/css/auth.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/home.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/profile.css') }}">
+
+{{-- Input Bootstrap CSS --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+    integrity="sha512-xmGTNt20S0t62wHLmQec2DauG9T+owP9e6VU8GigI0anN7OXLip9i7IwEhelasml2osdxX71XcYm6BQunTQeQg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
