@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 
 class paymentController extends Controller
 {
-    public function payment_vn_pay()
+    public function payment_vn_pay(Request $request)
     {
+        dd($request);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = " "; // return url
         $vnp_TmnCode = "7JV6DF6L"; //Mã website tại VNPAY 

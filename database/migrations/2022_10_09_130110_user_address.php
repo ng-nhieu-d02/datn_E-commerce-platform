@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('district')->nullable();
             $table->string('city')->nullable();
+            $table->string('name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->enum('status',[0,1])->comment('0 là mặc định, 1 là phụ')->default(0);
             $table->timestamps();
         });

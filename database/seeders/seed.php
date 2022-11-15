@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+use function PHPSTORM_META\map;
+
 class seed extends Seeder
 {
     /**
@@ -33,6 +35,9 @@ class seed extends Seeder
             'address'   => 'Phường Đông Hưng Thuận',
             'district'  => 'Quận 12',
             'city'  => 'Hồ Chí Minh',
+            'name'  => 'Nguyễn Nhiều',
+            'phone' => '0888800032',
+            'email' => 'nguyennhieu1507.2902@gmail.com',
             'status'    => '0'
         ]);
         DB::table('user_address')->insert([
@@ -40,6 +45,9 @@ class seed extends Seeder
             'address'   => 'Thôn Hương Vân, Xã Đạ lây',
             'district'  => 'Huyện đạ tẻh',
             'city'  => 'Lâm Đồng',
+            'name'  => 'Nguyễn Nhiều',
+            'phone' => '0888800032',
+            'email' => 'nguyennhieu1507.2902@gmail.com',
             'status'    => '1'
         ]);
         DB::table('users')->insert([
