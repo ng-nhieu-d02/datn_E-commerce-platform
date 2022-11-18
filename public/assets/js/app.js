@@ -42,3 +42,11 @@ function toast({
         main.appendChild(toast);
     }
 }
+function btnFilter() {
+    var x = document.getElementById("filter--show");
+    if (x.style.display === "none") {
+      x.style.display = "flex";
+    } else {
+      x.style.display = "none";
+    }
+}

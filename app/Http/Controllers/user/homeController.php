@@ -25,4 +25,7 @@ class homeController extends Controller
     public function checkout(){
         return view('home.pages.checkout');
     }
+    public function pageSearch(){
+        return view('home.pages.pageSearch');
+    }
 }
