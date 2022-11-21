@@ -300,9 +300,6 @@ small, .small {
     float: right;
 }
 /* text */
-.text-right {
-    text-align: right;
-}
 .right-5 {
     right: 1.25em;
 }
@@ -337,15 +334,7 @@ small, .small {
     border-color: var(--bs-btn-active-border-color);
 } */
 .btn--sub--filter .btn:first-child:hover, :not(.btn-check)+.btn:hover {
-    background-color: white;
-}
-.sm\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-}
-.sm\:py-3 {
-    padding-bottom: 0.75rem;
-    padding-top: 0.75rem;
+    border-color: rgb(241 245 249/var(--tw-text-opacity));
 }
 .lb--check{
     padding-left: 1.5rem;
@@ -365,7 +354,7 @@ small, .small {
     width: var(--max-width);
     margin: 0 auto;
 }
-.search {
+.box--search {
     min-height: 100px;
     display: -ms-flexbox;
     display: flex;
@@ -373,11 +362,11 @@ small, .small {
     justify-content: center;
     padding: 0;
 }
-.search form {
+.box--search form {
     width: 100%;
     max-width: 42em;
 }
-.search form .inner-form {
+.box--search form .inner-form {
     display: -ms-flexbox;
     display: flex;
     width: 100%;
@@ -393,10 +382,10 @@ small, .small {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255/var(--tw-bg-opacity));
 }
-.search form .inner-form .input-field {
+.box--search form .inner-form .input-field {
     height: 68px;
 }
-.search form .inner-form .input-field input {
+.box--search form .inner-form .input-field input {
     height: 100%;
     background: transparent;
     border: 0;
@@ -407,11 +396,11 @@ small, .small {
     color: #000;
 }
 
-.search form .inner-form .input-field input:hover, .search form .inner-form .input-field input:focus {
+.box--search form .inner-form .input-field input:hover, .box--search form .inner-form .input-field input:focus {
     box-shadow: none;
     outline: 0;
 }
-.search form .inner-form .input-field.first-wrap {
+.box--search form .inner-form .input-field.first-wrap {
     -ms-flex-positive: 1;
     flex-grow: 1;
     display: -ms-flexbox;
@@ -419,11 +408,11 @@ small, .small {
     -ms-flex-align: center;
     align-items: center;
 }
-.search form .inner-form .input-field.first-wrap input {
+.box--search form .inner-form .input-field.first-wrap input {
     -ms-flex-positive: 1;
     flex-grow: 1;
 }
-.search form .inner-form .input-field.first-wrap .svg-wrapper {
+.box--search form .inner-form .input-field.first-wrap .svg-wrapper {
     min-width: 80px;
     display: -ms-flexbox;
     display: flex;
@@ -432,12 +421,12 @@ small, .small {
     -ms-flex-align: center;
     align-items: center;
 }
-.search form .inner-form .input-field.first-wrap svg {
+.box--search form .inner-form .input-field.first-wrap svg {
     width: 36px;
     height: 36px;
     fill: #222;
 }
-.search form .inner-form .input-field.second-wrap {
+.box--search form .inner-form .input-field.second-wrap {
     min-width: 80px;
     display: -ms-flexbox;
     display: flex;
@@ -446,7 +435,7 @@ small, .small {
     -ms-flex-align: center;
     align-items: center;
 }
-.search form .inner-form .input-field.second-wrap .btn-search {
+.box--search form .inner-form .input-field.second-wrap .btn-search {
     width: 36px;
     height: 36px;
     fill: #222;
@@ -456,17 +445,17 @@ small, .small {
     border: 0;
     cursor: pointer;
     position: relative;
-    z-index: 1111;
+    z-index: auto;
     transition: all .2s ease-out, color .2s ease-out;
     font-weight: 300;
 }
 @media screen and (max-width: 992px) {
-    .search form .inner-form .input-field {
+    .box--search form .inner-form .input-field {
         height: 50px;
    }
 }
 @media screen and (max-width: 767px) {
-    .search form .inner-form .input-field.first-wrap .svg-wrapper {
+    .box--search form .inner-form .input-field.first-wrap .svg-wrapper {
         min-width: 40px;
         display: -ms-flexbox;
         display: flex;
@@ -476,15 +465,15 @@ small, .small {
         align-items: center;
         padding: 0 10px;
    }
-    .search form .inner-form .input-field.first-wrap svg {
+    .box--search form .inner-form .input-field.first-wrap svg {
         width: 26px;
         height: 26px;
         fill: #222;
    }
-    .search form .inner-form .input-field.second-wrap {
+    .box--search form .inner-form .input-field.second-wrap {
         min-width: 100px;
    }
-    .search form .inner-form .input-field.second-wrap .btn-search {
+    .box--search form .inner-form .input-field.second-wrap .btn-search {
         font-size: 13px;
    }
 }
@@ -494,15 +483,6 @@ small, .small {
 }
 .h-28 {
     height: 7em;
-}
-.top-0 {
-    top: 0;
-}
-.left-0 {
-    left: 0;
-}
-.right-0 {
-    right: 0;
 }
 .-mt-225 {
     margin-top: -2.25em;
@@ -555,9 +535,6 @@ button.btn.text-base.btn--sub--filter.dropdown-toggle.rounded-full.flex.items-ce
     margin-right: calc(0.5em*var(--tw-space-x-reverse));
 }
 /* filter */
-h2{
-    font-size: 2.25em;
-}
 .box--nav--fillter {
     padding-top:5rem;
 } 
@@ -594,9 +571,6 @@ h2{
     border-bottom: 0;
     border-left: 0.3em solid transparent;
 }
-span{
-    font-size: .875em !important;
-}
 /* width */
 .w--screen {
     width: 100vw;
@@ -614,13 +588,12 @@ span{
     border-radius: 1em;
     background-color: #d3d3d3;
 }
-.card--chosen--expert .card-body .text-right span{
-    padding: 5px 10px;
+.card--chosen--expert .card-body .col span{
+    padding: 3px 7px;
     color: rgb(34 197 94);
     border: 2px solid rgb(34 197 94);
     border-radius: 1em;
 }
-
 .efm--box--left,.efm--box--right {
     width: 100%;
 }
@@ -657,7 +630,15 @@ span{
     font-weight: 500;
     color: black;
 }
-
+.efm--box--left .relative .logo{
+    align-items: center;
+}
+.efm--box--left .relative .fs-375 {
+    font-size: 3.75em;
+}
+button.btn.text-base.btn--sub--filter.radius100 {
+    width: 22px;
+}
 /****************  **************/
 /**************** Slide Price Range **************/
 /****************  **************/
@@ -669,16 +650,16 @@ span{
 .price--input .field{
     display: flex;
     width: 100%;
-    height: 45px;
+    height: 35px;
     align-items: center;
 }
-.field input{
+.price--input .field input{
     width: 100%;
     height: 100%;
     outline: none;
     font-size: 19px;
     margin-left: 12px;
-    border-radius: 5px;
+    border-radius: 9999px;
     text-align: center;
     border: 1px solid #999;
     -moz-appearance: textfield;
