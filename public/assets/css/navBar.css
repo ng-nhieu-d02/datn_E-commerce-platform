@@ -21,6 +21,7 @@
      object-fit: cover;
 }
 .ingredient--navBar--logo .word--logo h2 {
+  font-size: 2.7rem;
   margin-bottom: 0;
   font-weight: 700;
   text-shadow: #FC0 1px 0 10px;

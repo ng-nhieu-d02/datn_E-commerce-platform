@@ -20,5 +20,9 @@ class homeController extends Controller
         ]);
     }
     public function pageSearch(){
-        return view('home.pages.pageSearch');
+        $product = Product::paginate(8);
+        return view('home.pages.pageSearch', [
+            'product' => $product
+        ]);
     }
+}

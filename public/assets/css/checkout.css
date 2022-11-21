@@ -456,7 +456,7 @@ small, .small {
     border: 0;
     cursor: pointer;
     position: relative;
-    z-index: 9999;
+    z-index: 1111;
     transition: all .2s ease-out, color .2s ease-out;
     font-weight: 300;
 }
