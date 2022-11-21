@@ -1,11 +1,11 @@
 @extends('home.layout.main')
 
 @section('content')
-<div class="h-28 top-0 left-0 right-0 w--full bg-sky-50"></div>
+<div class="h-28 top-0 w--full bg-sky-50"></div>
 <div class="page--search">
     <div class="container ">
         <main>
-            <div class="search -mt-225">
+            <div class="box--search -mt-225">
                 <form>
                     <div class="inner-form bg-white">
                         <div class="input-field first-wrap">
@@ -314,7 +314,7 @@
                 <div class="flex flex-col flex-row items-center justify-between box--nav--fillter">
                     <div class="flex">
                         <div class="ext-base">
-                            <h2>Chosen by our experts</h2>
+                            <h2 class="fw-bold h1">Chosen by our experts</h2>
                         </div>
                     </div>
                     <div class="flex flex-shrink-0 text-right nth-child">
@@ -347,23 +347,23 @@
                                     <img src="https://chisnghiax.com/ciseco/static/media/full1.79b3230204e678b5e61c.png" class="card-img-top" alt="...">
                                 </div>
                             </div>
-                            <div class="card-body row">
+                            <div class="card-body row mt-4">
                                 <div class="col-8 row">
-                                    <p class="card-title text-base justify-content-start">Black Hoodies Dior</p>
-                                    <p class="card-description row">
-                                        <p class="col">
+                                    <p class="card-title text-base justify-content-start text-start">Black Hoodies Dior</p>
+                                    <div class="card-description flex flex-col flex-row">
+                                        <p class="fw-bold text-start">
                                             Black
                                         </p>
-                                        <div class="col">
+                                        <div class="ps-5">
                                             <svg style="width: 16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="text-warning">
                                                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class=""><span class="line-clamp-1">4.9 (269 reviews)</span></span>
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
-                                <div class="col text-right">
-                                    <span class="text-base fw-bolder">$99.00</span>
+                                <div class="col">
+                                    <span class="text-base fw-bolder float-end">$99.00</span>
                                 </div>
                             </div>
                         </div>
@@ -382,23 +382,23 @@
                                     <img src="https://chisnghiax.com/ciseco/static/media/full1.79b3230204e678b5e61c.png" class="card-img-top" alt="...">
                                 </div>
                             </div>
-                            <div class="card-body row">
+                            <div class="card-body row mt-4">
                                 <div class="col-8 row">
-                                    <p class="card-title text-base justify-content-start">Black Hoodies Dior</p>
-                                    <p class="card-description row">
-                                        <p class="col">
+                                    <p class="card-title text-base justify-content-start text-start">Black Hoodies Dior</p>
+                                    <div class="card-description flex flex-col flex-row">
+                                        <p class="fw-bold text-start">
                                             Black
                                         </p>
-                                        <div class="col">
+                                        <div class="ps-5">
                                             <svg style="width: 16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="text-warning">
                                                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class=""><span class="line-clamp-1">4.9 (269 reviews)</span></span>
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
-                                <div class="col text-right">
-                                    <span class="text-base fw-bolder">$99.00</span>
+                                <div class="col">
+                                    <span class="text-base fw-bolder float-end">$99.00</span>
                                 </div>
                             </div>
                         </div>
@@ -417,23 +417,23 @@
                                     <img src="https://chisnghiax.com/ciseco/static/media/full1.79b3230204e678b5e61c.png" class="card-img-top" alt="...">
                                 </div>
                             </div>
-                            <div class="card-body row">
+                            <div class="card-body row mt-4">
                                 <div class="col-8 row">
-                                    <p class="card-title text-base justify-content-start">Black Hoodies Dior</p>
-                                    <p class="card-description row">
-                                        <p class="col">
+                                    <p class="card-title text-base justify-content-start text-start">Black Hoodies Dior</p>
+                                    <div class="card-description flex flex-col flex-row">
+                                        <p class="fw-bold text-start">
                                             Black
                                         </p>
-                                        <div class="col">
+                                        <div class="ps-5">
                                             <svg style="width: 16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="text-warning">
                                                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class=""><span class="line-clamp-1">4.9 (269 reviews)</span></span>
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
-                                <div class="col text-right">
-                                    <span class="text-base fw-bolder">$99.00</span>
+                                <div class="col">
+                                    <span class="text-base fw-bolder float-end">$99.00</span>
                                 </div>
                             </div>
                         </div>
@@ -461,8 +461,8 @@
                                 </h2>
                             </div>
                         </div>
-                        <h2 class="">Earn free money <br> with US</h2>
-                        <span class="block mt-6">With FFBEES you will get freeship &amp; savings combo...</span>
+                        <h2 class="fw-bold fs-375">Earn free money <br> with US</h2>
+                        <span class="block mt-6 text-black-50">With FFBEES you will get freeship &amp; savings combo...</span>
                         <div class="flex nth-child mt-5">
                             <a class="relative inline-flex items-center justify-center rounded-full py-3 px-4 btn--bg--dark text--color--light" rel="noopener noreferrer" href="">Savings combo</a>
                             <a class="relative inline-flex items-center justify-center rounded-full py-3 px-4 btn--bg--light text--color--dark" rel="noopener noreferrer" href="">Discover more</a>
