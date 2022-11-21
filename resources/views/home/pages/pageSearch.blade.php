@@ -309,7 +309,7 @@
             <!-- list products -->
             <div class="page--home--product">
                 @foreach($product as $prd)
-                <x-cardProduct :data="$prd"></x-cardProduct>
+                    <x-cardProduct :data="$prd"></x-cardProduct>
                 @endforeach
             </div>
         </main>
