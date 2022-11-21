@@ -14,22 +14,21 @@
 
         <div class="container--content">
             <!-- Content -->
-
             <div class="pages--profile">
                 <div class="background-container col-md-12">
                     <div class="image-cover">
-                        <img class="img-fluid" src="{{ asset('assets/images/profile/cover/cover.jpg') }}" alt="">
+                        <img class="img-fluid" src="{{ asset('upload\profile\background/' . Auth::user()->background) }}" alt="">
                     </div>
                 </div>
                 <div class="d-flex info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
                         <img class="rounded-circle img-fluid"
-                            src="{{ auth()->user()->avatar != 'avatar-default.png' ? asset('/storage/' . auth()->user()->avatar) : asset('assets/images/avatar-default.png') }}"
+                            src="{{ asset('upload/profile/avatar/' . Auth::user()->avatar) }}"
                             alt="">
                     </div>
                     <div class="name-profile" style="flex-grow: 1;">
-                        <h2 class="name-profile-h2">Le Duong Bao Lam</h2>
-                        <span class="fs-2" style="opacity: 0.8;">Số dư: <b class="text-danger">1.000.000</b></span>
+                        <h2 class="name-profile-h2">{{Auth::user()->name}}</h2>
+                        <span class="fs-2" style="opacity: 0.8;">Số dư: <b class="text-danger">{{number_format(Auth::user()->money,0,',','.')}}</b></span>
                         <sup>đ</sup>
                     </div>
                     <div style="padding-top:20px">

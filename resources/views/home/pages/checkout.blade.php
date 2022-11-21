@@ -22,7 +22,7 @@
                             <div class="component--checkout--store--product__store">
                                 <div class="left">
                                     <div class="img-store">
-                                        <img src="{{ asset('upload/store/'.$store->store->avatar) }}" alt="">
+                                        <img src="{{ asset('upload/store/avatars/' . $store->store->avatar) }}" alt="">
                                     </div>
                                     <div class="title">
                                         <a href="">
@@ -144,8 +144,8 @@
                     <div class="my-3">
                         <div class="form-check form--check--payment justify--content--between items-end">
                             <div>
-                                <input id="vnpay" name="paymentMethod" type="radio" class="form-check-input" value="1" required>
-                                <label class="form-check-label" for="vnpay">Credit or debit card</label>
+                                <input id="vnpay" name="paymentMethod" type="radio" class="form-check-input" value="2" required>
+                                <label class="form-check-label" for="vnpay">Credit or debit card VNPay</label>
                             </div>
                             <div>
                                 <img src="{{ url('assets/images/icons/vnpay.png') }}" class="icon--card">
@@ -154,21 +154,21 @@
                         </div>
                         <div class="form-check form--check--payment justify--content--between items-end">
                             <div>
-                                <input id="momo" name="paymentMethod" type="radio" class="form-check-input" value="2" required>
+                                <input id="momo" name="paymentMethod" type="radio" class="form-check-input" value="3" required>
                                 <label class="form-check-label" for="momo">Momo</label>
                             </div>
                             <img src="{{ url('assets/images/icons/momo.png') }}" class="icon--card">
                         </div>
                         <div class="form-check form--check--payment justify--content--between items-end">
                             <div>
-                                <input id="beespay" name="paymentMethod" type="radio" class="form-check-input" value="3" required>
+                                <input id="beespay" name="paymentMethod" type="radio" class="form-check-input" value="1" required>
                                 <label class="form-check-label" for="beespay">Beespay</label>
                             </div>
                             <img src="{{ url('assets/images/icons/beespay.png') }}" class="icon--card">
                         </div>
                         <div class="form-check form--check--payment justify--content--between items-end">
                             <div>
-                                <input id="cod" name="paymentMethod" type="radio" class="form-check-input" value="4" required>
+                                <input id="cod" name="paymentMethod" type="radio" class="form-check-input" value="0" required>
                                 <label class="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
                             </div>
                             <img src="{{ url('assets/images/icons/receive.png') }}" class="icon--card">

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('avatar')->default('1/avatar-default-store.png');
-            $table->string('background')->default('1/background-default-store.png');
+            $table->string('avatar')->default('avatar-default-store.png');
+            $table->string('background')->default('background-default-store.png');
             $table->string('slogan')->default('Nguyễn Xuân Nhiều - Dev v5.0');
             $table->string('address');
             $table->string('district');

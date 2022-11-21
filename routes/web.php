@@ -5,6 +5,7 @@ use App\Http\Controllers\user\homeController;
 use App\Http\Controllers\user\orderController;
 use App\Http\Controllers\user\paymentController;
 use App\Http\Controllers\user\productController;
+use App\Http\Controllers\user\storeController;
 use App\Http\Controllers\user\userController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +38,13 @@ Route::prefix('/')->group(function () {
         Route::post('/delete-item-cart', [userController::class, 'delete_item_cart'])->name('user.delete_item_cart');
         Route::post('/update-item-cart', [userController::class, 'update_item_cart'])->name('user.update_item_cart');
         Route::post('/choose-cart', [orderController::class, 'chooseCart'])->name('user.chooseCart');
-        Route::post('/checkout-store', [paymentController::class, 'payment_vn_pay'])->name('user.checkout-store');
+        Route::post('/checkout-store', [paymentController::class, 'checkout'])->name('user.checkout-store');
+        Route::get('/pay-return',[paymentController::class, 'pay_return'])->name('user.pay-return');
+        Route::get('/checkout-return/{order}', [paymentController::class, 'checkout_return'])->name('user.checkout-return');
         
+        // store
+        Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
+
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
         Route::post('/profile', [userController::class, 'updateProfile'])->name('user.update_profile');

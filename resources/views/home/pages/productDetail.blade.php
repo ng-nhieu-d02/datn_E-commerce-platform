@@ -171,16 +171,16 @@
 </div>
 <div class="page--productDetail--store">
     <div class="img-background" style="background-image: linear-gradient(to left top, rgba(255, 255, 255, 0.219), rgba(90, 245, 224, 0.267)),
-    url(<?= asset('upload/store/' . $product->store->background) ?>);">
+    url(<?= asset('upload/store/backgrounds/' . $product->store->background) ?>);">
     </div>
     <div class="stores-container">
         <div class="list-info-stores col-md-12 d-flex">
             <div class="info-store col-md-9 d-flex align-items-center gap-5">
                 <div class="image-store">
-                    <img src="<?= asset('upload/store/' . $product->store->avatar) ?>" alt="">
+                    <img src="{{ asset('upload/store/avatars/' . $product->store->avatar) }}" alt="">
                 </div>
                 <div class="meta-store">
-                    <h2>{{ $product->store->name }}</h2>
+                    <h2><a href="{{route('user.store', [$product->store->id])}}" style="color:var(--text-default-color);text-decoration: none;"> {{ $product->store->name }} </a></h2>
                     <ul class="address-store d-flex">
                         <li><i class="fas fa-map-marker-alt"></i>{{ $product->store->city }},
                             {{ $product->store->district }}, {{ $product->store->address }}

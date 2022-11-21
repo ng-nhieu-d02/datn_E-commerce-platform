@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_order')->unsigned();
             $table->string('amount');
-            $table->string('id_payment');
+            $table->string('id_payment_vnpay');
+            $table->string('id_payment_bank');
             $table->string('status');
             $table->string('message');
             $table->timestamps();
