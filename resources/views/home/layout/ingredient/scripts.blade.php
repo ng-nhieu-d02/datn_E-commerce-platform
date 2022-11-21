@@ -563,4 +563,13 @@
     $('.image-upload-wrap').bind('dragleave', function() {
         $('.image-upload-wrap').removeClass('image-dropping');
     });
+
+    function ToastSuccess(){
+        toast({
+            title : 'Thành công',
+            message : 'Bạn đã đặt đơn hàng thành công!',
+            type : 'success',
+            duration : 3000
+        });
+    }
 </script>

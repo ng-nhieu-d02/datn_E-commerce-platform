@@ -19,5 +19,6 @@ class homeController extends Controller
             'product' => $product
         ]);
     }
-
-}
+    public function pageSearch(){
+        return view('home.pages.pageSearch');
+    }

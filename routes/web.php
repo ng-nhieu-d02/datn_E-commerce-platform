@@ -27,8 +27,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/')->group(function () {
+
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
+    Route::get('/page-search',[homeController::class, 'pageSearch'])->name('user.pageSearch');
 
     Route::prefix('/')->middleware('auth')->group(function () {
         // cart

@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <form class="page--checkout" id="form_radio">
     <div>
         <main>
