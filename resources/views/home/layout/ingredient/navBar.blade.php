@@ -16,22 +16,19 @@
     <div class="ingredient--navBar--menu">
         <ul class="menu--li">
             <li>
-                <a href="">Store</a>
+                <a href="">Trang chủ</a>
+            </li>
+            <li class="@if (request()->routeIs('user.pageSearch')) active @endif">
+                <a href="{{route('user.pageSearch')}}">Sản phẩm</a>
             </li>
             <li>
-                <a href="">Component</a>
+                <a href="{{route('user.cart')}}">Giỏ hàng</a>
             </li>
             <li>
-                <a href="{{route('user.cart')}}">Cart</a>
+                <a href="">Về chúng tôi</a>
             </li>
             <li>
-                <a href="">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="">About</a>
-            </li>
-            <li>
-                <a href="">Contact</a>
+                <a href="">Liên hệ</a>
             </li>
         </ul>
     </div>

@@ -152,7 +152,7 @@
             </ul>
         </div>
     @endif
-    @if (is_null($checkStore))
+    
         <h1>Đăng ký gian hàng của bạn</h1>
 
         <div class="d-flex">
@@ -203,7 +203,7 @@
                         <div class="col-md-2 change-avatar">
                             <div class="avatar d-flex justify-content-center align-items-center bg-dark rounded-circle col-lg-12"
                                 style="--bs-bg-opacity: .3; width: 204px;">
-                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt=""
+                                <img src="{{ asset('upload/profile/avatar/' . auth()->user()->avatar) }}" alt=""
                                     class="img-fluid file_image" style="z-index: -1;" />
                                 <div
                                     class="text-change-image text-white img-fluid text-center d-flex flex-column align-items-center justify-content-center">
@@ -255,10 +255,10 @@
                 Lưu ý
             </div>
         </div>
-    @else
+    
         <div class="alert alert-success">
             Chúng tôi đang xem xét gian hàng của bạn, hãy kiên nhẫn đợi.
         </div>
-    @endif
+   
 
 @endsection
