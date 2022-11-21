@@ -74,6 +74,37 @@
         list-style: none;
         display: flex;
         gap: 2px;
+        a {
+            font-size: auto;
+            color: var(--text-default-color);
+            li {
+                position: relative;
+                i {
+                    font-size: 1.755rem;
+                    cursor: pointer;
+                    padding: 11px;
+                    filter: opacity(80%);
+                    border-radius: 15px;
+                    &:hover {
+                        filter: opacity(100%);
+                        background-color: var(--background--hover);
+                    }
+                }
+                .tip {
+                    width: 13px;
+                    height: 13px;
+                    position: absolute;
+                    top: 4px;
+                    transform: translateX(-120%);
+                    border-radius: 50%;
+                    background-color: #06fafa;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    line-height: 13px;
+                    color: #ff0000;
+                }
+            }
+        }
         li {
             position: relative;
             i {

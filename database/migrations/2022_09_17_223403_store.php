@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('district');
             $table->string('city');
-            $table->float('rate')->unsigned()->default(0);
-            $table->bigInteger('total_rate')->unsigned()->default(0);
             $table->integer('prestige')->comment('uy tín +1 mỗi khi đơn hàng dc xử lí thành công')->default(0);
             $table->enum('status',[0,1,2])->comment('0 là đang kiểm duyệt, 1 là bình thường, 2 là bị khoá')->default(0);
             $table->timestamps();

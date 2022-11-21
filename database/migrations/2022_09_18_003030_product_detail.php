@@ -17,8 +17,11 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_product')->unsigned();
             $table->string('color_value');
-            $table->string('size_value');
+            $table->string('attribute')->nullable();
+            $table->string('attribute_value')->nullable();
+            $table->integer('weight');
             $table->integer('quantity');
+            $table->integer('sold')->default(0);
             $table->integer('price');
             $table->integer('sale');
             $table->string('url_image');

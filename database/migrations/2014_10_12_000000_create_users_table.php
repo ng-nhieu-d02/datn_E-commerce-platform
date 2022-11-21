@@ -23,6 +23,7 @@ return new class extends Migration
             $table->bigInteger('money')->unsigned()->default(0);
             $table->enum('gender',['man', 'women', 'other'])->default('man');
             $table->string('avatar')->default('avatar-default.png');
+            $table->string('background')->default('background-default.jpg');
             $table->string('token')->nullable();
             $table->enum('permission',[0,1])->comment('0 là user, 1 là admin')->default(0);
             $table->integer('prestige')->comment('uy tín +1 mỗi khi đơn hàng dc xử lí thành công')->default(0);

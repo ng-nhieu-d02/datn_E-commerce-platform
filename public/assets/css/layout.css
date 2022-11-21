@@ -19,7 +19,7 @@
 }
 
 .container--content {
-  min-height: 1000px;
+  min-height: 600px;
   margin-top: 80px;
   background: url("/assets/images/light_green.png");
   background-size: cover;

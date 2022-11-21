@@ -6,11 +6,25 @@
 .ingredent--cartBar--table_cart .ingredent--cartBar--list_cart {
     padding: 20px 25px;
     overflow: auto;
-    max-height: 60vh;
+    max-height: 391px;
     background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border: 1px solid #dedede;
+}
+.ingredent--cartBar--table_cart {
+    position: relative;
+}
+.ingredent--cartBar--table_cart::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 98%;
+    height: 20px;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 5px;
 }
 .ingredent--cartBar--list_cart::-webkit-scrollbar {
     background-color: #dedede;
@@ -35,6 +49,7 @@
     color: #334155;
     font-weight: 600;
 }
+
 .list_cart--items .item--left img {
     width: 90%;
     background-color: #f4f4f4;
@@ -94,8 +109,8 @@
     border: none;
 }
 .ingredent--cartBar--table_cart .list_cart--subtotal {
-    padding: 10px 25px 20px 25px;
-    background-color: #f9fafb;
+    padding: 20px 25px 20px 25px;
+    background: url("/assets/images/background-auth.png");
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -113,29 +128,18 @@
     color: #64748b;
     font-size: 1.6rem;
 }
-.list_cart--subtotal .button--cart {
-    display: flex;
-    justify-content: space-between;
-}
+
 .list_cart--subtotal .button--cart button {
-    font-size: 2rem;
+    font-size: 1.7rem;
     background-color: #fff;
     border-radius: 50px;
-
-    border: 1px solid #dedede;
-    padding: 10px 50px;
+    width: 100%;
+    border: 1px solid #858282a6;
+    padding: 7px 0;
     opacity: 0.8;
 }
 .list_cart--subtotal .button--cart button:first-child:hover {
     background-color: #dedede;
-    opacity: 1;
-    transition: all 0.3s ease-in-out;
-}
-.list_cart--subtotal .button--cart button:last-child {
-    background-color: #1e293b;
-    color: #fff;
-}
-.list_cart--subtotal .button--cart button:last-child:hover {
     opacity: 1;
     transition: all 0.3s ease-in-out;
 }
@@ -145,9 +149,12 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 input[type="number"] {
-    width: 25px;
+    width: 40px;
     text-align: center;
     border: none;
     background: transparent;
     outline: none;
+}
+.pages--productDetail:last-child {
+    padding-bottom: 30px;
 }

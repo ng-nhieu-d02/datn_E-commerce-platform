@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
+use function PHPSTORM_META\map;
 
 class seed extends Seeder
 {
@@ -16,34 +19,6 @@ class seed extends Seeder
      */
     public function run()
     {
-        DB::table('category_store')->insert([
-            'name'      => 'Thực phẩm',
-            'slug'      => 'thuc-pham',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Làm đẹp',
-            'slug'      => 'lam-dep',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Thời trang',
-            'slug'      => 'thoi-trang',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Công nghệ',
-            'slug'      => 'công nghệ',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Giải trí',
-            'slug'      => 'giai-tri',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Dịch vụ',
-            'slug'      => 'dich-vu',
-        ]);
-        DB::table('category_store')->insert([
-            'name'      => 'Vật liệu chuyên dụng',
-            'slug'      => 'vat-lieu-chuyen-dung',
-        ]);
 
         DB::table('users')->insert([
             'username'  => 'member',
@@ -54,6 +29,26 @@ class seed extends Seeder
             'money'     => 0,
             'gender'    => 'man',
             'status'    => 3
+        ]);
+        DB::table('user_address')->insert([
+            'user_id'  => 1,
+            'address'   => 'Phường Đông Hưng Thuận',
+            'district'  => 'Quận 12',
+            'city'  => 'Hồ Chí Minh',
+            'name'  => 'Nguyễn Nhiều',
+            'phone' => '0888800032',
+            'email' => 'nguyennhieu1507.2902@gmail.com',
+            'status'    => '0'
+        ]);
+        DB::table('user_address')->insert([
+            'user_id'  => 1,
+            'address'   => 'Thôn Hương Vân, Xã Đạ lây',
+            'district'  => 'Huyện đạ tẻh',
+            'city'  => 'Lâm Đồng',
+            'name'  => 'Nguyễn Nhiều',
+            'phone' => '0888800032',
+            'email' => 'nguyennhieu1507.2902@gmail.com',
+            'status'    => '1'
         ]);
         DB::table('users')->insert([
             'username'  => 'admin',
@@ -76,19 +71,37 @@ class seed extends Seeder
             'status'    => 1
         ]);
 
+        DB::table('store')->insert([
+            'name'      => 'Store Test',
+            'slug'      => 'store-test',
+            'address'   => 'Phường Tân Hưng Thuận',
+            'district'  => '12',
+            'city'      => 'Hồ Chí Minh',
+            'status'    => 1
+        ]);
+
         DB::table('store_cate')->insert([
-            'id_store'  => 1,
-            'id_category_store'    => 4
+            'id_store'  => 2,
+            'name'      => 'Thời trang',
+            'slug'      => 'thoi-trang',
         ]);
 
         DB::table('store_cate')->insert([
             'id_store'  => 1,
-            'id_category_store'    => 5
+            'name'      => 'Thực phẩm',
+            'slug'      => 'thuc-pham',
         ]);
 
         DB::table('store_cate')->insert([
             'id_store'  => 1,
-            'id_category_store'    => 6
+            'name'      => 'Làm đẹp',
+            'slug'      => 'lam-dep',
+        ]);
+
+        DB::table('store_cate')->insert([
+            'id_store'  => 1,
+            'name'      => 'Thời trang',
+            'slug'      => 'thoi-trang',
         ]);
 
         DB::table('ticket_create_store')->insert([
@@ -97,11 +110,23 @@ class seed extends Seeder
             'status'    => 1
         ]);
 
+        DB::table('ticket_create_store')->insert([
+            'id_user'   => 1,
+            'id_store'  => 2,
+            'status'    => 1
+        ]);
+
         DB::table('permission_store')->insert([
             'id_store'      => 1,
             'id_user'       => 1,
             'permission'    => '0'
         ]);
+        DB::table('permission_store')->insert([
+            'id_store'      => 2,
+            'id_user'       => 1,
+            'permission'    => '0'
+        ]);
+
         DB::table('category_product')->insert([
             'name'   => 'thời trang nam',
             'slug'  => 'thoi-trang-nam',
@@ -177,7 +202,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Round Buckle 1" Belt',
             'slug'      => 'round-buckle-1-belt-' . time(),
@@ -213,7 +238,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Travel Pet Carrier',
             'slug'      => 'travel-pet-carrier-' . time(),
@@ -249,7 +274,7 @@ class seed extends Seeder
         ]);
 
         DB::table('product')->insert([
-            'id_store'   => 1,
+            'id_store'   => 2,
             'create_by'  => 1,
             'name'  => 'Hoodie Sweatshirt',
             'slug'      => 'hoodie-sweatshirt-' . time(),
@@ -306,30 +331,39 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
+                'weight' => 200,
                 'quantity'      => 43,
                 'price' =>   310000,
-                'sale' => 20000,
+                'sale' => 30000,
+                'sold' => rand(1,20),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
+                'weight' => 200,
                 'quantity'      => 32,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(1,30),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#b047e1',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
+                'weight' => 200,
                 'quantity'      => 23,
                 'price' =>   330000,
-                'sale' => 20000,
+                'sale' => 25000,
+                'sold' => rand(1,10),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -337,10 +371,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
+                'weight' => 200,
                 'quantity'      => 42,
                 'price' =>   310000,
                 'sale' => 20000,
+                'sold' => rand(20,30),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -348,10 +385,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
+                'weight' => 200,
                 'quantity'      => 47,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(20,47),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -359,10 +399,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#abe826',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
+                'weight' => 200,
                 'quantity'      => 48,
                 'price' =>   330000,
                 'sale' => 20000,
+                'sold' => rand(20,48),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -370,10 +413,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'M',
+                'attribute'  => 'Size',
+                'attribute_value' => 'M',
+                'weight' => 200,
                 'quantity'      => 74,
                 'price' =>   310000,
                 'sale' => 20000,
+                'sold' => rand(10,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -381,10 +427,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'X',
+                'attribute'  => 'Size',
+                'attribute_value' => 'X',
+                'weight' => 200,
                 'quantity'      => 71,
                 'price' =>   320000,
                 'sale' => 20000,
+                'sold' => rand(10,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -392,10 +441,13 @@ class seed extends Seeder
             DB::table('product_detail')->insert([
                 'id_product'   => $i,
                 'color_value'  => '#16e4f3',
-                'size_value'  => 'XL',
+                'attribute'  => 'Size',
+                'attribute_value' => 'XL',
+                'weight' => 200,
                 'quantity'      => 74,
                 'price' =>   330000,
                 'sale' => 20000,
+                'sold' => rand(20,74),
                 'url_image' => '1/17.7701cf9446a6b588de67.png',
                 'status'    => '0'
             ]);
@@ -403,11 +455,19 @@ class seed extends Seeder
             for($x = 0; $x < 50; $x ++) {
                 DB::table('comment_product')->insert([
                     'create_by'   => 2,
-                    'id_store'  => 0,
+                    'id_store'  => 1,
                     'id_product'  => $i,
                     'message'      => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
+                    'rate' => rand(1,5),
                     'parent_id'     => 0,
-                    'parent_path'   => $x.'_'
+                    'parent_path'   => $x.'_',
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+            for($x = 0; $x < 5; $x ++) {
+                DB::table('product_images')->insert([
+                    'id_product'   => $i,
+                    'url'   => 'detail1.f45e3a4d9bfeafd2f70b.jpg'
                 ]);
             }
         }

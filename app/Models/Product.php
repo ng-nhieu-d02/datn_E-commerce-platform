@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -21,9 +22,19 @@ class Product extends Model
         return $this->hasMany(ProductDetail::class, 'id_product')->groupBy('color_value');
     }
 
-    public function size()
+    public function attributes()
     {
-        return $this->hasMany(ProductDetail::class, 'id_product')->groupBy('size_value');
+        return $this->hasMany(ProductDetail::class, 'id_product')->groupBy('attribute');
+    }
+
+    public function attribute_values()
+    {
+        return $this->hasMany(ProductDetail::class, 'id_product')->groupBy('attribute_value');
+    }
+
+    public function price_minmax($id)
+    {
+        return ProductDetail::select(DB::raw('MIN(price) as min_price, MIN(sale) as min_sale, Max(sale) as max_sale, MAX(price) as max_price'))->where('id_product', $id)->first();
     }
 
     public function images()
@@ -33,7 +44,7 @@ class Product extends Model
 
     public function comment()
     {
-        return $this->hasMany(CommentProduct::class, 'id_product')->where('parent_id', 0);
+        return $this->hasMany(CommentProduct::class, 'id_product');
     }
 
     public function store()
