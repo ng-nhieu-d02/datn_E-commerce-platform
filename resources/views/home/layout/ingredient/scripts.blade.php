@@ -255,7 +255,7 @@
                     }
                 });
             } else {
-                alert('Chọn loại sản phẩm muốn thêm');
+                ToastSuccess('Lỗi:','Vui lòng chọn loại sản phẩm','warring',3000)
             }
         });
     })
@@ -507,7 +507,6 @@
                 })
                 $("#city").html(city)
             }
-            // console.log(city);
         })
     }
 
@@ -564,12 +563,12 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(){
+    function ToastSuccess(title, message, type, duration = 3000){
         toast({
-            title : 'Thành công',
-            message : 'Bạn đã đặt đơn hàng thành công!',
-            type : 'success',
-            duration : 3000
+            title : title,
+            message : message,
+            type : type,
+            duration : duration
         });
     }
 </script>

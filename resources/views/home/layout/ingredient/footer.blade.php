@@ -1,3 +1,4 @@
+<div id="toast" class="toast"></div>
 <div class="ingredient--footer">
     <div class="ingredient--footer--title">
         <div class="ingredient--navBar--logo">
