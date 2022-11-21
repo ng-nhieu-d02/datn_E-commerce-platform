@@ -12,10 +12,10 @@
                             <div class="component--checkout--store--product__store">
                                 <div class="left">
                                     <div class="img-store">
-                                        <img src="{{ asset('upload/store/'.$cart->store->avatar) }}" alt="">
+                                        <img src="{{ asset('upload/store/avatars/' . $cart->store->avatar) }}" alt="">
                                     </div>
                                     <div class="title">
-                                        <a href="">
+                                        <a href="{{route('user.store', [$cart->store->id])}}">
                                             <p>{{$cart->store->name}}</p>
                                         </a>
                                     </div>

@@ -25,7 +25,8 @@ return new class extends Migration
             $table->longText('message');
             $table->integer('money_apply_start');
             $table->integer('money_apply_end');
-            
+            $table->integer('value');
+            $table->integer('max_price');
             // $table->timestamp('break_time');
             $table->integer('quantity');
             $table->integer('remaining_quantity');
