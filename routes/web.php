@@ -30,7 +30,7 @@ Route::prefix('/')->group(function () {
 
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
-    Route::get('/page-search',[homeController::class, 'pageSearch'])->name('user.pageSearch');
+    Route::get('/page-search', [homeController::class, 'pageSearch'])->name('user.pageSearch');
 
     Route::prefix('/')->middleware('auth')->group(function () {
         // cart
@@ -41,7 +41,7 @@ Route::prefix('/')->group(function () {
         Route::post('/update-item-cart', [userController::class, 'update_item_cart'])->name('user.update_item_cart');
         Route::post('/choose-cart', [orderController::class, 'chooseCart'])->name('user.chooseCart');
         Route::post('/checkout-store', [paymentController::class, 'checkout'])->name('user.checkout-store');
-        Route::get('/pay-return',[paymentController::class, 'pay_return'])->name('user.pay-return');
+        Route::get('/pay-return', [paymentController::class, 'pay_return'])->name('user.pay-return');
         Route::get('/checkout-return/{order}', [paymentController::class, 'checkout_return'])->name('user.checkout-return');
         Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
         
@@ -53,13 +53,25 @@ Route::prefix('/')->group(function () {
         Route::POST('/delete-voucher/10000000000{id}', [storeController::class, 'delete_voucher'])->name('user.delete_voucher');
         Route::POST('/update-voucher/10000000000{id}', [storeController::class, 'update_voucher'])->name('user.update_voucher');
 
+        // add product into store
+        Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');
+        Route::post('/create-product-store/{id}', [storeController::class, 'storeAddProduct'])->name('user.add-product-store');
+
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
         Route::post('/profile', [userController::class, 'updateProfile'])->name('user.update_profile');
 
+        // user address
+        Route::get("/address-user", [userController::class, 'userAddress'])->name('user.address');
+        Route::post("/address-user", [userController::class, 'addUserAddress'])->name('user.add_address');
+        Route::get("/edit-user/{id}", [userController::class, 'showUserAddress'])->name('user.show_address');
+        Route::put("/update-address-user/{id}", [userController::class, 'updateUserAddress'])->name('user.update_address');
+        Route::delete("/delete-address-user/{id}", [userController::class, 'deleteUserAddress'])->name('user.delete_address');
+        Route::put("/update-status-address/{id}", [userController::class, 'updateAddressStatus'])->name('user.update_status_address');
+
         // register booth
-        Route::get("/register-booth", [userController::class, 'register_booth'])->name("user.register_booth");
-        Route::post("/register-booth", [userController::class, 'store_booth'])->name("user.store_booth");
+        Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");
+        Route::post("/register-booth", [userController::class, 'storeBooth'])->name("user.store_booth");
     });
 });
 

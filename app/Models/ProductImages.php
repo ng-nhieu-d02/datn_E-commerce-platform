@@ -10,4 +10,10 @@ class ProductImages extends Model
     use HasFactory;
 
     protected $table = 'product_images';
+
+    protected $filalble = [
+        'id_product',
+        'type',
+        'url',
+    ];
 }

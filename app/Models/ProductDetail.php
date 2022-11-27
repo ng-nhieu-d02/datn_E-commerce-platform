@@ -12,6 +12,19 @@ class ProductDetail extends Model
 
     protected $table = 'product_detail';
 
+    protected $fillable = [
+         'id_product',
+         'color_value',
+         'attribute',
+         'attribute_value',
+         'weight',
+         'sold',
+         'price',
+         'sale',
+         'url_image',
+         'status',
+   ];
+
     public static function boot()
     {
         parent::boot();
