@@ -14,10 +14,10 @@ class orderController extends Controller
     }
     public function checkout(Request $request)
     {
-        if(isset($request->address)) {
-            $address = UserAddress::where('id','=',$request->address)->first();
+        if (isset($request->address)) {
+            $address = UserAddress::where('id', '=', $request->address)->first();
         } else {
-            $address = UserAddress::where('user_id','=', Auth::user()->id)->where('status','=','0')->first();
+            $address = UserAddress::where('user_id', '=', Auth::user()->id)->where('status', '=', '0')->first();
         }
         return view('home.pages.checkout', [
             'address' => $address

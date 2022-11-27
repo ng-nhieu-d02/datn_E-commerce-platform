@@ -2,7 +2,11 @@
 <div class="user_review">
     <h2>
         <i class="fa-solid fa-star"></i>
-        <span>{{ $product->comment()->sum('rate') / $product->comment()->count()}} · {{ $product->comment()->count() }} Reviews</span>
+        <span>
+            @if ($product->comment()->count() > 0)
+            {{ $product->comment()->sum('rate') / $product->comment()->count()}} · {{ $product->comment()->count() }} Reviews
+            @endif
+        </span>
     </h2>
     <div class="user_review-container">
         <div class="list-review-items gap-5 col-md-12 d-flex flex-wrap justify-content-between">

@@ -55,6 +55,9 @@
                         <li>
                             <a href="">Nạp tiền</a>
                         </li>
+                        <li class="@if (request()->routeIs('user.address')) active @endif">
+                            <a href="{{ route('user.address') }}">Địa chỉ giao hàng</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -47,9 +47,21 @@
                             <a>
                                 <div class="star">
                                     <i class="fa-solid fa-star"></i>
-                                    <span>{{ $product->comment()->sum('rate') / $product->comment()->count()}}</span>
+                                    <span>
+                                        @if($product->comment()->count() > 0)
+
+                                        {{ $product->comment()->sum('rate') / $product->comment()->count()}}</span>
+                                        @endif
                                 </div>
-                                <div class="review"><span>{{ $product->comment()->count() }} reviews</span></div>
+                                <div class="review"><span>
+                                    @if ($product->comment()->count() > 0)
+                                    {{ $product->comment()->count() }}
+                                    reviews
+
+                                    @else
+                                    Chưa có nhận xét nào
+                                    @endif
+                                    </span></div>
                             </a>
                             <div class="new-in">
                                 <span>New in</span>
@@ -198,7 +210,11 @@
                             @if($product->store->comment()->count() > 0) 
                                 {{ number_format($product->store->comment()->sum('rate') / $product->store->comment()->count(), 1, '.', ',') }}
                             @endif
-                            &nbsp; ({{$product->store->comment()->count()}} reviews)</span>
+                            &nbsp; @if ($product->store->comment()->count() > 0)
+                                ({{$product->store->comment()->count()}} reviews)
+                                @else
+                                Chưa có nhận xét nào
+                            @endif</span>
                     </div>
                 </div>
             </div>

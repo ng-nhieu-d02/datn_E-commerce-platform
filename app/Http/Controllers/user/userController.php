@@ -8,6 +8,7 @@ use App\Models\PermissionStore;
 use App\Models\ProductDetail;
 use App\Models\Store;
 use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -154,16 +155,18 @@ class userController extends Controller
         return json_encode($response);
     }
 
-    public function register_booth()
+    public function registerBooth()
     {
         $checkStore = PermissionStore::where("id_user", request()->user()->id)->first();
+
+        // dd($checkStore);
 
         return view("home.pages.register_booth", [
             'checkStore' => $checkStore
         ]);
     }
 
-    public function store_booth(Request $request)
+    public function storeBooth(Request $request)
     {
         $userId = $request->user()->id;
 
@@ -223,5 +226,99 @@ class userController extends Controller
         ]);
 
         return back();
+    }
+
+    public function userAddress()
+    {
+        $address = UserAddress::with(['user'])->where('user_id', '=', auth()->user()->id)->orderBy("status", 'desc')->get();
+
+        return view("home.pages.user_adress", [
+            'address' => $address
+        ]);
+    }
+
+    public function addUserAddress(Request $request)
+    {
+        $validated = $request->validate([
+            "city" => 'bail|required|string',
+            "district" => 'bail|required|string',
+            "address" => 'bail|required|string',
+        ]);
+        $validated['status'] = "0";
+        $validated['user_id'] = auth()->user()->id;
+
+        UserAddress::updateOrCreate($validated);
+
+        return back()->with("message", "Địa chỉ đã được thêm mới");
+    }
+
+    public function showUserAddress($id)
+    {
+        $userAddress = UserAddress::find($id);
+
+        return response()->json([
+            'data' => $userAddress,
+            'success' => true,
+        ]);
+    }
+
+    public function updateUserAddress(Request $request)
+    {
+        $id = $request->id;
+        $city = $request->city;
+        $district = $request->district;
+        $address = $request->address;
+
+        $userAddress = UserAddress::find($id);
+
+        $userAddress->city = $city;
+        $userAddress->district = $district;
+        $userAddress->address = $address;
+
+        $saved = $userAddress->save();
+
+        if($saved){
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật thành công',
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi vui lòng thử lại',
+            ]);
+        }
+
+        
+    }
+
+    public function updateAddressStatus($id)
+    {
+        $listUserAdress = UserAddress::where("user_id", auth()->user()->id)->get();
+        $ids = $listUserAdress->pluck("id")->toArray();
+        if (in_array($id, $ids)) {
+            if (UserAddress::find($id)->status == '1') {
+                return back()->with("message", "Đã thiết lập mặc định không cần thiết lập lại");
+            } else {
+                foreach ($listUserAdress as $userAddress) {
+                    if ($userAddress->status == '1') {
+                        UserAddress::find($userAddress->id)->update([
+                            'status' => '0',
+                        ]);
+                    }
+                }
+                $update = UserAddress::find($id);
+                $update->status = "1";
+                $update->save();
+            }
+        }
+        return back()->with("message", "Thiết lập thành công");
+    }
+
+    public function deleteUserAddress($id)
+    {
+        UserAddress::find($id)->delete();
+
+        return back()->with("message", "Xoá thành công");
     }
 }
