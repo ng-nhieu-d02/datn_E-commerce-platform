@@ -15,7 +15,7 @@
                                         <img src="{{ asset('upload/store/avatars/' . $cart->store->avatar) }}" alt="">
                                     </div>
                                     <div class="title">
-                                        <a href="{{route('user.store', [$cart->store->id])}}">
+                                        <a href="{{route('user.store', $cart->store->id)}}">
                                             <p>{{$cart->store->name}}</p>
                                         </a>
                                     </div>

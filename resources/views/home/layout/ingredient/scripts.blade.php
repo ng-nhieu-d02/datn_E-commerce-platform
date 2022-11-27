@@ -5,14 +5,11 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
 </script>
 
 {{-- Input Bootstrap --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"
-    integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 {{--  CKeditor --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
@@ -257,7 +254,7 @@
                     }
                 });
             } else {
-                ToastSuccess('Lỗi:','Vui lòng chọn loại sản phẩm','warring',3000)
+                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warring', 3000)
             }
         });
     })
@@ -415,7 +412,7 @@
 
             const url__submit = '{{route("user.checkout-store")}}';
             const _csrf = '{{csrf_token()}}';
-            const paymentMethod = $('input[name=paymentMethod]:checked','#form_radio').val();
+            const paymentMethod = $('input[name=paymentMethod]:checked', '#form_radio').val();
             const big_coupon = $('.big-event').val();
             const address = $('input[name=option]:checked', '#form_radio').val();
 
@@ -432,11 +429,11 @@
             let data = {};
             document.querySelectorAll('.massage__input__checkout').forEach(element => {
                 const name = element.getAttribute('name');
-                data['message_'+name] = element.value;
+                data['message_' + name] = element.value;
             });
             document.querySelectorAll('.voucher__input__checkout').forEach(element => {
                 const name = element.getAttribute('name');
-                data['voucher_'+name] = element.value;
+                data['voucher_' + name] = element.value;
             });
             data.bigCoupon = big_coupon;
             data.paymentMethod = paymentMethod;
@@ -559,12 +556,12 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(title, message, type, duration = 3000){
+    function ToastSuccess(title, message, type, duration = 3000) {
         toast({
-            title : title,
-            message : message,
-            type : type,
-            duration : duration
+            title: title,
+            message: message,
+            type: type,
+            duration: duration
         });
     }
 
@@ -1036,3 +1033,81 @@
     })
 
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.container__modals').click(function(e) {
+            $(this).hide();
+            $('.container__modal').hide();
+        });
+        $('.container__modal--header__icon_close').click(function(e) {
+            $('.container__modals').hide();
+            $('.container__modal').hide();
+        });
+        $('.add_new_voucher').click(function(e) {
+            $('.container__modals').show();
+            $('.modals--add--voucher').show();
+        });
+    });
+
+    $('.btn_use_voucher').click(function() {
+        const id = $(this).attr('data-id');
+        $('.modal__user__voucher_' + id).show();
+        $('.container__modals').show();
+    })
+
+    $('.button_make_code_random').click(async (e) => {
+        e.preventDefault();
+        let status = false;
+        while (status == false) {
+            const code = make_code();
+            const url__submit = '{{route("user.check_code")}}';
+            const _csrf = '{{ csrf_token() }}';
+            const data = {
+                code: code,
+                _token: _csrf
+            };
+            const check = await check_code(code, url__submit, data);
+            if (check == 0) {
+                status = true;
+                $('.input_code_voucher').val(code);
+            };
+        };
+    })
+
+    function check_code(code, url__submit, data) {
+        return $.ajax({
+            url: url__submit,
+            type: 'POST',
+            data: data
+        });
+    };
+
+    function make_code() {
+        let code = '';
+        const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 8; i++) {
+            code += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return code;
+    };
+
+    $('.btn-submit-form-add-voucher').click(function() {
+        $('.modals--add--voucher--main').submit();
+    });
+
+    $('.btn-view-code-voucher').click(function() {
+        const action = $(this).attr('data-action');
+        if (action == 'hide') {
+            $(this).html('Xem code');
+            $(this).attr('data-action', 'show');
+        } else {
+            const code = $(this).attr('data-code');
+            $(this).html(code);
+            $(this).attr('data-action', 'hide');
+        }
+    });
+</script>
+
+@yield('scripts')

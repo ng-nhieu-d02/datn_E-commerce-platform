@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,6 +49,11 @@ class Cart extends Model
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store');
+    }
+
+    public function coupon($id_store)
+    {
+        return Coupons::where(['apply_store' => $id_store , 'status' => '0', 'coupon_type' => '0'])->where('stop_time','>=',Carbon::today()->toDateString())->where('start_time','<=',Carbon::today()->toDateString())->get();
     }
 
     public function shipping_fees($data)
