@@ -89,7 +89,12 @@ class paymentController extends Controller
                         if (($coupon->apply_with == 1 && $coupon->user_id == Auth::user()->id) || $coupon->apply_with == 0) {
                             if ($coupon->type == 2) {
                                 $order_store->id_coupon_frs = $coupon->id;
-                                $order_store->coupon_frs_price = $coupon->value;
+                                if ($order_store->ship > $coupon->value) {
+                                    $coupon_frs_price = $coupon->max_price;
+                                } else {
+                                    $coupon_frs_price = $coupon->value;
+                                }
+                                $order_store->coupon_frs_price = $coupon_frs_price;
                             } else {
                                 $order_store->id_coupons = $coupon->id;
                                 if ($coupon->type == 1) {
@@ -102,10 +107,13 @@ class paymentController extends Controller
                                     $order_store->coupons_price = $coupon_price;
                                 }
                             }
+                            $coupon->remaining_quantity = $coupon->remaining_quantity + 1;
+                            $coupon->save();
                         }
                     }
                 }
             }
+
             $order_store->save();
             $ship += $order_store->ship - $order_store->coupon_frs_price;
             $price += $order_store->total_price - $order_store->coupons_price;
@@ -123,7 +131,12 @@ class paymentController extends Controller
                     if (($bigCoupon->apply_with == 1 && $bigCoupon->user_id == Auth::user()->id) || $bigCoupon->apply_with == 0) {
                         if ($bigCoupon->type == 2) {
                             $order->id_coupon_frs = $bigCoupon->id;
-                            $order->coupons_frs_price = $bigCoupon->value;
+                            if ($order->ship > $bigCoupon->value) {
+                                $coupon_frs_price_order = $bigCoupon->max_price;
+                            } else {
+                                $coupon_frs_price_order = $bigCoupon->value;
+                            }
+                            $order->coupon_frs_price = $coupon_frs_price_order;
                         } else {
                             $order->id_coupons = $bigCoupon->id;
                             if ($coupon->type == 1) {
@@ -136,6 +149,8 @@ class paymentController extends Controller
                                 $order->coupons_price = $coupon_price;
                             }
                         }
+                        $bigCoupon->remaining_quantity = $bigCoupon->remaining_quantity + 1;
+                        $bigCoupon->save();
                     }
                 }
             }

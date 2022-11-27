@@ -43,9 +43,15 @@ Route::prefix('/')->group(function () {
         Route::post('/checkout-store', [paymentController::class, 'checkout'])->name('user.checkout-store');
         Route::get('/pay-return',[paymentController::class, 'pay_return'])->name('user.pay-return');
         Route::get('/checkout-return/{order}', [paymentController::class, 'checkout_return'])->name('user.checkout-return');
+        Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
         
         // store
         Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
+        Route::get('/voucher-store/10000000000{id}', [storeController::class, 'voucher_store'])->name('user.voucher_store');
+        Route::POST('/check-code', [storeController::class, 'check_code'])->name('user.check_code');
+        Route::POST('/add-voucher/10000000000{id}', [storeController::class, 'add_voucher'])->name('user.add_voucher');
+        Route::POST('/delete-voucher/10000000000{id}', [storeController::class, 'delete_voucher'])->name('user.delete_voucher');
+        Route::POST('/update-voucher/10000000000{id}', [storeController::class, 'update_voucher'])->name('user.update_voucher');
 
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
@@ -64,7 +70,9 @@ Route::prefix('/')->group(function () {
 */
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
+        Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    }); 
 });
 
 require __DIR__ . '/auth.php';
