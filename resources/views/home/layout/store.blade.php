@@ -74,8 +74,8 @@
                         <li>
                             <a href="">Đánh giá shop</a>
                         </li>
-                        <li>
-                            <a href="">Voucher</a>
+                        <li class="@if (request()->routeIs('user.voucher_store', [$store->id])) active @endif">
+                            <a href="{{ route('user.voucher_store', [$store->id]) }} }}">Voucher</a>
                         </li>
                     </ul>
                     @endif
