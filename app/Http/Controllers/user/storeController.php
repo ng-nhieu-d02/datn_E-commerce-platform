@@ -75,6 +75,7 @@ class storeController extends Controller
             'keyword' => 'bail|required',
             'colorText' => 'bail|required_without:size',
             'sizeText' => 'bail|required_without:color',
+            'attribute' => 'nullable',
             'url_image' => 'bail|required',
             'url' => 'bail|required',
             'url_image.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
@@ -88,7 +89,12 @@ class storeController extends Controller
             'quantity' => 'bail|required',
             'quantity.*' => 'required|string|gt:0',
         ]);
-        
+
+
+        if (!is_null($validated["sizeText"][0])) {
+            $request->validate(['attribute' => 'required|string']);
+        }
+
         \DB::beginTransaction();
         try {
             $id_store = $request->id;
@@ -122,7 +128,7 @@ class storeController extends Controller
                 $productDetailAttributes[] = [
                     'id_product' => $product_id,
                     'color_value' => $color,
-                    'attribute' => 'Size',
+                    'attribute' => $validated['attribute'],
                     'attribute_value' => $validated['sizeText'][$key],
                     'weight' => $validated['weight'][$key],
                     'quantity' => $validated['quantity'][$key],
@@ -133,7 +139,7 @@ class storeController extends Controller
                 ];
                 $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
             }
-            dd($productDetailAttributes);
+            // dd($productDetailAttributes);
 
             ProductDetail::insert($productDetailAttributes);
 
@@ -162,7 +168,6 @@ class storeController extends Controller
             \DB::commit();
 
             return back()->with("message", "Thêm mới sản phẩm thành công");
-            
         } catch (\Exception $e) {
             \DB::rollback();
         }

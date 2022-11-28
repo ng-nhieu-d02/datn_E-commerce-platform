@@ -552,9 +552,11 @@
         $('.file-upload-content').hide();
         $('.image-upload-wrap').show();
     }
+
     $('.image-upload-wrap').bind('dragover', function() {
         $('.image-upload-wrap').addClass('image-dropping');
     });
+
     $('.image-upload-wrap').bind('dragleave', function() {
         $('.image-upload-wrap').removeClass('image-dropping');
     });
@@ -568,11 +570,15 @@
         });
     }
 
-    ClassicEditor
+    if(document.querySelector( '#long_description' )){
+        ClassicEditor
         .create( document.querySelector( '#long_description' ) )
-        .catch( error => {
-            console.error( error );
-    } );
+        //     .catch( error => {
+        //         console.error( "Editor Error" );
+        // } );
+    }
+
+    
 
     $(document).ready(function(){
         // Thumb image
@@ -584,16 +590,22 @@
         let inputAlbum = document.querySelector("#album");
 
 
-        button.onclick = ()=>{
+        if(button){
+            button.onclick = function() {
             input.click();
         }
-        input.addEventListener("change", function(){
+        }
+        
+        if(input){
+            input.addEventListener("change", function(){
 
             file = this.files[0];
             $(".drag-area").show();
             $(".drag-area").addClass("active")
             showFile(); 
-        });
+            });
+        }
+
         function showFile(){
             let fileType = file.type; 
             let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"]; 
@@ -620,35 +632,38 @@
            
         })
 
-        buttonAlbum.onclick = () => {   
+        if(buttonAlbum){
+            buttonAlbum.onclick = () => {   
             inputAlbum.click();
+        }
         }
 
         let listAlbumImages = [];
         
-        inputAlbum.addEventListener("change", function(){
+        if(inputAlbum){
+            inputAlbum.addEventListener("change", function(){
 
             file = this.files.length;
             let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"];
             for(var i = 0; i < file; i++){
-                 if(validExtensions.includes(this.files[i].type)){
+                if(validExtensions.includes(this.files[i].type)){
                     listAlbumImages.push({
                     "name" : this.files[i].name,
                     "url" : URL.createObjectURL(this.files[i]),
                     "file" : this.files[i],
 
                     })
-                 }else{
+                }else{
                     alert("Có file không hợp lệ, vui lòng kiểm tra lại");
-                 }
+                }
             }
 
             showImageAlbum()
             function showImageAlbum(){
-               
+            
                 let image = "";
                 listAlbumImages.forEach((item) => {
-                   
+                
                         image += `<div class="col-lg-2 position-relative my-4">
                         <img class="img-fluid" src="${item.url}" alt="">
                         <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
@@ -666,8 +681,9 @@
                 listAlbumImages.splice(e, 1);
                 showImageAlbum()
             }
-            
-        })
+
+            })
+        }
 
         $(".button-selected-size").click(function(){
             $("#selected-size").attr("style", "display: flex!important");
@@ -723,7 +739,7 @@
             let html = '';
             let valueSize = $("#text-size").val().trim();
             if(checkSize(valueSize)){
-                alert("Size bạn chọn đã tồn tại");
+                alert("Giá trị bạn chọn đã tồn tại");
             }else{
                 if(valueSize == ''){
                     alert("Chọn size");
@@ -1033,6 +1049,33 @@
             $("#district").val("")
             $("#address").val("")
         })
+
+        $("#btn-attribute").click(function(){
+            let input_attribute = $("#add-attribute").val().trim();
+            if($("#add-attribute").val() == ''){
+                alert("Chọn thuộc tính!");
+                return;
+            }
+            if(checkAttribute(input_attribute)){
+                alert("Đã tồn tại thuộc tính");
+                return;
+            }
+            let attributeElement = `
+            <div class="checkbox-attribute me-2">
+                <input type="radio" value="${input_attribute}" name="attribute" class="btn-check btn-attribute" id="attribute-${input_attribute}" autocomplete="off">
+                <label class="btn btn-primary fs-4" for="attribute-${input_attribute}">${input_attribute}</label>
+            </div>
+            `;
+            
+            $("#show-attribute").append(attributeElement)
+            $("#add-attribute").val("");
+        })
+
+        function checkAttribute(value){
+            return Array.from($(".btn-attribute")).some((item, index) => {
+                return item.value == value;
+            })
+        }
     })
 
 </script>

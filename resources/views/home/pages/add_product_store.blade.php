@@ -207,14 +207,21 @@
             <label for="" class="form-label">Phân loại sản phẩm: </label>
             <div class="d-flex my-3">
                 <input type="radio" class="btn-check" value="2" name="type" id="option1" autocomplete="off" >
-                <label class="btn btn-secondary me-2 button-selected-size fs-3" for="option1">Chọn Size</label>
+                <label class="btn btn-secondary me-2 button-selected-size fs-3" for="option1">Chọn thuộc tính</label>
                 <input type="radio" class="btn-check" value="1" name="type" id="option2" autocomplete="off" >
                 <label class="btn btn-secondary me-2 button-selected-color fs-3" for="option2">Chọn Màu</label>
                 <input type="radio" class="btn-check" value="0" name="type" id="option3" autocomplete="off" checked>
                 <label class="btn btn-secondary me-2 button-selected-all fs-3" for="option3">Chọn cả 2</label>
             </div>
-            <div class="d-flex mb-4 align-items-center" id="selected-size">
-                <div class="d-flex" id="template-size">
+            <div class="d-flex mb-4 flex-column" id="selected-size">
+                <div class="my-2">
+                    <div class="d-flex mb-2" id="show-attribute">
+
+                    </div>
+                    <input type="text" id="add-attribute" class="input-add-size" placeholder="Thêm thuộc tính">
+                    <button type="button" id="btn-attribute" class="btn btn-danger fs-3">Thêm thuộc tính</button>
+                </div>
+                <div class="d-flex my-2" id="template-size">
                     <div class="checkbox-size me-2">
                         <input type="checkbox" value="S" name="size[]" class="btn-check btn-size" id="size-S" autocomplete="off">
                         <label class="btn btn-primary fs-4" for="size-S">S</label>
@@ -231,10 +238,14 @@
                         <input type="checkbox" value="XL" name="size[]" class="btn-check btn-size" id="size-XL" autocomplete="off">
                         <label class="btn btn-primary fs-4" for="size-XL">XL</label>
                     </div>
+                    <div class="checkbox me-2">
+                        <input type="checkbox" value="128GB" name="size[]" class="btn-check btn-size" id="size-128GB" autocomplete="off">
+                        <label class="btn btn-primary fs-4" for="size-128GB">128GB</label>
+                    </div>
                 </div>
                 <div class="button-add-size">
-                    <input type="text" placeholder="Thêm size" class="input-add-size" id="text-size">
-                    <button type="button" class="btn btn-danger fs-4" id="input-add-size">Thêm size mới</button>
+                    <input type="text" placeholder="Thêm giá trị" class="input-add-size" id="text-size">
+                    <button type="button" class="btn btn-danger fs-4" id="input-add-size">Thêm giá trị thuộc tính</button>
                 </div>
             </div>
             <div class="d-flex align-items-center" id="selected-color" >
