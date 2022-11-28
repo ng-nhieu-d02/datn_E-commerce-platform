@@ -40,6 +40,7 @@
 <link rel="stylesheet" href="{{ url('assets/css/auth.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/home.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/profile.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/voucher_store.css') }}">
 
 {{-- Input Bootstrap CSS --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"

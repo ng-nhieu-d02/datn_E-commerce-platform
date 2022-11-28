@@ -32,6 +32,7 @@ mix.sass('resources/sass/user/footer.scss', 'public/assets/css')
 mix.sass('resources/sass/user/componentCardProduct.scss', 'public/assets/css')
 mix.sass('resources/sass/user/auth.scss', 'public/assets/css')
 mix.sass('resources/sass/user/home.scss', 'public/assets/css')
+mix.sass('resources/sass/user/voucher_store.scss', 'public/assets/css')
 
 
    .options({

@@ -1,3 +1,4 @@
+<div class="container__modals" style="display: none;"></div>
 <div id="toast" class="toast"></div>
 <div class="ingredient--footer">
     <div class="ingredient--footer--title">
