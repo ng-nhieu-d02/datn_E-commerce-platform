@@ -54,6 +54,10 @@ Route::prefix('/')->group(function () {
         // register booth
         Route::get("/register-booth", [userController::class, 'register_booth'])->name("user.register_booth");
         Route::post("/register-booth", [userController::class, 'store_booth'])->name("user.store_booth");
+
+        // order
+        Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
+        Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail']);
     });
 });
 
