@@ -24,4 +24,8 @@ class OrderStore extends Model
         'status_order',
         'status_payment_store',
     ];
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'id_store');
+    }
 }
