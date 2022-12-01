@@ -1,5 +1,7 @@
 <div class="container__modals" style="display: none;"></div>
-<div id="toast" class="toast"></div>
+<!-- <div id="toast" class="toast"></div> -->
+    <div id="notify--toast"></div>
+<div class="btn btn-success" onclick="showToast();">test toast thông báo</div>
 <div class="ingredient--footer">
     <div class="ingredient--footer--title">
         <div class="ingredient--navBar--logo">

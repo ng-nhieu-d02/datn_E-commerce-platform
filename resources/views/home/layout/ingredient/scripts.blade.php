@@ -1108,6 +1108,14 @@
             $(this).attr('data-action', 'hide');
         }
     });
+    function showToast() {
+        NotifyToast({
+            title : 'Thành công',
+            message : 'đơn hàng đã được đặt thành công',
+            type : 'success',
+            duration : 15000
+        });
+    }
 </script>
 
 @yield('scripts')

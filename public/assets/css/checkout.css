@@ -167,7 +167,7 @@ small, .small {
     z-index: 9999;
 }
 .toast{
-    display: flex!important;
+    display: hidden !important;
     align-items: center;
     background-color: #fff;
     border-radius: 2px;
@@ -758,9 +758,88 @@ input[type="range"]::-moz-range-thumb{
     box-shadow: 1px 1px 1px 1px #eee;
 }
 .table--listl--order--detai tbody tr td span img{
+    margin-left: auto;
+    margin-right: auto;
     width: 200px;
 
 }
 .table--listl--order--detai tbody tr td{
     vertical-align: middle;
+}
+.table--listl--order--detai tbody tr td{
+    vertical-align: middle;
+}
+/*********************************************************/
+/******************** Notify Toast ***********************/
+/*********************************************************/
+#notify--toast {
+    position: fixed;
+    top: 88px;
+    right: 44px;
+    z-index: 9999;
+
+}
+.notify--toast{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0.875rem 0;
+    margin-bottom: 20px;
+    border-left: 0.5rem solid;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+}
+.notify--toast .toast--head{
+    display: flex;
+    flex-direction: row;
+}
+.notify--toast .toast--body .toast--title{
+    font-weight: 600;
+}
+.notify--toast .toast--body .toast--msg{
+    font-size: 1.6rem;
+}
+.notify--toast .toast--icon{
+    font-size: 2.25rem;
+}
+.notify--toast .toast--close{
+    font-size: 1.6rem;
+    color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.notify--toast .toast--close i,.notify--toast .toast--icon i{
+    vertical-align: middle;
+}
+.toast--success{
+    border-color: rgba(38, 200, 73);
+}
+.toast--error{
+    border-color: rgb(200, 13, 13);
+}
+.toast--info{
+    border-color: rgb(13, 100, 200);
+}
+.fa-check-circle{
+    color: rgba(38, 200, 73);
+}
+.fa-circle-exclamation{
+    color: rgb(200, 13, 13);
+}
+.fa-info-circle{
+    color: rgb(13, 100, 200);
+}
+@keyframes slideInLeft {
+    form{
+        opacity: 0;
+        transform: translateX(calc(100% + 44px));   
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeOut {
+    to{
+        opacity: 0;
+    }
 }
