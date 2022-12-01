@@ -28,5 +28,9 @@ class Order extends Model
         'status_order',
         'status_payment_store'
     ];
+    public function orderDetail()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 
 }

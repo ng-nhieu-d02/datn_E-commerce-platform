@@ -744,3 +744,23 @@ input[type="range"]::-moz-range-thumb{
     color: #0a918a;
 
 }
+/* ******************** */
+/* ******* manage order********** */
+/* ******************** */
+.page--receipt .container-page--receipt ul li button {
+    font-size: 1.6rem;
+}
+.page--receipt .container-page--receipt ul li button .active{
+    color: #0F172A;
+    font-size: 1.8rem;
+}
+.table--receipt tbody tr {
+    box-shadow: 1px 1px 1px 1px #eee;
+}
+.table--listl--order--detai tbody tr td span img{
+    width: 200px;
+
+}
+.table--listl--order--detai tbody tr td{
+    vertical-align: middle;
+}
