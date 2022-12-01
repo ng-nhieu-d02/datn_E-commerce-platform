@@ -12,6 +12,23 @@ class Product extends Model
 
     protected $table = 'product';
 
+    protected $fillable = [
+         'id_store',
+         'create_by',
+         'name',
+         'slug',
+         'description',
+         'long_description',
+         'type',
+         'category_path',
+         'category_id',
+         'thumb',
+         'brand',
+         'origin',
+         'title',
+         'keyword',
+    ];
+
     public function detail()
     {
         return $this->hasMany(ProductDetail::class, 'id_product');
@@ -51,5 +68,4 @@ class Product extends Model
     {
         return $this->belongsTo(Store::class, 'id_store');
     }
-
 }

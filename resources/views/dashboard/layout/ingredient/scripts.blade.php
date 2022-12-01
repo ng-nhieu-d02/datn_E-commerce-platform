@@ -4,3 +4,5 @@
 
 <!-- Custom JS -->
 <script src="{{ url('assetsadmin/js/script.js')}}"></script>
+
+<script src="https://unpkg.com/flowbite@1.5.4/dist/datepicker.js"></script>

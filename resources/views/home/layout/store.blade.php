@@ -47,20 +47,38 @@
                     </div>
                 </div>
                 <div class="menu-profile">
+                    @if($permission == 0)
                     <ul>
                         <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
                             <a href="{{ route('user.store', [$store->id]) }}">Trang chủ</a>
                         </li>
                         <li>
-                            <a href="">Hoá đơn</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.register_booth')) active @endif">
-                            <a href="{{ route('user.register_booth') }}">Đăng ký gian hàng</a>
+                            <a href="">Thông tin shop</a>
                         </li>
                         <li>
-                            <a href="">Quản lí gian hàng</a>
+                            <a href="">Đánh giá shop</a>
                         </li>
                     </ul>
+                    @elseif($permission == 1)
+                    <ul>
+                        <li>Dashboard</li>
+                        <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
+                            <a href="{{ route('user.store', [$store->id]) }}">Đăng sản phẩm</a>
+                        </li>
+                        <li>
+                            <a href="">Chỉnh sửa thông tin shop</a>
+                        </li>
+                        <li>
+                            <a href="">Quản lí hoá đơn</a>
+                        </li>
+                        <li>
+                            <a href="">Đánh giá shop</a>
+                        </li>
+                        <li class="@if (request()->routeIs('user.voucher_store', [$store->id])) active @endif">
+                            <a href="{{ route('user.voucher_store', [$store->id]) }} }}">Voucher</a>
+                        </li>
+                    </ul>
+                    @endif
                 </div>
             </div>
             <div class="content-profile">

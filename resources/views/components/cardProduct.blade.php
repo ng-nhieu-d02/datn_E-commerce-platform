@@ -13,7 +13,14 @@
             <div class="d-flex justify-content-between div--content">
                 <div class="left">
                     <i class="fa-solid fa-star"></i>
-                    <span> {{$data->comment()->sum('rate') / $data->comment()->count()}} ({{$data->comment()->count()}})</span>
+                    <span>
+                        @if($data->comment()->exists())
+                            {{$data->comment()->sum('rate') / $data->comment()->count()}} ({{$data->comment()->count()}})
+                        @else
+                            Chưa có đánh giá nào
+                        @endif
+                         
+                    </span>
                 </div>
                 <p class="m-0">Đã bán {{number_format($data->detail->sum('sold'),0,',','.')}}</p>
             </div>

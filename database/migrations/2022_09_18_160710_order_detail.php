@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('id_product')->unsigned();
             $table->bigInteger('id_product_detail')->unsigned();
             $table->integer('quantity');
-            $table->integer('price');
+            $table->bigInteger('price');
             $table->enum('status', [0,1])->comment('0 là hiện, 1 là ẩn');
             $table->timestamps();
         });

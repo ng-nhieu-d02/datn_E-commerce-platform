@@ -53,7 +53,10 @@
                             <a href="{{ route('user.register_booth') }}">Đăng ký gian hàng</a>
                         </li>
                         <li>
-                            <a href="">Quản lí gian hàng</a>
+                            <a href="">Nạp tiền</a>
+                        </li>
+                        <li class="@if (request()->routeIs('user.address')) active @endif">
+                            <a href="{{ route('user.address') }}">Địa chỉ giao hàng</a>
                         </li>
                     </ul>
                 </div>
