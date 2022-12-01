@@ -84,6 +84,19 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+        Route::get('/category', [dashboardController::class, 'category'])->name('admin.category');
+        
+        Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
+        Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
+        Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
+    
+        Route::get('/member', [dashboardController::class, 'member'])->name('admin.member');
+        Route::get('/update-member/{member}/{status}', [dashboardController::class, 'update_member'])->name('admin.update_member');
+
+        Route::get('/store', [dashboardController::class, 'store'])->name('admin.store');
+        Route::get('/update-store/{store}/{status}', [dashboardController::class, 'update_store'])->name('admin.update_store');
+        Route::get('/update-ticket-store/{ticket}/{status}', [dashboardController::class, 'update_ticket_store'])->name('admin.update_ticket_store');
     }); 
 });
 

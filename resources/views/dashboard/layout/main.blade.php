@@ -15,7 +15,7 @@
 
             <!-- Content -->
 
-            
+            @yield('content')
             
             <!-- End Content -->
 

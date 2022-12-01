@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('weight');
             $table->integer('quantity');
             $table->integer('sold')->default(0);
-            $table->integer('price');
-            $table->integer('sale');
+            $table->bigInteger('price');
+            $table->bigInteger('sale');
             $table->string('url_image');
             $table->enum('status', [0,1])->comment('0 là hiện ,1 là ẩn');
             $table->timestamps();

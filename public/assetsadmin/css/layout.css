@@ -357,3 +357,74 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+
+.container__section__content {
+  width: 100%;
+  min-height: 1fr;
+  padding: 10px 0px;
+}
+.container__section__content .content {
+  background-color: var(--background-item-color);
+  width: 100%;
+  min-height: 100px;
+  border-radius: 10px;
+}
+.container__section__content .content__voucher {
+  padding: 10px 25px;
+  padding-bottom: 30px;
+}
+.container__section__content .content__voucher__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container__section__content .content__voucher__header__title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.container__section__content .content__voucher__header__button button {
+  font-weight: 500;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  background-color: rgb(94, 114, 228);
+}
+.container__section__content .content__voucher__header__button button:hover {
+  background-color: rgb(79, 103, 238);
+}
+.container__section__content .content__voucher__table {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container__modals {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  background-color: var(--background-bg-color);
+  opacity: 0.5;
+}
+
+.datepicker-controls button {
+  font-size: 1.3rem;
+}
+
+.days-of-week span {
+  font-size: 1.3rem;
+}
+
+.datepicker-grid.w-64 {
+  width: 20rem;
+}
+
+.datepicker-grid span.leading-9 {
+  font-size: 1.4rem;
+  line-height: 2.55rem;
+}
