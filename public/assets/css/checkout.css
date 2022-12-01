@@ -819,6 +819,9 @@ input[type="range"]::-moz-range-thumb{
 .toast--info{
     border-color: rgb(13, 100, 200);
 }
+.toast--warring{
+    border-color: rgb(237, 128, 4);
+}
 .fa-check-circle{
     color: rgba(38, 200, 73);
 }
@@ -827,6 +830,9 @@ input[type="range"]::-moz-range-thumb{
 }
 .fa-info-circle{
     color: rgb(13, 100, 200);
+}
+.fa-exclamation-triangle{
+    color: rgb(237, 128, 4);
 }
 @keyframes slideInLeft {
     form{

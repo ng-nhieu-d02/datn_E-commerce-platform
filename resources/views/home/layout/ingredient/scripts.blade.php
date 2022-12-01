@@ -556,8 +556,8 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(title, message, type, duration = 3000) {
-        toast({
+    function ToastSuccess(title, message, type, duration = 10000) {
+        NotifyToast({
             title: title,
             message: message,
             type: type,
@@ -1108,14 +1108,6 @@
             $(this).attr('data-action', 'hide');
         }
     });
-    function showToast() {
-        NotifyToast({
-            title : 'Thành công',
-            message : 'đơn hàng đã được đặt thành công',
-            type : 'success',
-            duration : 15000
-        });
-    }
 </script>
 
 @yield('scripts')
