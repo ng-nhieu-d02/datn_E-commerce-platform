@@ -556,8 +556,8 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(title, message, type, duration = 3000) {
-        toast({
+    function ToastSuccess(title, message, type, duration = 10000) {
+        NotifyToast({
             title: title,
             message: message,
             type: type,

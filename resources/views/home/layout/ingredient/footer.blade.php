@@ -1,5 +1,5 @@
 <div class="container__modals" style="display: none;"></div>
-<div id="toast" class="toast"></div>
+    <div id="notify--toast"></div>
 <div class="ingredient--footer">
     <div class="ingredient--footer--title">
         <div class="ingredient--navBar--logo">
