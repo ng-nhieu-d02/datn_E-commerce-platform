@@ -1051,7 +1051,8 @@
         });
     });
 
-    $('.btn_use_voucher').click(function() {
+    $('.btn_use_voucher').click(function(e) {
+        e.preventDefault();
         const id = $(this).attr('data-id');
         $('.modal__user__voucher_' + id).show();
         $('.container__modals').show();
