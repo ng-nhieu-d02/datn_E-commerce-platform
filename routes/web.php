@@ -70,8 +70,8 @@ Route::prefix('/')->group(function () {
         Route::put("/update-status-address/{id}", [userController::class, 'updateAddressStatus'])->name('user.update_status_address');
 
         // register booth
-        Route::get("/register-booth", [userController::class, 'register_booth'])->name("user.register_booth");
-        Route::post("/register-booth", [userController::class, 'store_booth'])->name("user.store_booth");
+        Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");
+        Route::post("/register-booth", [userController::class, 'storeBooth'])->name("user.store_booth");
 
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');

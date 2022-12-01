@@ -46,7 +46,7 @@
                         <li>
                             <a href="">Ưu thích</a>
                         </li>
-                        <li>
+                        <li class="@if (request()->routeIs('user.manage-order')) active @endif">
                             <a href="{{ route('user.manage-order') }}">Hoá đơn</a>
                         </li>
                         <li class="@if (request()->routeIs('user.register_booth')) active @endif">
