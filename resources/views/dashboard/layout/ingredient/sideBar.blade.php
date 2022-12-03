@@ -4,7 +4,7 @@
             <img src="/assets/images/dashboard-favicon.png" alt="">
         </div> -->
         <div class="sideBar--header--title">
-            <a href="#">Dashboard PRO V1</a> 
+            <a href="#">Dashboard PRO V1</a>
         </div>
         <!-- <div class="sideBar--header--logo">
             <img src="/assets/images/dashboard-favicon.png" alt="">
@@ -12,8 +12,8 @@
     </div>
     <div class="sideBar--content">
         <div class="sideBar--menu">
-            <a href="#">
-                <div class="sideBar--menu--content dashboard active">
+            <a href="{{route('admin.dashboard')}}">
+                <div class="sideBar--menu--content dashboard @if (request()->routeIs('admin.dashboard')) active @endif">
                     <div class="sideBar--menu--content--icon">
                         <i class="fa fa-tv"></i>
                     </div>
@@ -22,6 +22,50 @@
                     </div>
                 </div>
             </a>
+
+            <a href="{{route('admin.category')}}">
+                <div class="sideBar--menu--content profile @if (request()->routeIs('admin.category')) active @endif">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Category</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{route('admin.voucher')}}">
+                <div class="sideBar--menu--content table @if (request()->routeIs('admin.voucher')) active @endif">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Voucher</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{route('admin.member')}}">
+                <div class="sideBar--menu--content member @if (request()->routeIs('admin.member')) active @endif">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-user-group"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Member</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{route('admin.store')}}">
+                <div class="sideBar--menu--content billing @if (request()->routeIs('admin.store')) active @endif">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Store</p>
+                    </div>
+                </div>
+            </a>
+
             <a href="#">
                 <div class="sideBar--menu--content table">
                     <div class="sideBar--menu--content--icon">
@@ -32,6 +76,7 @@
                     </div>
                 </div>
             </a>
+
             <a href="#">
                 <div class="sideBar--menu--content billing">
                     <div class="sideBar--menu--content--icon">
@@ -42,16 +87,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
-                <div class="sideBar--menu--content member">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-user-group"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Member</p>
-                    </div>
-                </div>
-            </a>
+
             <a href="#">
                 <div class="sideBar--menu--content product">
                     <div class="sideBar--menu--content--icon">
@@ -92,17 +128,8 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
-                <div class="sideBar--menu--content profile">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-address-card"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Profile</p>
-                    </div>
-                </div>
-            </a>
-           
+            
+
             <a href="#">
                 <div class="sideBar--menu--content setting">
                     <div class="sideBar--menu--content--icon">

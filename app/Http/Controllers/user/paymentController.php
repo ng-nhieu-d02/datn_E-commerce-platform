@@ -107,7 +107,12 @@ class paymentController extends Controller
                                     $order_store->coupons_price = $coupon_price;
                                 }
                             }
-                            $coupon->remaining_quantity = $coupon->remaining_quantity + 1;
+                            if($coupon->remaining_quantity > $coupon->quantity) {
+                                $coupon->remaining_quantity = $coupon->remaining_quantity + 1;
+                            } else {
+                                $coupon->status = '1';
+                            }
+                            
                             $coupon->save();
                         }
                     }
@@ -149,7 +154,12 @@ class paymentController extends Controller
                                 $order->coupons_price = $coupon_price;
                             }
                         }
-                        $bigCoupon->remaining_quantity = $bigCoupon->remaining_quantity + 1;
+                        if($bigCoupon->remaining_quantity < $bigCoupon->quantity) {
+                            $bigCoupon->remaining_quantity = $bigCoupon->remaining_quantity + 1;
+                        } else {
+                            $bigCoupon->status = '1';
+                        }
+                       
                         $bigCoupon->save();
                     }
                 }

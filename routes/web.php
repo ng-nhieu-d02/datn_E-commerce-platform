@@ -52,6 +52,9 @@ Route::prefix('/')->group(function () {
         Route::POST('/add-voucher/10000000000{id}', [storeController::class, 'add_voucher'])->name('user.add_voucher');
         Route::POST('/delete-voucher/10000000000{id}', [storeController::class, 'delete_voucher'])->name('user.delete_voucher');
         Route::POST('/update-voucher/10000000000{id}', [storeController::class, 'update_voucher'])->name('user.update_voucher');
+        Route::get('/order-store/10000000000{id}', [storeController::class, 'order'])->name('user.order_store');
+        Route::get('/detail-order-store/{id_order_store}/10000000000{id}', [storeController::class, 'order_detail'])->name('user.order_detail_store');
+        Route::get('/update-store-store/10000000000{id}/{order}/{status}', [storeController::class, 'update_order_store'])->name('user.update_order_store');
 
         // add product into store
         Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');
@@ -76,6 +79,11 @@ Route::prefix('/')->group(function () {
         // register booth
         Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");
         Route::post("/register-booth", [userController::class, 'storeBooth'])->name("user.store_booth");
+
+        // order
+        Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
+        Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail']);
+
     });
 });
 
@@ -88,6 +96,19 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+        Route::get('/category', [dashboardController::class, 'category'])->name('admin.category');
+        
+        Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
+        Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
+        Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
+    
+        Route::get('/member', [dashboardController::class, 'member'])->name('admin.member');
+        Route::get('/update-member/{member}/{status}', [dashboardController::class, 'update_member'])->name('admin.update_member');
+
+        Route::get('/store', [dashboardController::class, 'store'])->name('admin.store');
+        Route::get('/update-store/{store}/{status}', [dashboardController::class, 'update_store'])->name('admin.update_store');
+        Route::get('/update-ticket-store/{ticket}/{status}', [dashboardController::class, 'update_ticket_store'])->name('admin.update_ticket_store');
     }); 
 });
 

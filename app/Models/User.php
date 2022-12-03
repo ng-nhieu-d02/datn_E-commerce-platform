@@ -29,6 +29,7 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'gender',
+        'status'
     ];
 
     /**
@@ -64,5 +65,13 @@ class User extends Authenticatable
     public function comment()
     {
         return $this->hasMany(CommentProduct::class, 'create_by');
+    }
+    public function ticket()
+    {
+        return $this->hasMany(TickerCreateStore::class, 'id_user');
+    }
+    public function permission_store()
+    {
+        return $this->hasMany(PermissionStore::class, 'id_user');
     }
 }

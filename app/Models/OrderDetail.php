@@ -19,4 +19,20 @@ class OrderDetail extends Model
         'price',
         'status'
     ];
+    public function order()
+    {
+        return $this->belongsTo(Order::class , 'id_order');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_product');
+    }
+    public function product_detail()
+    {
+        return $this->belongsTo(ProductDetail::class, 'id_product_detail');
+    }
+    public function orderStores()
+    {
+        return $this->belongsTo(OrderStore::class, 'id_order_store');
+    }
 }

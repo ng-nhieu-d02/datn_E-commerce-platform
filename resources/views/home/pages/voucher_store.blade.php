@@ -46,17 +46,18 @@
                         <span class="badge text-bg-warning" role="button">Riêng tư</span>
                     </td>
                     @endif
-                    </td>
+
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input checkbox-update-status-voucher" data-id="{{$coupon->id}}" role="button" type="checkbox" role="switch" {{$coupon->status == 0 ? 'checked' : ''}}>
                         </div>
+                    </td>
                     <td style="width: 12%;">
                         <span style="font-size: 1.4rem;" class="badge text-bg-info btn-view-code-voucher" role="button" data-code='{{$coupon->code}}' data-action='show'>Xem code</span>
                         @if($coupon->quantity == $coupon->remaining_quantity)
                         <span class="badge text-bg-danger btn-remove-coupon" role="button" data-id="{{$coupon->id}}">Xoá</span>
                         @else
-                        
+
                         @endif
                     </td>
                 </tr>
@@ -161,7 +162,7 @@
         const url__submit = '{{route("user.delete_voucher", $store->id)}}';
         const _csrf = '{{ csrf_token() }}';
         const question = confirm('you are deleting voucher, are you sure ?');
-        if(question == false) {
+        if (question == false) {
             return;
         }
         const data = {

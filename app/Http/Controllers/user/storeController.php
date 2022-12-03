@@ -5,6 +5,9 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryProduct;
 use App\Models\Coupons;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\OrderStore;
 use App\Models\PermissionStore;
 use App\Models\Product;
 use App\Models\ProductDetail;
@@ -190,8 +193,8 @@ class storeController extends Controller
     {
         $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         $store = Store::find($id);
-        if ($permission == 0) {
-            return 'error';
+        if($permission == 0) {
+            return redirect()->back()->with('error','you have no right');
         }
         $coupons = Coupons::where('apply_store', '=', $id)->orderBy('id', 'DESC')->paginate(5);
         return view('home.pages.voucher_store', [
@@ -283,7 +286,12 @@ class storeController extends Controller
         if ($permission == 0) {
             return 'you have no right';
         }
-        Coupons::find($request->id)->update(['status'   => $request->status]);
+        $coupon = Coupons::find($request->id);
+        if($coupon->quantity > $coupon->remaining_quantity) {
+            Coupons::find($request->id)->update(['status'   => $request->status]);
+        } else {
+            return 'not validate';
+        }
     }
     public function get_voucher(Request $request)
     {
@@ -300,6 +308,7 @@ class storeController extends Controller
         }
         return json_encode($data);
     }
+
 
     public function updateProductStatus($id)
     {
@@ -331,5 +340,57 @@ class storeController extends Controller
 
         $findProduct->delete();
         return redirect()->back()->with("success", "Xoá thành công");
+    }
+
+    public function order($id)
+    {
+        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $store = Store::find($id);
+        if($permission == 0) {
+            return redirect()->back()->with('error','you have no right');
+        };
+        $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
+        return view('home.pages.order_store', [
+            'store' => $store,
+            'permission'    => $permission,
+            'orders'    => $orders
+        ]);
+    }
+    public function order_detail($id, $id_order_store)
+    {
+        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $store = Store::find($id);
+        if($permission == 0) {
+            return redirect()->back()->with('error','you have no right');
+        };
+        $details = OrderDetail::where('id_order_store', $id_order_store)->get();
+        return view('home.pages.detail_order_store', [
+            'store' => $store,
+            'permission'    => $permission,
+            'details'    => $details
+        ]);
+    }
+    public function update_order_store($id, $order, $status)
+    {
+        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        if($permission == 0) {
+            return redirect()->back()->with('error','you have no right');
+        };
+        $orderStore = OrderStore::find($order);
+        $orderStore->status_order = $status;
+        if($status == 3) {
+            $orderStore->status_payment_store = '1';
+        } else {
+            $orderStore->status_payment_store = '2';
+        }
+        $orderStore->save();
+
+        if($status > 2) {
+            $check = OrderStore::where('id_order',$orderStore->id_order)->where('status_order', '<=', 2)->count();
+            if($check == 0) {
+                Order::find($orderStore->id_order)->update(['status_order' => $status]);
+            }
+        }
+        return redirect()->back()->with('success','Cập nhật thành công');
     }
 }

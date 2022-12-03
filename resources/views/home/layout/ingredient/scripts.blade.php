@@ -558,8 +558,8 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(title, message, type, duration = 3000) {
-        toast({
+    function ToastSuccess(title, message, type, duration = 10000) {
+        NotifyToast({
             title: title,
             message: message,
             type: type,
@@ -1094,7 +1094,8 @@
         });
     });
 
-    $('.btn_use_voucher').click(function() {
+    $('.btn_use_voucher').click(function(e) {
+        e.preventDefault();
         const id = $(this).attr('data-id');
         $('.modal__user__voucher_' + id).show();
         $('.container__modals').show();
