@@ -2,9 +2,9 @@
 <div class="component--cardProduct">
     <div class="component--cardProduct--img">
         <a href="{{route('user.productDetail', ['slug' => $data->slug])}}">
-            <img class="image-product" src="<?= asset('upload/product/'. $data->thumb) ?>" alt="">
+            <img class="image-product" src="<?= asset('upload/product/' . $data->thumb) ?>" alt="">
         </a>
-        <i class="fa-regular fa-heart" data-id="{{$data->id}}"></i>
+        <i class="fa-regular fa-heart btn-add-wishlist {{!Auth::check() ? 'true' : (Auth::user()->wishlist($data->id) == 1 ? 'wishlist__add' : '')}}" data-id="{{$data->id}}"></i>
     </div>
     <div class="component--cardProduct--content">
         <a href="{{route('user.productDetail', ['slug' => $data->slug])}}">
@@ -15,11 +15,11 @@
                     <i class="fa-solid fa-star"></i>
                     <span>
                         @if($data->comment()->exists())
-                            {{$data->comment()->sum('rate') / $data->comment()->count()}} ({{$data->comment()->count()}})
+                        {{$data->comment()->sum('rate') / $data->comment()->count()}} ({{$data->comment()->count()}})
                         @else
-                            Chưa có đánh giá nào
+                        Chưa có đánh giá nào
                         @endif
-                         
+
                     </span>
                 </div>
                 <p class="m-0">Đã bán {{number_format($data->detail->sum('sold'),0,',','.')}}</p>
