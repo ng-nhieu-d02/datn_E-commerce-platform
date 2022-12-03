@@ -57,6 +57,10 @@ Route::prefix('/')->group(function () {
         Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');
         Route::post('/create-product-store/{id}', [storeController::class, 'storeAddProduct'])->name('user.add-product-store');
 
+        // update status product
+        Route::put("/update-status-product/{id}", [storeController::class, 'updateProductStatus'])->name("user.update-status-product");
+        Route::delete("/delete-product/{id}", [storeController::class, 'deleteProduct'])->name("user.delete_product");
+
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');
         Route::post('/profile', [userController::class, 'updateProfile'])->name('user.update_profile');

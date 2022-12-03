@@ -13,20 +13,20 @@ class Product extends Model
     protected $table = 'product';
 
     protected $fillable = [
-         'id_store',
-         'create_by',
-         'name',
-         'slug',
-         'description',
-         'long_description',
-         'type',
-         'category_path',
-         'category_id',
-         'thumb',
-         'brand',
-         'origin',
-         'title',
-         'keyword',
+        'id_store',
+        'create_by',
+        'name',
+        'slug',
+        'description',
+        'long_description',
+        'type',
+        'category_path',
+        'category_id',
+        'thumb',
+        'brand',
+        'origin',
+        'title',
+        'keyword',
     ];
 
     public function detail()
@@ -67,5 +67,10 @@ class Product extends Model
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store');
+    }
+
+    public function categoryProduct()
+    {
+        return $this->belongsTo(CategoryProduct::class, 'category_id')->withDefault();
     }
 }

@@ -1151,6 +1151,8 @@
             $(this).attr('data-action', 'hide');
         }
     });
+
+
 </script>
 
 @yield('scripts')
