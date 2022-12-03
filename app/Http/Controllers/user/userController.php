@@ -5,10 +5,12 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\PermissionStore;
+use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\UserWishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -320,5 +322,27 @@ class userController extends Controller
         UserAddress::find($id)->delete();
 
         return back()->with("message", "Xoá thành công");
+    }
+
+    public function wishlist()
+    {
+        $product = Product::select('product.*')->join('user_wishlist', 'user_wishlist.product_id', '=', 'product.id')->where('user_wishlist.user_id',Auth::user()->id)->paginate(10);
+        return view('home.pages.wishlist', [
+            'product' => $product
+        ]);
+    }
+
+    public function add_wishlist(Request $request)
+    {
+        $id = $request->id;
+        $wishlist = UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->count();
+        if($wishlist == 0) {
+            UserWishlist::create(['user_id' => Auth::user()->id, 'product_id' => $id]);
+            $res = ['status' => 'success', 'message' => 'Thêm vào', 'method' => 'add'];
+        } else {
+            UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->delete();
+            $res = ['status' => 'success', 'message' => 'Xoá khỏi' , 'method' => 'remove'];
+        }
+        return json_encode($res);
     }
 }

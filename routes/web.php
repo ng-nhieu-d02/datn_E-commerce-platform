@@ -75,6 +75,8 @@ Route::prefix('/')->group(function () {
         Route::put("/update-address-user/{id}", [userController::class, 'updateUserAddress'])->name('user.update_address');
         Route::delete("/delete-address-user/{id}", [userController::class, 'deleteUserAddress'])->name('user.delete_address');
         Route::put("/update-status-address/{id}", [userController::class, 'updateAddressStatus'])->name('user.update_status_address');
+        Route::post('/add-wishlist', [userController::class, 'add_wishlist'])->name('user.add_wishlist');
+        Route::get('/wishlist', [userController::class, 'wishlist'])->name('user.wishlist');
 
         // register booth
         Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");

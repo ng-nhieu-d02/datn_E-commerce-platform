@@ -43,15 +43,21 @@
                         <li class="@if (request()->routeIs('user.profile')) active @endif">
                             <a href="{{ route('user.profile') }}">Cập nhật thông tin</a>
                         </li>
-                        <li>
-                            <a href="">Ưu thích</a>
+                        <li class="@if (request()->routeIs('user.wishlist')) active @endif">
+                            <a href="{{route('user.wishlist')}}">Ưu thích</a>
                         </li>
                         <li class="@if (request()->routeIs('user.manage-order')) active @endif">
                             <a href="{{ route('user.manage-order') }}">Hoá đơn</a>
                         </li>
+                        @if(Auth::user()->permission_store()->count() == 0)
                         <li class="@if (request()->routeIs('user.register_booth')) active @endif">
                             <a href="{{ route('user.register_booth') }}">Đăng ký gian hàng</a>
                         </li>
+                        @else 
+                        <li class="@if (request()->routeIs('user.register_booth')) active @endif">
+                            <a href="{{ route('user.register_booth') }}">Quản lí gian hàng</a>
+                        </li>
+                        @endif
                         <li>
                             <a href="">Nạp tiền</a>
                         </li>
