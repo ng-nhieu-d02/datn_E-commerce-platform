@@ -68,8 +68,8 @@
                         <li>
                             <a href="">Chỉnh sửa thông tin shop</a>
                         </li>
-                        <li>
-                            <a href="">Quản lí hoá đơn</a>
+                        <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
+                            <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>
                         </li>
                         <li>
                             <a href="">Đánh giá shop</a>
