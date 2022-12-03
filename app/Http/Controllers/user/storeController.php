@@ -27,6 +27,7 @@ class storeController extends Controller
 
         $store = Store::find($id);
 
+
         if (is_null($store)) {
             return abort(404);
         }
@@ -80,6 +81,7 @@ class storeController extends Controller
             'keyword' => 'bail|required',
             'colorText' => 'bail|required_without:size',
             'sizeText' => 'bail|required_without:color',
+            'attribute' => 'nullable',
             'url_image' => 'bail|required',
             'url' => 'bail|required',
             'url_image.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
@@ -93,7 +95,12 @@ class storeController extends Controller
             'quantity' => 'bail|required',
             'quantity.*' => 'required|string|gt:0',
         ]);
-        
+
+
+        if (!is_null($validated["sizeText"][0])) {
+            $request->validate(['attribute' => 'required|string']);
+        }
+
         \DB::beginTransaction();
         try {
             $id_store = $request->id;
@@ -127,7 +134,7 @@ class storeController extends Controller
                 $productDetailAttributes[] = [
                     'id_product' => $product_id,
                     'color_value' => $color,
-                    'attribute' => 'Size',
+                    'attribute' => $validated['attribute'],
                     'attribute_value' => $validated['sizeText'][$key],
                     'weight' => $validated['weight'][$key],
                     'quantity' => $validated['quantity'][$key],
@@ -138,7 +145,6 @@ class storeController extends Controller
                 ];
                 $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
             }
-            dd($productDetailAttributes);
 
             ProductDetail::insert($productDetailAttributes);
 
@@ -167,7 +173,6 @@ class storeController extends Controller
             \DB::commit();
 
             return back()->with("message", "Thêm mới sản phẩm thành công");
-            
         } catch (\Exception $e) {
             \DB::rollback();
         }
@@ -186,7 +191,7 @@ class storeController extends Controller
     }
     public function voucher_store($id)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         $store = Store::find($id);
         if($permission == 0) {
             return redirect()->back()->with('error','you have no right');
@@ -200,34 +205,34 @@ class storeController extends Controller
     }
     public function check_code(Request $request)
     {
-        $check = Coupons::where('code','=',$request->code)->count();
+        $check = Coupons::where('code', '=', $request->code)->count();
         return $check;
     }
-    public function add_voucher($id,Request $request)
+    public function add_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
         }
-        if(strtotime($request->day_start) > strtotime($request->day_end)) {
-            return redirect()->back()->with('error','Ngày không hợp lệ')->withInput($request->input());
+        if (strtotime($request->day_start) > strtotime($request->day_end)) {
+            return redirect()->back()->with('error', 'Ngày không hợp lệ')->withInput($request->input());
         }
-        if($request->money_start > $request->money_end) {
-            return redirect()->back()->with('error','Hoá đơn từ '.$request->money_start.' đến '.$request->money_end.' không hợp lệ')->withInput($request->input());
+        if ($request->money_start > $request->money_end) {
+            return redirect()->back()->with('error', 'Hoá đơn từ ' . $request->money_start . ' đến ' . $request->money_end . ' không hợp lệ')->withInput($request->input());
         }
-        if($request->type == 1) {
-            if($request->value > 100) {
-                return redirect()->back()->with('error','value not validate')->withInput($request->input());
+        if ($request->type == 1) {
+            if ($request->value > 100) {
+                return redirect()->back()->with('error', 'value not validate')->withInput($request->input());
             }
         }
-        if(strlen($request->description) > 255) {
+        if (strlen($request->description) > 255) {
             return redirect()->back()->with('error', 'description length longer')->withInput($request->input());
         }
-        if($request->value > $request->max_value) {
+        if ($request->value > $request->max_value) {
             return redirect()->back()->with('error', 'max giá trị không hợp lệ')->withInput($request->input());
         }
-        $check = Coupons::where('code','=',$request->code)->count();
-        if($check > 0) {
+        $check = Coupons::where('code', '=', $request->code)->count();
+        if ($check > 0) {
             return redirect()->back()->with('error', 'code đã tồn tại')->withInput($request->input());
         }
 
@@ -236,7 +241,7 @@ class storeController extends Controller
         $filename = $_FILES['avatar']['name'];
         $filename_tmp = $_FILES['avatar']['tmp_name'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        $filename = time().'_'.$filename;
+        $filename = time() . '_' . $filename;
         if (!in_array($ext, $format)) {
             return redirect()->back()->with('error', 'file không đúng định dạng')->withInput($request->input());
         }
@@ -261,24 +266,24 @@ class storeController extends Controller
             'status'            => '0'
         ];
         $voucher = Coupons::create($voucher);
-        
+
         move_uploaded_file($filename_tmp, $storage . $filename);
         $voucher->avatar = $filename;
         $voucher->save();
         return redirect()->back()->with('success', 'Thêm voucher success');
     }
-    public function delete_voucher($id,Request $request)
+    public function delete_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
-        if($permission == 0) {
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        if ($permission == 0) {
             return 'you have no right';
         }
         Coupons::find($request->id)->delete();
     }
     public function update_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
-        if($permission == 0) {
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        if ($permission == 0) {
             return 'you have no right';
         }
         $coupon = Coupons::find($request->id);
@@ -290,19 +295,53 @@ class storeController extends Controller
     }
     public function get_voucher(Request $request)
     {
-        $coupons = Coupons::where(['code' => $request->code, 'apply_store' => $request->store ,'status' => '0'])->where('stop_time','>=',Carbon::today()->toDateString())->where('start_time','<=',Carbon::today()->toDateString())->first();
-        if($coupons == null) {
+        $coupons = Coupons::where(['code' => $request->code, 'apply_store' => $request->store, 'status' => '0'])->where('stop_time', '>=', Carbon::today()->toDateString())->where('start_time', '<=', Carbon::today()->toDateString())->first();
+        if ($coupons == null) {
             $data = [
-                'message'   => 'error'                
+                'message'   => 'error'
             ];
         } else {
             $data = [
                 'coupon'    => $coupons,
-                'message'   => 'success'                
+                'message'   => 'success'
             ];
         }
         return json_encode($data);
     }
+
+
+    public function updateProductStatus($id)
+    {
+        try {
+            $statusProduct = Product::find($id);
+
+            $status = '';
+            if ($statusProduct->status == '1') {
+                $status = '0';
+            } else {
+                $status = '1';
+            }
+
+            $statusProduct->status = $status;
+            $statusProduct->save();
+            return true;
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        $findProduct = Product::find($id);
+
+        if (is_null($findProduct)) {
+            return redirect()->back()->with("error", "Sản phẩm không tồn tại");
+        }
+
+        $findProduct->delete();
+        return redirect()->back()->with("success", "Xoá thành công");
+    }
+
     public function order($id)
     {
         $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
