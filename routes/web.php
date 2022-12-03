@@ -52,6 +52,9 @@ Route::prefix('/')->group(function () {
         Route::POST('/add-voucher/10000000000{id}', [storeController::class, 'add_voucher'])->name('user.add_voucher');
         Route::POST('/delete-voucher/10000000000{id}', [storeController::class, 'delete_voucher'])->name('user.delete_voucher');
         Route::POST('/update-voucher/10000000000{id}', [storeController::class, 'update_voucher'])->name('user.update_voucher');
+        Route::get('/order-store/10000000000{id}', [storeController::class, 'order'])->name('user.order_store');
+        Route::get('/detail-order-store/{id_order_store}/10000000000{id}', [storeController::class, 'order_detail'])->name('user.order_detail_store');
+        Route::get('/update-store-store/10000000000{id}/{order}/{status}', [storeController::class, 'update_order_store'])->name('user.update_order_store');
 
         // add product into store
         Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');

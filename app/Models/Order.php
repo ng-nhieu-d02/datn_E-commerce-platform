@@ -28,6 +28,14 @@ class Order extends Model
         'status_order',
         'status_payment_store'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'create_by');
+    }
+    public function orderStore()
+    {
+        return $this->hasMany(OrderStore::class, 'id_order');
+    }
     public function orderDetail()
     {
         return $this->hasMany(OrderDetail::class);

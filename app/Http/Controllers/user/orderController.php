@@ -35,26 +35,15 @@ class orderController extends Controller
         Auth::user()->cart()->where('id', $request->id)->update(['status' => $request->status]);
     }
     public function manageOrder(){
-        $order = Order::orderby('id')->paginate(8);
-        // $orderDelivery = Order::where('status_order','=','2')->paginate(8);
-        // $orderSuccess = Order::where('status_order','=','3')->paginate(8);
-        // $orderCancel = Order::where('status_order','=','4')->paginate(8);
-
-        // lịch sử đơn hàng
+        $order = Order::where('create_by', Auth::user()->id)->orderby('id', 'DESC')->paginate(8);
         return view('home.pages.receipt', [
             'order' => $order,
         ]);
     }
     public function orderDetail($id_order){
-        // xem lịch sử mua hàng
-        $getorder = Order::where('id',$id_order)->first();
-        $order_detail = OrderDetail::with('product')->where('id_order',$id_order)->get();
-        $order_detail_store = OrderStore::with('store')->first();
-        // dd($order_detail_store);
+        $order = Order::find($id_order);
         return view('home.pages.receiptDetail', [
-            'getorder' => $getorder,
-            'order_detail'=> $order_detail,
-            'order_detail_store'=> $order_detail_store,
+            'order' => $order,
         ]);
     }
 }

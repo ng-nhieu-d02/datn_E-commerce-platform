@@ -4,25 +4,20 @@
     <div class="container container-page--receipt">
         <ul class="nav nav-pills mb-3 d-flex" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
-                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tất cả</button>
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tất cả</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đang giao hàng</button>
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đang giao hàng</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đã giao</button>
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đã giao</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đã hủy</button>
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Đã hủy</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
-                tabindex="0">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                 <table class="table--receipt w--full text-dark">
                     <thead>
                         <tr>
@@ -30,7 +25,7 @@
                                 <span>
                                     Mã đơn hàng
                                 </span>
-                                
+
                             </th>
                             <th class="" scope="col" colspan="2" class="py-3">
                                 Thanh toán
@@ -45,7 +40,6 @@
                     </thead>
                     <tbody>
                         @foreach ($order as $list)
-                        @if($list->create_by == Auth::user()->id)
                         <tr>
                             <td colspan="1">
                                 <span>
@@ -90,8 +84,7 @@
                             <td class="text-end py-2" colspan="2">
                                 <p class="fs-25">
                                     <span class="text-base">Tổng số tiền: </span>
-                                    <span
-                                        class="text-danger fw-bolder mx-4">{{ number_format($list->total_price+$list->ship) }}
+                                    <span class="text-danger fw-bolder mx-4">{{ number_format(($list->total_price-$list->coupons_price)+($list->ship-$list->coupons_frs_price)) }}
                                         đ</span>
                                 </p>
                                 <div class="d-flex flex-row justify-content-end">
@@ -100,18 +93,14 @@
                             </td>
                         </tr>
                     </tbody>
-                    @endif
                     @endforeach
                 </table>
             </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                tabindex="0">
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
                 chờ xác nhận</div>
-            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                tabindex="0">
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
                 ...</div>
-            <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab"
-                tabindex="0">...</div>
+            <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">...</div>
         </div>
     </div>
 </div>
