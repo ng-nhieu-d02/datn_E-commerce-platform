@@ -11,7 +11,7 @@
 {{-- Input Bootstrap --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-{{--  CKeditor --}}
+{{-- CKeditor --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
 <script>
     // toggle menu-modals
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>`);
                         } else {
-                            alert(response.message);
+                            ToastSuccess('Lỗi:', response.message, 'warring', 3000);
                         }
                     }
                 });
@@ -298,13 +298,14 @@
             const action = $(this).attr('data-action');
             if (action == 'minus') {
                 if ((Number(quantity.val()) - 1) < 1) {
-                    return alert('Ko nhập thấp hơn 0');
+                    ToastSuccess('Lỗi:', 'Ko nhập thấp hơn 0', 'warning', 3000);
                 } else {
                     quantity.val(Number(quantity.val()) - 1);
                 }
             } else {
                 if ((Number(quantity.val()) + 1) > Number(quantity_detail.val())) {
-                    return alert('Hàng không đủ');
+                    ToastSuccess('Lỗi:', 'Hàng không đủ', 'warning', 3000);
+                    return;
                 } else {
                     quantity.val(Number(quantity.val()) + 1);
                 }
@@ -417,12 +418,12 @@
             const address = $('input[name=option]:checked', '#form_radio').val();
 
             if (address == 'required') {
-                alert('address is not null');
+                ToastSuccess('Lỗi:', 'address cannot be null', 'warning', 3000);
                 return;
             }
 
             if (paymentMethod == null) {
-                alert('paymentMethod is not null');
+                ToastSuccess('Lỗi:', 'paymentMethod cannot be null', 'warning', 3000);
                 return;
             }
 
@@ -474,53 +475,52 @@
     });
 
     // api address
-        let selecteCity = $("#city")
-        let selecteDistrict = $("#district")
+    let selecteCity = $("#city")
+    let selecteDistrict = $("#district")
 
-        loadCity()
-        selecteCity.on("change", async function() {
-            let selectedCity = await $(this).find(':selected').attr("data-codeCity");
-            await loadDistricts(selectedCity)
-        })
+    loadCity()
+    selecteCity.on("change", async function() {
+        let selectedCity = await $(this).find(':selected').attr("data-codeCity");
+        await loadDistricts(selectedCity)
+    })
 
-         function loadCity() {
-            selecteCity.empty();
-            let city = '<option value="" readonly>Chọn thành phố</option>';
-             $.ajax({
-                url: "https://provinces.open-api.vn/api/p/",
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
+    function loadCity() {
+        selecteCity.empty();
+        let city = '<option value="" readonly>Chọn thành phố</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
 
-                    data.forEach((item, index) => {
-                        city += `
+                data.forEach((item, index) => {
+                    city += `
                             <option value="${item.name}" data-codeCity="${item.code}">${item.name}</option>
                     `;
-                    })
-                    $("#city").html(city)
-                }
-            })
-        }
+                })
+                $("#city").html(city)
+            }
+        })
+    }
 
-         function loadDistricts(codeCity) {
-            selecteDistrict.empty();
-            let district = '<option value="" readonly>Chọn huyện</option>';
-             $.ajax({
-                url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
-                dataType: "json",
-                type: "GET",
-                success: function(data) {
-                    data.districts.forEach((item, index) => {
-                        district += `
+    function loadDistricts(codeCity) {
+        selecteDistrict.empty();
+        let district = '<option value="" readonly>Chọn huyện</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                data.districts.forEach((item, index) => {
+                    district += `
                             <option value="${item.name}" data-idDistrict="${item.code}">${item.name}</option>
                         `;
-                    })
-                    $("#district").html(district)
-                }
-            });
+                })
+                $("#district").html(district)
+            }
+        });
 
-        }
-    
+    }
 </script>
 
 <script>
@@ -558,8 +558,8 @@
         $('.image-upload-wrap').removeClass('image-dropping');
     });
 
-    function ToastSuccess(title, message, type, duration = 3000) {
-        toast({
+    function ToastSuccess(title, message, type, duration = 10000) {
+        NotifyToast({
             title: title,
             message: message,
             type: type,
@@ -567,17 +567,17 @@
         });
     }
 
-    if(document.querySelector( '#long_description' )){
+    if (document.querySelector('#long_description')) {
         ClassicEditor
-        .create( document.querySelector( '#long_description' ) )
+            .create(document.querySelector('#long_description'))
         //     .catch( error => {
         //         console.error( "Editor Error" );
         // } );
     }
 
-    
 
-    $(document).ready(function(){
+
+    $(document).ready(function() {
         // Thumb image
         let button = document.querySelector("#upload-file-product");
         let input = document.querySelector("#input-hidden");
@@ -587,6 +587,7 @@
         let inputAlbum = document.querySelector("#album");
 
 
+<<<<<<< HEAD
         if(button){
             console.log($("#upload-file-product").trigger('click'));
             button.onclick = function() {
@@ -616,106 +617,143 @@
                     let fileURL = fileReader.result; 
                     let imgTag = `<img src="${fileURL}" alt="image">`;
                     $(".drag-area").html(imgTag); 
-                    $(".removeFile").show();
-                }
-                fileReader.readAsDataURL(file);
-            }else{
-                alert("This is not an Image File!");
+=======
+        if (button) {
+            button.onclick = function() {
+                input.click();
             }
         }
 
-        $(".removeFile").click(function(){
-            
+        if (input) {
+            input.addEventListener("change", function() {
+
+                file = this.files[0];
+                $(".drag-area").show();
+                $(".drag-area").addClass("active")
+                showFile();
+            });
+        }
+
+        function showFile() {
+            let fileType = file.type;
+            let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"];
+            if (validExtensions.includes(fileType)) {
+                let fileReader = new FileReader();
+                fileReader.onload = () => {
+                    let fileURL = fileReader.result;
+                    let imgTag = `<img src="${fileURL}" alt="image">`;
+                    $(".drag-area").html(imgTag);
+>>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
+                    $(".removeFile").show();
+                }
+                fileReader.readAsDataURL(file);
+            } else {
+                ToastSuccess('Lỗi:', 'This is not an Image File!', 'warning', 3000);
+            }
+        }
+
+        $(".removeFile").click(function() {
+
             $(".drag-area").html("");
             $(".drag-area").removeClass("active");
             $(".drag-area").hide();
             $(".removeFile").hide();
-           
+
         })
 
-        if(buttonAlbum){
-            buttonAlbum.onclick = () => {   
-            inputAlbum.click();
-        }
+        if (buttonAlbum) {
+            buttonAlbum.onclick = () => {
+                inputAlbum.click();
+            }
         }
 
         let listAlbumImages = [];
-        
-        if(inputAlbum){
-            inputAlbum.addEventListener("change", function(){
 
-            file = this.files.length;
-            let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"];
-            for(var i = 0; i < file; i++){
-                if(validExtensions.includes(this.files[i].type)){
-                    listAlbumImages.push({
-                    "name" : this.files[i].name,
-                    "url" : URL.createObjectURL(this.files[i]),
-                    "file" : this.files[i],
+        if (inputAlbum) {
+            inputAlbum.addEventListener("change", function() {
 
-                    })
-                }else{
-                    alert("Có file không hợp lệ, vui lòng kiểm tra lại");
+                file = this.files.length;
+                let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"];
+                for (var i = 0; i < file; i++) {
+                    if (validExtensions.includes(this.files[i].type)) {
+                        listAlbumImages.push({
+                            "name": this.files[i].name,
+                            "url": URL.createObjectURL(this.files[i]),
+                            "file": this.files[i],
+
+                        })
+                    } else {
+                        ToastSuccess('Lỗi:', 'Có file không hợp lệ, vui lòng kiểm tra lại', 'warning', 3000);
+                    }
                 }
-            }
 
+<<<<<<< HEAD
             showImageAlbum()
             function showImageAlbum(){
                 console.log(listAlbumImages);
                 let image = "";
                 listAlbumImages.forEach((item) => {
                     console.log(item);
+=======
+                showImageAlbum()
+
+                function showImageAlbum() {
+
+                    let image = "";
+                    listAlbumImages.forEach((item) => {
+
+>>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         image += `<div class="col-lg-2 position-relative my-4">
                         <img class="img-fluid" src="${item.url}" alt="">
                         <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
                             <i class="fa-regular fa-circle-xmark text-dark" onclick="removeFileOnlyAlbum(${listAlbumImages.indexOf(item)})"></i>
                         </div>
                         </div>`;
-                    
-                })
-                $("#show-album").html(image)
-            }
-            window.removeFileOnlyAlbum = (e) => {
-                if(listAlbumImages.length == 1){
-                    document.querySelector("#album").value = '';
+
+                    })
+                    $("#show-album").html(image)
                 }
-                listAlbumImages.splice(e, 1);
-                showImageAlbum()
-            }
+                window.removeFileOnlyAlbum = (e) => {
+                    if (listAlbumImages.length == 1) {
+                        document.querySelector("#album").value = '';
+                    }
+                    listAlbumImages.splice(e, 1);
+                    showImageAlbum()
+                }
 
             })
         }
 
-        $(".button-selected-size").click(function(){
+        $(".button-selected-size").click(function() {
             $("#selected-size").attr("style", "display: flex!important");
             $("#selected-color").attr("style", "display: none!important");
-            $("input[name='color[]']").prop('disabled', true).prop('checked' , false);
-            $("input[name='size[]']").prop('disabled', false).prop('checked' , false)
-           
+            $("input[name='color[]']").prop('disabled', true).prop('checked', false);
+            $("input[name='size[]']").prop('disabled', false).prop('checked', false)
+
 
         })
 
-        $(".button-selected-color").click(function(){
+        $(".button-selected-color").click(function() {
             $("#selected-size").attr("style", "display: none!important");
             $("#selected-color").attr("style", "display: flex!important");
-            $("input[name='size[]']").prop('disabled', true).prop('checked' , false);
-            $("input[name='color[]']").prop('disabled', false).prop('checked' , false)
-            
+            $("input[name='size[]']").prop('disabled', true).prop('checked', false);
+            $("input[name='color[]']").prop('disabled', false).prop('checked', false)
+
 
         })
 
-        $(".button-selected-all").click(function(){
+        $(".button-selected-all").click(function() {
             $("#selected-size").attr("style", "display: flex!important");
             $("#selected-color").attr("style", "display: flex!important");
-            $("input[name='color[]']").prop('disabled', false).prop('checked' , false)
-            $("input[name='size[]']").prop('disabled', false).prop('checked' , false)
-            
+            $("input[name='color[]']").prop('disabled', false).prop('checked', false)
+            $("input[name='size[]']").prop('disabled', false).prop('checked', false)
+
 
         })
-        
-        function checkSize(e){
+
+        function checkSize(e) {
             let listSize = $(".btn-size");
-            
+
             let check = Array.from(listSize).some((item, index) => {
                 return item.value.toUpperCase() == e.toUpperCase();
             })
@@ -724,7 +762,7 @@
 
         const rgba = (rgba) => `#${rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')}`
 
-        function checkColor(e){
+        function checkColor(e) {
             let s = new Option().style;
             let listColor = $(".btn-color-input")
             s.color = e;
@@ -732,19 +770,19 @@
                 return item.value == rgba(s.color);
             })
 
-            
+
             return check;
         }
 
-        $("#input-add-size").click(function (e) {
+        $("#input-add-size").click(function(e) {
             let html = '';
             let valueSize = $("#text-size").val().trim();
-            if(checkSize(valueSize)){
-                alert("Giá trị bạn chọn đã tồn tại");
-            }else{
-                if(valueSize == ''){
-                    alert("Chọn size");
-                }else{
+            if (checkSize(valueSize)) {
+                ToastSuccess('Lỗi:', 'Giá trị bạn chọn đã tồn tại', 'warning', 3000);
+            } else {
+                if (valueSize == '') {
+                    ToastSuccess('Lỗi:', 'Chưa chọn size', 'warning', 3000);
+                } else {
                     html += `
                     <div class="checkbox me-2">
                         <input type="checkbox" name="size[]" value="${valueSize}" class="btn-check btn-size" id="size-${valueSize}" autocomplete="off">
@@ -755,19 +793,19 @@
                 $("#template-size").append(html);
                 $("#text-size").val("");
             }
-            
+
         });
 
-        $("#input-add-color").click(function (e) {
+        $("#input-add-color").click(function(e) {
             let html = '';
             let valueColor = $("#text-color").val().trim();
-           
-            if(checkColor(valueColor)){
-                alert("Màu bạn chọn đã tồn tại");
-            }else{
-                if(valueColor == ''){
-                    alert("Chọn màu");
-                }else{
+
+            if (checkColor(valueColor)) {
+                ToastSuccess('Lỗi:', 'Màu bạn chọn đã tồn tại', 'warning', 3000);
+            } else {
+                if (valueColor == '') {
+                    ToastSuccess('Lỗi:', 'Chưa chọn màu', 'warning', 3000);
+                } else {
                     html += `
                     <div class="checkbox-color me-3">
                     <input type="checkbox" class="btn-check btn-color-input" id="color-${valueColor}" name="color[]"  value="${valueColor}"  autocomplete="off">
@@ -778,32 +816,32 @@
                 $("#template-color").append(html);
                 $("#text-color").val("");
             }
-            
+
         });
 
         // Image Product Attribute
         let imageAttribute = $("input[name='url_image[]']");
 
-        $("#confirm-attribute").click(function(){
+        $("#confirm-attribute").click(function() {
             let listAttributes = [];
             let listAttributeSize = [];
             let listAttributeColor = [];
-            
+
             let checkedSize = $("input[name='size[]']:checked");
             let checkedColor = $("input[name='color[]']:checked");
 
             let trElement = '';
 
-            if(checkedSize.length == 0 && checkedColor.length == 0){
-                alert("Chưa chọn phân loại sản phẩm");
+            if (checkedSize.length == 0 && checkedColor.length == 0) {
+                ToastSuccess('Lỗi:', 'Chưa chọn phân loại sản phẩm', 'warning', 3000);
                 return;
             }
 
             Array.from(checkedSize).forEach((item, index) => {
                 listAttributeSize.push(item.value)
-                
+
             })
-            
+
             Array.from(checkedColor).forEach((item) => {
                 listAttributeColor.push(item.value)
             })
@@ -813,30 +851,30 @@
             let sizeLength = listAttributeSize.length
             let colorLength = listAttributeColor.length
 
-            for(let i = 0; i < sizeLength ; i++) {
-                    if(!checkAttributes(listAttributes, listAttributeSize[i])){
-                            listAttributes.push({
-                            "size" : listAttributeSize[i],
-                            "color" : [],
-                        })
-                        for(let j = 0; j < colorLength; j++) {
-                            listAttributes[i].color.push(listAttributeColor[j]);
-                        }
+            for (let i = 0; i < sizeLength; i++) {
+                if (!checkAttributes(listAttributes, listAttributeSize[i])) {
+                    listAttributes.push({
+                        "size": listAttributeSize[i],
+                        "color": [],
+                    })
+                    for (let j = 0; j < colorLength; j++) {
+                        listAttributes[i].color.push(listAttributeColor[j]);
                     }
                 }
+            }
 
-            
 
-            if(listAttributes.length > 0){
+
+            if (listAttributes.length > 0) {
 
                 let index = 0;
                 listAttributes.forEach((itemSize, index) => {
 
-                    if(itemSize.color.length > 0){
+                    if (itemSize.color.length > 0) {
 
                         itemSize.color.forEach((itemColor, index) => {
 
-                        trElement += `
+                            trElement += `
                             <tr style="vertical-align: middle;">
                                 <th scope="row">${itemSize.size} <input type="hidden" value="${itemSize.size}" name="sizeText[]" ></th>
                                 <th scope="row"> <label style="background: ${itemColor};" class="rounded-circle btn-color"></label> <input type="hidden" value="${itemColor}" name="colorText[]" ></th>
@@ -851,8 +889,7 @@
                             </tr>`;
                         })
 
-                    }
-                    else{
+                    } else {
                         trElement += `
                             <tr style="vertical-align: middle;">
                                 <th scope="row">${itemSize.size} <input type="hidden" value="${itemSize.size}" name="sizeText[]" ></th>
@@ -867,12 +904,12 @@
                                 <td><input type="text" name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
                             </tr>`;
                     }
-                    
+
                 })
-            }else{
-               
+            } else {
+
                 Array.from(checkedColor).forEach((itemColor, index) => {
-                        trElement += `
+                    trElement += `
                             <tr style="vertical-align: middle;">
                                 <th scope="row"><input type="hidden" value="" name="sizeText[]" ><i class="fa-solid fa-circle-xmark" style="color: red"></i></th>
                                 <th scope="row"> <input type="hidden" value="${itemColor.value}" name="colorText[]" > <label style="background: ${itemColor.value};" class="rounded-circle btn-color"></label></th>
@@ -885,10 +922,10 @@
                                 <td><input type="text" name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
                                 <td><input type="text" name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
                             </tr>`;
-                        })
-                        
+                })
+
             }
-            
+
             $("#tbody").html(trElement);
 
             let inputFileArray = $("input.url_image");
@@ -899,24 +936,24 @@
                     e.target.nextElementSibling.children[0].src = URL.createObjectURL(file)
                 }
             });
-            
-            function checkAttributes(array, element){
+
+            function checkAttributes(array, element) {
                 return array.some((el) => el.size == element);
             }
         })
 
         $(document).on("keyup", "#priceSpeed, #saleSpeed, #weightSpeed, #quantitySpeed", function() {
-            this.value = this.value.replace(/\D/g,'');
+            this.value = this.value.replace(/\D/g, '');
         })
 
-        $("#setupValue").click(function(){
+        $("#setupValue").click(function() {
             let priceSpeed = $("#priceSpeed").val().trim();
             let saleSpeed = $("#saleSpeed").val().trim();
             let weightSpeed = $("#weightSpeed").val().trim();
             let quantitySpeed = $("#quantitySpeed").val().trim();
 
-            if(priceSpeed == '' && saleSpeed == '' && weightSpeed == '' && quantitySpeed == ''){
-                alert("Không có giá trị, không thể áp dụng");
+            if (priceSpeed == '' && saleSpeed == '' && weightSpeed == '' && quantitySpeed == '') {
+                ToastSuccess('Lỗi:', 'Không có giá trị, không thể áp dụng', 'warning', 3000);
                 return;
             }
 
@@ -926,28 +963,29 @@
                 $("input.input-weight")[i].value = weightSpeed
                 $("input.input-quantity")[i].value = quantitySpeed
             })
-            
+
             $("#priceSpeed").val("")
             $("#saleSpeed").val("")
             $("#weightSpeed").val("")
             $("#quantitySpeed").val("")
         })
 
-        $(document).on("keyup", "input.input-price, input.input-sale, input.input-weight, input.input-quantity", function(){
-            this.value = this.value.replace(/\D/g,'');
+        $(document).on("keyup", "input.input-price, input.input-sale, input.input-weight, input.input-quantity", function() {
+            this.value = this.value.replace(/\D/g, '');
         })
-        
+
     });
-    
-    $(document).ready(function(){
-        $(".btn-update-address").each( (i,obj) => {
-            obj.addEventListener("click", function(){
+
+    $(document).ready(function() {
+        $(".btn-update-address").each((i, obj) => {
+            obj.addEventListener("click", function() {
                 $("#city-2").on("change", async function() {
                     let valueCity = await $(this).find(':selected').attr("data-codeCity");
-                    
+
                     await districtAddress(valueCity)
                 })
                 cityAddress();
+
                 function cityAddress() {
                     $("#city-2").empty();
                     let city = '<option value="" readonly>Chọn thành phố</option>';
@@ -966,6 +1004,7 @@
                         }
                     })
                 }
+
                 function districtAddress(codeCity) {
                     $("#district-2").empty();
                     let district = '<option value="" readonly>Chọn huyện</option>';
@@ -986,38 +1025,53 @@
                 let findUserByUrl = $(this).attr("data-href");
                 $.ajax({
                     url: findUserByUrl,
+<<<<<<< HEAD
                     type : 'GET',
                     dataType : 'json',
                     success : function(result){
                         console.log(result);
                         if(result.success){
+=======
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result.success) {
+>>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                             $("select[name=city] option").each(async (i, obj) => {
-                                    if(obj.value == result.data.city){
-                                        obj.setAttribute('selected','selected');
-                                        $("select[name=city]").trigger('change');  
+                                if (obj.value == result.data.city) {
+                                    obj.setAttribute('selected', 'selected');
+                                    $("select[name=city]").trigger('change');
+                                }
+                            })
+                            setTimeout(function() {
+                                $("select[name=district] option").each((i, obj) => {
+                                    if (obj.value == result.data.district) {
+                                        obj.setAttribute('selected', 'selected');
+                                        $("select[name=district]").trigger('change');
+
                                     }
                                 })
-                                setTimeout(function(){
-                                    $("select[name=district] option").each((i, obj) => {
-                                        if(obj.value == result.data.district){
-                                            obj.setAttribute('selected','selected');
-                                            $("select[name=district]").trigger('change');
-                                            
-                                        }
-                                    })
-                                },500)
-                            
+                            }, 500)
+
                             $("#address-2").val(result.data.address);
                             $("#phone-2").val(result.data.phone);
                         }
                     }
                 })
+<<<<<<< HEAD
                 $(".alert-danger").hide();
                 $("#form-edit").submit(function(e){
                     e.preventDefault();
 
 
                     if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "" || $("#phone-2").val() == ""){
+=======
+
+                $("#form-edit").submit(function(e) {
+                    e.preventDefault();
+
+                    if ($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "") {
+>>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         return false;
                     }
 
@@ -1028,6 +1082,7 @@
                         url: route,
                         type: "PUT",
                         data: {
+<<<<<<< HEAD
                             "_token" : $('input[name=_token]').val(),
                             "id" : action,
                             "city" : $("#city-2").val(),
@@ -1039,9 +1094,20 @@
                         success: function(data) {
        
                             if(data.success) {
+=======
+                            "_token": $('input[name=_token]').val(),
+                            "id": action,
+                            "city": $("#city-2").val(),
+                            "district": $("#district-2").val(),
+                            "address": $("#address-2").val(),
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.success) {
+>>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                                 alert(data.message);
                                 window.location.reload();
-                            }else{
+                            } else {
                                 alert(data.message);
                             }
                         }, 
@@ -1061,20 +1127,20 @@
             })
         })
 
-        $("#add_new_address").click(function(){
+        $("#add_new_address").click(function() {
             $("#city").val("")
             $("#district").val("")
             $("#address").val("")
         })
 
-        $("#btn-attribute").click(function(){
+        $("#btn-attribute").click(function() {
             let input_attribute = $("#add-attribute").val().trim();
-            if($("#add-attribute").val() == ''){
-                alert("Chọn thuộc tính!");
+            if ($("#add-attribute").val() == '') {
+                ToastSuccess('Lỗi:', 'Chưa chọn thuộc tính', 'warning', 3000);
                 return;
             }
-            if(checkAttribute(input_attribute)){
-                alert("Đã tồn tại thuộc tính");
+            if (checkAttribute(input_attribute)) {
+                ToastSuccess('Lỗi:', 'Đã tồn tại thuộc tính', 'warning', 3000);
                 return;
             }
             let attributeElement = `
@@ -1083,18 +1149,17 @@
                 <label class="btn btn-primary fs-4" for="attribute-${input_attribute}">${input_attribute}</label>
             </div>
             `;
-            
+
             $("#show-attribute").append(attributeElement)
             $("#add-attribute").val("");
         })
 
-        function checkAttribute(value){
+        function checkAttribute(value) {
             return Array.from($(".btn-attribute")).some((item, index) => {
                 return item.value == value;
             })
         }
     })
-
 </script>
 
 
@@ -1114,7 +1179,8 @@
         });
     });
 
-    $('.btn_use_voucher').click(function() {
+    $('.btn_use_voucher').click(function(e) {
+        e.preventDefault();
         const id = $(this).attr('data-id');
         $('.modal__user__voucher_' + id).show();
         $('.container__modals').show();
@@ -1172,7 +1238,30 @@
         }
     });
 
-
+    $('.btn-add-wishlist').click(function(e) {
+        e.preventDefault();
+        const id = $(this).attr('data-id');
+        const url__submit = '{{route("user.add_wishlist")}}';
+        const _csrf = '{{ csrf_token() }}';
+        const data = {
+            id: id,
+            _token: _csrf
+        };
+        $.ajax({
+            url: url__submit,
+            type: 'POST',
+            data: data,
+            success:function(res) {
+                const json = JSON.parse(res);
+                if(json.method == "add") {
+                    $(this).addClass('wishlist__add');
+                }else {
+                    $(this).removeClass('wishlist__add');
+                }
+                ToastSuccess('Thành công:', 'Sản phẩm đã được '+json.message+' wishlist', json.status, 3000);
+            }.bind(this)
+        });
+    })
 </script>
 
 @yield('scripts')

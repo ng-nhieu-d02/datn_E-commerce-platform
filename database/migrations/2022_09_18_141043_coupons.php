@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->enum('type',[0,1,2])->comment('0 là giảm tiền, 1 giảm %, 2 là freeShip');
             $table->longText('message')->nullable();
-            $table->integer('money_apply_start')->default(0);
-            $table->integer('money_apply_end')->default(0);
-            $table->integer('value')->default(0);
-            $table->integer('max_price')->default(0);
+            $table->bigInteger('money_apply_start')->default(0);
+            $table->bigInteger('money_apply_end')->default(0);
+            $table->bigInteger('value')->default(0);
+            $table->bigInteger('max_price')->default(0);
             // $table->timestamp('break_time');
             $table->integer('quantity')->default(1);
             $table->integer('remaining_quantity')->default(0);

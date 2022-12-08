@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('avatar')->default('avatar-default-store.png');
             $table->string('background')->default('background-default-store.png');
             $table->string('slogan')->default('Nguyễn Xuân Nhiều - Dev v5.0');
+            $table->bigInteger('money')->default(0);
             $table->string('address');
             $table->string('district');
             $table->string('city');

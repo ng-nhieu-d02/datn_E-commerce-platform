@@ -17,14 +17,21 @@ class Store extends Model
         "avatar",
         "background",
         "slogan",
+        "money",
         "address",
         "city",
         "district",
+        "status"
     ];
+
+    public function boss()
+    {
+        return $this->hasMany(PermissionStore::class, 'id_store');
+    }
 
     public function store_cate()
     {
-        return $this->belongsToMany(CategoryStore::class, 'store_cate', 'id_store', 'id_category_store')->withTimestamps();
+        return $this->hasMany(StoreCate::class, 'id_store');
     }
     public function ticket()
     {
@@ -37,5 +44,9 @@ class Store extends Model
     public function product()
     {
         return $this->hasMany(Product::class, 'id_store');
+    }
+    public function order()
+    {
+        return $this->hasMany(OrderStore::class, 'id_store');
     }
 }

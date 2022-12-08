@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'gender',
+        'status'
     ];
 
     /**
@@ -40,6 +42,11 @@ class User extends Authenticatable
         'password',
         'token',
     ];
+
+    public function wishlist($id)
+    {
+        return $this->hasMany(UserWishlist::class, 'user_id')->where('product_id', $id)->count();
+    }
 
     public function address()
     {
@@ -64,5 +71,13 @@ class User extends Authenticatable
     public function comment()
     {
         return $this->hasMany(CommentProduct::class, 'create_by');
+    }
+    public function ticket()
+    {
+        return $this->hasMany(TickerCreateStore::class, 'id_user');
+    }
+    public function permission_store()
+    {
+        return $this->hasMany(PermissionStore::class, 'id_user');
     }
 }

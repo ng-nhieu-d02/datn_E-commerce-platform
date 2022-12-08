@@ -11,4 +11,14 @@ class StoreCate extends Model
 
     protected $table = 'store_cate';
     
+    protected $fillable = [
+        "id_store",
+        "name",
+        "slug"
+    ];
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'id_store');
+    }
 }

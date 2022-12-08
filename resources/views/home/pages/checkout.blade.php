@@ -152,9 +152,51 @@
                     <div class="card bg--none border--none">
                         <label class="form-check-label pb-3" for="discount-code">Discount Code</label>
                         <div class="input-group">
-                            <input type="text" class="input__apply__voucher__big__tech form-control discode--input rounded--1r big-event" name="big-event" id="discount-code" placeholder="Discount Code">
+                            <input type="text" class="input__apply__voucher__big__tech form-control discode--input rounded--1r big-event" name="big-event-code" id="discount-code" placeholder="Discount Code">
+                            <input type="hidden" name="big-event" class="system_voucher">
                             <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply apply__voucher__main" data-store="big__tech" data-id="0" data-total="{{$price}}" data-ship="{{$ship}}">Apply</button>
-                            <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply">Chọn voucher</button>
+                            <button type="submit" class="btn btn-secondary rounded--1r ml--10 btn--apply btn_use_voucher" data-id="main">Chọn voucher</button>
+                        </div>
+                        <div class="container__modal modal__user__voucher_main" style="display:none">
+
+                            <div class="container__modal--header">
+                                <div class="container__modal--header__title">
+                                    <p>Chọn FFBees voucher</p>
+                                </div>
+                                <div></div>
+                                <div class="container__modal--header__icon_close">
+                                    <ion-icon name="close-circle-outline"></ion-icon>
+                                </div>
+                            </div>
+
+                            <div class="container__modal--main">
+                                <!-- <div class="container__modal--main__input__search">
+                                    <div class="input-group my-4">
+                                        <span class="input-group-text">Mã voucher</span>
+                                        <input type="text" class="form-control py-3 input__apply__voucher__{{$store->store->slug}}" name="{{$store->store->slug}}">
+                                        <span class="input-group-text apply__voucher__store" data-store="{{$store->store->slug}}" data-id="{{$store->store->id}}" data-ship="{{$ship_store}}" data-total="{{$total}}" role="button">Áp dụng</span>
+                                    </div>
+                                </div> -->
+                                <div class="container__modal--main__voucher">
+                                    @foreach($system_coupons as $cp)
+                                    <div class="content__voucher {{$cp->quantity - $cp->remaining_quantity <= 0 ? 'disable' : ($cp->money_apply_start > $total ? 'disable' : ($cp->money_apply_end < $total ? 'disable' : ''))}}">
+                                        <div class="left__content__voucher">
+                                            <img src="{{asset('assets\images\voucher.png')}}" alt="">
+                                            <span class="badge text-bg-success" role="button">{{$cp->type == 0 ? 'Giảm tiền' : ($cp->type == 1 ? 'Giảm %' : 'FreeShip')}}</span>
+                                        </div>
+                                        <div class="right__content__voucher">
+                                            <div class="information__voucher">
+                                                <p>{{$cp->name}}</p>
+                                                <button type="button" class="btn btn-outline-danger">{{number_format($cp->value)}}{{$cp->type == 1 ? '%' :""}} Tối đa {{number_format($cp->max_price)}}</button>
+                                                <p>Thời hạn: <span style="color: #328b05">{{$cp->stop_time}}</span> </p>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary apply__code__system" data-type="{{$cp->type}}" data-id="{{$cp->id}}" data-value="{{$cp->value}}" data-max_value="{{$cp->max_price}}" data-action="{{$cp->quantity - $cp->remaining_quantity <= 0 ? 'false' : ($cp->money_apply_start > $price ? 'false' : ($cp->money_apply_end < $price ? 'false' : 'true'))}}">Áp dụng</button>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <ul class="list-group mb-3 mt-5">
@@ -246,7 +288,7 @@
         e.preventDefault();
         const action = $(this).attr('data-action');
         if (action == 'false') {
-            alert('Không đủ điều kiện sử dụng voucher này !!');
+            ToastSuccess('Lỗi:', 'Không đủ điều kiện sử dụng voucher này !!', 'warring', 3000);
             return;
         } else {
             const id = $(this).attr('data-id');
@@ -303,7 +345,47 @@
                 $('.confirm_total').text(Intl.NumberFormat().format((Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price')) - sum_ship_reduce)) + 'đ');
                 $('.confirm_total').attr('data-price', (Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price') - sum_ship_reduce)));
                 $('.voucher__input__' + store).val(id);
+                ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
             }
+        }
+    });
+    $('.apply__code__system').click(function(e) {
+        e.preventDefault();
+        const action = $(this).attr('data-action');
+        if (action == 'false') {
+            ToastSuccess('Lỗi:', 'Không đủ điều kiện sử dụng voucher này !!', 'warring', 3000)
+            return;
+        } else {
+            const type = $(this).attr('data-type');
+            const id = $(this).attr('data-id');
+            const value = $(this).attr('data-value');
+            const max_value = $(this).attr('data-max_value');
+            const total = $('.price__order__result').attr('data-price');
+            const ship = $('.ship__order__result').attr('data-price');
+            let reduce = 0;
+            if (type == 0) {
+                reduce = Number(value);
+            } else if (type == 1) {
+                reduce = (Number(total) / 100) * Number(value)
+                if (reduce > max_value) {
+                    reduce = Number(max_value);
+                }
+            } else if (type == 2) {
+                if (ship > value) {
+                    reduce = Number(ship) - Number(value)
+                } else {
+                    reduce = Number(ship);
+                }
+            }
+            $('.container__modal--header__icon_close').click();
+            $('.apply__code__system').text('Áp dụng');
+            $(this).text('Đang sử dụng');
+            $(this).removeClass('apply__code__system');
+            $('.voucher__main').text('- ' + Intl.NumberFormat().format(reduce) + 'đ');
+            $('.voucher__main').attr('data-value', reduce);
+            $('.system_voucher').val(id);
+            $('.confirm_total').text(Intl.NumberFormat().format(Number($('.confirm_total').attr('data-price')) - Number(reduce)) + 'đ');
+            ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
         }
     });
     $('.apply__voucher__main').click(function(e) {
@@ -311,8 +393,8 @@
         const code = $('.input__apply__voucher__big__tech').val();
         const url__submit = '{{route("user.get_voucher")}}';
         const _csrf = '{{ csrf_token() }}';
-        const total = $(this).attr('data-total');
-        const ship = $(this).attr('data-ship');
+        const total = $('.price__order__result').attr('data-price');
+        const ship = $('.ship__order__result').attr('data-price');
         const data = {
             code: code,
             store: 0,
@@ -326,14 +408,14 @@
             success: function(res) {
                 const json = JSON.parse(res);
                 if (json.message == 'error') {
-                    alert('voucher không hợp lệ. vui lòng kiểm tra lại !!');
+                    ToastSuccess('Lỗi:', 'voucher không hợp lệ. vui lòng kiểm tra lại !!', 'warring', 3000)
                 } else {
                     if (total < json.coupon.money_apply_start || total > json.coupon.money_apply_end) {
-                        alert('hoá đơn không đủ điều kiện sử dụng');
+                        ToastSuccess('Lỗi:', 'Hoá đơn không đủ điều kiện sử dụng', 'warring', 3000)
                     } else if (json.coupon.quantity - json.coupon.remaining_quantity <= 0) {
-                        alert('voucher đã quá số lần sử dụng');
+                        ToastSuccess('Lỗi:', 'Voucher đã quá số lần sử dụng', 'warring', 3000)
                     } else if (json.coupon.apply_with == 1 && json.coupon.user_id != '{{Auth::user()->id}}') {
-                        alert('Hoá đơn này không dành cho bạn.');
+                        ToastSuccess('Lỗi:', 'Voucher này không dành cho bạn.', 'warring', 3000)
                     } else {
                         if (json.coupon.type == 0) {
                             reduce = Number(json.coupon.value);
@@ -351,7 +433,9 @@
                         }
                         $('.voucher__main').text('- ' + Intl.NumberFormat().format(reduce) + 'đ');
                         $('.voucher__main').attr('data-value', reduce);
-                        $('.confirm_total').text(Number($('.confirm_total').attr('data-price')) - Number(reduce) + 'đ')
+                        $('.system_voucher').val(json.coupon.id);
+                        $('.confirm_total').text(Intl.NumberFormat().format(Number($('.confirm_total').attr('data-price')) - Number(reduce)) + 'đ');
+                        ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
                     }
                 }
             }
@@ -378,14 +462,14 @@
             success: function(res) {
                 const json = JSON.parse(res);
                 if (json.message == 'error') {
-                    alert('voucher không hợp lệ. vui lòng kiểm tra lại !!');
+                    ToastSuccess('Lỗi:', 'voucher không hợp lệ. vui lòng kiểm tra lại !!', 'warring', 3000)
                 } else {
                     if (total < json.coupon.money_apply_start || total > json.coupon.money_apply_end) {
-                        alert('hoá đơn không đủ điều kiện sử dụng');
+                        ToastSuccess('Lỗi:', 'hoá đơn không đủ điều kiện sử dụng', 'warring', 3000)
                     } else if (json.coupon.quantity - json.coupon.remaining_quantity <= 0) {
-                        alert('voucher đã quá số lần sử dụng');
+                        ToastSuccess('Lỗi:', 'voucher đã quá số lần sử dụng', 'warring', 3000)
                     } else if (json.coupon.apply_with == 1 && json.coupon.user_id != '{{Auth::user()->id}}') {
-                        alert('Hoá đơn này không dành cho bạn.');
+                        ToastSuccess('Lỗi:', 'Hoá đơn này không dành cho bạn.', 'warring', 3000)
                     } else {
                         if (json.coupon.type == 0) {
                             result = Number(total) + Number(ship) - Number(json.coupon.value);
@@ -429,6 +513,7 @@
                         $('.confirm_total').text(Intl.NumberFormat().format((Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price')) - sum_ship_reduce)) + 'đ');
                         $('.confirm_total').attr('data-price', (Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price') - sum_ship_reduce)));
                         $('.voucher__input__' + store).val(json.coupon.id);
+                        ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000);
                     }
                 }
             }
