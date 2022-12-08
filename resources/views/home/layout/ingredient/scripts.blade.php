@@ -588,12 +588,16 @@
 
 
         if(button){
+            console.log($("#upload-file-product").trigger('click'));
             button.onclick = function() {
             input.click();
         }
+        $("#upload-file-product").trigger('click')
+        $("#input-hidden").trigger('click')
         }
         
         if(input){
+
             input.addEventListener("change", function(){
 
             file = this.files[0];
@@ -602,17 +606,17 @@
             showFile(); 
             });
         }
-
+        $(".removeFile").show();
         function showFile(){
             let fileType = file.type; 
             let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"]; 
             if(validExtensions.includes(fileType)){ 
                 let fileReader = new FileReader(); 
                 fileReader.onload = ()=>{
-                let fileURL = fileReader.result; 
-                let imgTag = `<img src="${fileURL}" alt="image">`;
-                $(".drag-area").html(imgTag); 
-                $(".removeFile").show();
+                    let fileURL = fileReader.result; 
+                    let imgTag = `<img src="${fileURL}" alt="image">`;
+                    $(".drag-area").html(imgTag); 
+                    $(".removeFile").show();
                 }
                 fileReader.readAsDataURL(file);
             }else{
@@ -657,10 +661,10 @@
 
             showImageAlbum()
             function showImageAlbum(){
-            
+                console.log(listAlbumImages);
                 let image = "";
                 listAlbumImages.forEach((item) => {
-                
+                    console.log(item);
                         image += `<div class="col-lg-2 position-relative my-4">
                         <img class="img-fluid" src="${item.url}" alt="">
                         <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
@@ -985,6 +989,7 @@
                     type : 'GET',
                     dataType : 'json',
                     success : function(result){
+                        console.log(result);
                         if(result.success){
                             $("select[name=city] option").each(async (i, obj) => {
                                     if(obj.value == result.data.city){
@@ -1003,14 +1008,16 @@
                                 },500)
                             
                             $("#address-2").val(result.data.address);
+                            $("#phone-2").val(result.data.phone);
                         }
                     }
                 })
-
+                $(".alert-danger").hide();
                 $("#form-edit").submit(function(e){
                     e.preventDefault();
 
-                    if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == ""){
+
+                    if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "" || $("#phone-2").val() == ""){
                         return false;
                     }
 
@@ -1026,15 +1033,28 @@
                             "city" : $("#city-2").val(),
                             "district" : $("#district-2").val(),
                             "address" : $("#address-2").val(),
+                            "phone" : $("#phone-2").val(),
                         },
                         dataType: 'json',
                         success: function(data) {
+       
                             if(data.success) {
                                 alert(data.message);
                                 window.location.reload();
                             }else{
                                 alert(data.message);
                             }
+                        }, 
+                        error: function(jqXHR) {
+                            let msg = '';
+                            
+                            for (var key in jqXHR.responseJSON.errors) {
+                                    if (jqXHR.responseJSON.errors.hasOwnProperty(key)) {
+                                       msg += '<li>'+jqXHR.responseJSON.errors[key][0]+'</li>';
+                                    }
+                            }
+                            $(".alert-danger").show();
+                            $("#ulEl").html(msg)
                         }
                     })
                 })

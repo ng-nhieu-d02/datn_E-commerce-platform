@@ -1,5 +1,10 @@
 @extends('home.layout.profile')
 @section('content')
+    @if ($message = session("success"))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endif
     <form action="{{ route('user.update_profile') }}" method="POST" enctype="multipart/form-data" class="show-profile col-md-12 d-flex justify-content-between">
         @csrf
         
@@ -12,12 +17,12 @@
             <div class="col-md-5">
                 <x-input-label for="username" :value="__('Username')" />
 
-                <x-text-input id="username" class="form-control fs-2" type="text" name="username" :value="auth()->user()->username" required autofocus />
+                <x-text-input id="username" readonly disabled class="form-control fs-2" type="text" name="username" :value="auth()->user()->username" required autofocus />
             </div>
             <div class="col-md-5">
                 <x-input-label for="email" :value="__('Email')" />
 
-                <x-text-input id="email" class="form-control fs-2 " type="email" name="email" :value="auth()->user()->email" required autofocus />
+                <x-text-input id="email" readonly disabled class="form-control fs-2 " type="email" name="email" :value="auth()->user()->email" required autofocus />
             </div>
             <div class="col-md-5">
                 <x-input-label for="phone" :value="__('phone')" />

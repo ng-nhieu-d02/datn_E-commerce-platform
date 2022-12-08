@@ -56,6 +56,8 @@ Route::prefix('/')->group(function () {
         // add product into store
         Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');
         Route::post('/create-product-store/{id}', [storeController::class, 'storeAddProduct'])->name('user.add-product-store');
+        Route::get('/store/{id_store}/edit-product/{id_product}', [storeController::class, 'editProduct'])->name('user.edit-product-store');
+        Route::put('/store/{id_store}/edit-product/{id_product}', [storeController::class, 'updateProduct'])->name('user.update-product-store');
 
         // update status product
         Route::put("/update-status-product/{id}", [storeController::class, 'updateProductStatus'])->name("user.update-status-product");

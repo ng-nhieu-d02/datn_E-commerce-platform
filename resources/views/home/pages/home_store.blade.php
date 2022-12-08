@@ -110,7 +110,7 @@
                             <input class="form-check-input checkbox-update-status-voucher" data-id="{{ $prd->id }}" role="button" type="checkbox" role="switch" @if($prd->status == 0) checked @endif>
                         </div>
                     <td style="width: 12%;">
-                        <a href="" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ route("user.edit-product-store", [$store->id, $prd->id]) }}" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
                         <form action="{{ route("user.delete_product", $prd->id) }}" method="post">
                             @csrf
                             @method("DELETE")

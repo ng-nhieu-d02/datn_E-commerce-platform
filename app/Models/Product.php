@@ -29,6 +29,15 @@ class Product extends Model
         'keyword',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::deleting(function ($coupon) {
+           dd($coupon);    
+        });
+    }
+
     public function detail()
     {
         return $this->hasMany(ProductDetail::class, 'id_product');
