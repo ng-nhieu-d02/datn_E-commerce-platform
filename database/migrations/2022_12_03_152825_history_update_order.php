@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('history_update_order', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_order')->unsigned();
-            $table->bigInteger('create_by')->unsigned();
+            $table->string('create_by');
             $table->string('content');
             $table->timestamps();
         });
-        Schema::table('order', function ($table) {
+        Schema::table('history_update_order', function ($table) {
             $table->foreign('id_order')->references('id')->on('order');
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('history_update_order');
     }
 };

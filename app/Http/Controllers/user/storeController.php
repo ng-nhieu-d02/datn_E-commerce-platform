@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankInfo;
 use App\Models\CategoryProduct;
 use App\Models\Coupons;
+use App\Models\HistoryUpdateOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStore;
+use App\Models\PaymentStore;
 use App\Models\PermissionStore;
 use App\Models\Product;
 use App\Models\ProductDetail;
@@ -15,6 +18,7 @@ use App\Models\ProductImages;
 use App\Models\Store;
 use App\Models\StoreCate;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +27,19 @@ class storeController extends Controller
 {
     public function store($id)
     {
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        $store = Store::find($id);
+        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(16);
+        $permission = $this->checkPermission($id);
+        return view('home.pages.home_store', [
+            'product' => $product,
+            'store' => $store,
+            'permission'    => $permission
+        ]);
+    }
+
+    public function product($id)
+    {
+        $permission = $this->checkPermission($id);
 
         $store = Store::find($id);
         // dd($store);
@@ -33,8 +49,7 @@ class storeController extends Controller
 
         $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
 
-
-        return view('home.pages.home_store', [
+        return view('home.pages.manager_product_store', [
             'store' => $store,
             'permission'    => $permission,
             'checkPermissionStore' => $checkPermissionStore,
@@ -185,7 +200,7 @@ class storeController extends Controller
     {
         $store = Store::find($id);
 
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        $permission = $this->checkPermission($id);
 
         $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
 
@@ -330,11 +345,8 @@ class storeController extends Controller
     }
     public function voucher_store($id)
     {
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
-        }
         $coupons = Coupons::where('apply_store', '=', $id)->orderBy('id', 'DESC')->paginate(5);
         return view('home.pages.voucher_store', [
             'store' => $store,
@@ -349,10 +361,7 @@ class storeController extends Controller
     }
     public function add_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
-        if ($permission == 0) {
-            return redirect()->back()->with('error', 'you have no right');
-        }
+        $permission = $this->checkPermission($id);
         if (strtotime($request->day_start) > strtotime($request->day_end)) {
             return redirect()->back()->with('error', 'Ngày không hợp lệ')->withInput($request->input());
         }
@@ -413,20 +422,14 @@ class storeController extends Controller
     }
     public function delete_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
-        if ($permission == 0) {
-            return 'you have no right';
-        }
+        $permission = $this->checkPermission($id);
         Coupons::find($request->id)->delete();
     }
     public function update_voucher($id, Request $request)
     {
-        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
-        if ($permission == 0) {
-            return 'you have no right';
-        }
+        $permission = $this->checkPermission($id);
         $coupon = Coupons::find($request->id);
-        if($coupon->quantity > $coupon->remaining_quantity) {
+        if ($coupon->quantity > $coupon->remaining_quantity) {
             Coupons::find($request->id)->update(['status'   => $request->status]);
         } else {
             return 'not validate';
@@ -483,11 +486,8 @@ class storeController extends Controller
 
     public function order($id)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
-        };
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
         return view('home.pages.order_store', [
             'store' => $store,
@@ -497,11 +497,8 @@ class storeController extends Controller
     }
     public function order_detail($id, $id_order_store)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
-        };
         $details = OrderDetail::where('id_order_store', $id_order_store)->get();
         return view('home.pages.detail_order_store', [
             'store' => $store,
@@ -511,25 +508,225 @@ class storeController extends Controller
     }
     public function update_order_store($id, $order, $status)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
-        };
+        $permission = $this->checkPermission($id);
         $orderStore = OrderStore::find($order);
         $orderStore->status_order = $status;
-        if($status == 3) {
+        if ($status == 3) {
             $orderStore->status_payment_store = '1';
+            foreach ($orderStore->orderDetail as $detail) {
+                $product_detail = ProductDetail::find($detail->id_product_detail);
+                $product_detail->sold = $product_detail->sold + $detail->quantity;
+                $product_detail->save();
+            }
         } else {
             $orderStore->status_payment_store = '2';
         }
+        if ($status == 1) {
+            $history = [
+                'id_order'  => $orderStore->id_order,
+                'create_by' => $orderStore->store->name,
+                'content'   => 'Đã xác nhận đơn hàng - đang xử lí'
+            ];
+        } else if ($status == 2) {
+            $history = [
+                'id_order'  => $orderStore->id_order,
+                'create_by' => $orderStore->store->name,
+                'content'   => 'Đang giao hàng'
+            ];
+        } else if ($status == 3) {
+            $history = [
+                'id_order'  => $orderStore->id_order,
+                'create_by' => $orderStore->store->name,
+                'content'   => 'Đã giao hàng thành công'
+            ];
+        } else if ($status == 4) {
+            $history = [
+                'id_order'  => $orderStore->id_order,
+                'create_by' => $orderStore->store->name,
+                'content'   => 'Đã giao hàng thất bại - huỷ đơn hàng'
+            ];
+        }
+        HistoryUpdateOrder::create($history);
         $orderStore->save();
 
-        if($status > 2) {
-            $check = OrderStore::where('id_order',$orderStore->id_order)->where('status_order', '<=', 2)->count();
-            if($check == 0) {
-                Order::find($orderStore->id_order)->update(['status_order' => $status]);
-            }
+        $check = OrderStore::where('id_order', $orderStore->id_order)->where('status_order', '!=', $status)->count();
+        if ($check == 0) {
+            Order::find($orderStore->id_order)->update(['status_order' => $status]);
         }
-        return redirect()->back()->with('success','Cập nhật thành công');
+        return redirect()->back()->with('success', 'Cập nhật thành công');
+    }
+    public function payment($id)
+    {
+        $permission = $this->checkPermission($id);
+        $store = Store::find($id);
+        $payment = PaymentStore::where('id_store',$id)->orderBy('id', 'DESC')->paginate(8);
+        return view('home.pages.payment_store', [
+            'store' => $store,
+            'permission'    => $permission,
+            'payment'   => $payment
+        ]);
+    }
+    public function store_payment($id, Request $request)
+    {
+        $permission = $this->checkPermission($id);
+        $payment = [
+            'id_store'  => $id,
+            'create_by' => Auth::user()->id,
+            'amount'    => $request->amount,
+            'type'      => $request->type,
+            'description'   => 'next',
+            'status'    => '0'
+        ];
+        $payment = PaymentStore::create($payment);
+        if($request->type == 1) {
+            $store = Store::find($id);
+            if($store->money < $payment->amount) {
+                $payment->description = Auth::user()->name .' thực hiện yêu cầu rút tiền thất bại.';
+                $payment->status = '2';
+                $payment->save();
+                return redirect()->back()->with('error', 'Số dư không đủ');
+            } else {
+                $payment->description = Auth::user()->name .' thực hiện yêu cầu rút tiền';
+                $store->money = $store->money - $payment->amount;
+                $payment->save();
+                $store->save();
+                $bank = [
+                    'id_payment'    => $payment->id,
+                    'name_bank'     => $request->bank_name,
+                    'stk'           => $request->stk,
+                    'chu_tk'        =>  $request->chu_tk
+                ];
+                BankInfo::create($bank);
+                return redirect()->back()->with('success', 'Thực hiện yêu cầu rút tiền thành công, vui lòng chờ hệ thống kiểm duyệt');
+            }
+        } else {
+            $payment->description = Auth::user()->name .' thực hiện nạp tiền vào tài khoản';
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = route('user.store_pay_return'); // return url
+            $vnp_TmnCode = "7JV6DF6L"; //Mã website tại VNPAY 
+            $vnp_HashSecret = "VXOMRZOMLKIIGUXOECIYPYIFXGCSJUIT"; //Chuỗi bí mật
+    
+            $vnp_TxnRef = $payment->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+            $vnp_OrderInfo = 'Thanh toán hoá đơn nạp tiền user ' . $payment->id;
+            $vnp_OrderType = 'billPayment';
+            $vnp_Amount = $payment->amount * 100;
+            $vnp_Locale = 'vn';
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef
+            );
+    
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
+            }
+            if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+                $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+            }
+    
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+    
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+    
+            return redirect()->to($vnp_Url);
+        }
+    }
+
+    public function payment_return(Request $request)
+    {
+        if (isset($request->vnp_Amount)) {
+            $inputData = array();
+            $vnp_HashSecret = "VXOMRZOMLKIIGUXOECIYPYIFXGCSJUIT";
+            foreach ($_GET as $key => $value) {
+                if (substr($key, 0, 4) == "vnp_") {
+                    $inputData[$key] = $value;
+                }
+            }
+            $vnp_SecureHash = $inputData['vnp_SecureHash'];
+            unset($inputData['vnp_SecureHash']);
+            ksort($inputData);
+            $i = 0;
+            $hashData = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+            }
+            $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+            $data = [
+                'id_order'  => $request->vnp_TxnRef,
+                'amount'    => $request->vnp_Amount / 100,
+                'id_payment_vnpay'  => $request->vnp_TransactionNo,
+                'id_payment_bank'   =>  $request->vnp_BankTranNo,
+                'message'   => $request->vnp_OrderInfo
+            ];
+
+            try {
+                
+                if ($secureHash == $vnp_SecureHash) {
+                    
+                    $payment = PaymentStore::find($request->vnp_TxnRef);
+                    if ($payment->amount == $request->vnp_Amount / 100) {
+                        if ($request->vnp_ResponseCode == '00' && $request->vnp_TransactionStatus == '00') {
+                            $data['status'] = 'success';
+                            $payment->description = 'Nạp tiền thành công';
+                            $payment->status = '1';
+                            $payment->save();
+                            $store = Store::find($payment->id_store);
+                            $store->money = $store->money + $payment->amount;
+                            $store->save();
+                            return redirect()->route('user.payment_store', $store->id)->with('success', 'Nạp tiền thành công');
+                        } else {
+                            $data['status'] = 'error';
+                            $payment->description = 'Nạp tiền thất bại';
+                            $payment->status = '2';
+                            $payment->save();
+                            return redirect()->route('user.payment_store', $payment->id_store)->with('error', 'Nạp tiền thất bại');
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+            };
+        }
+    }
+
+    public function checkPermission($id)
+    {
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
+        }
+        else {
+            return $permission;
+        }
     }
 }

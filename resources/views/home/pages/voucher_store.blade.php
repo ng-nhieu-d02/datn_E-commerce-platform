@@ -81,11 +81,11 @@
             <ion-icon name="close-circle-outline"></ion-icon>
         </div>
     </div>
-    <form class="container__modal--main" method="POST" enctype="multipart/form-data" action="{{route('user.add_voucher', [$store->id])}}">
+    <form class="container__modal--main modals--add--voucher--main" method="POST" enctype="multipart/form-data" action="{{route('user.add_voucher', [$store->id])}}">
         @csrf
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Tên voucher</span>
-            <input type="text" class="form-control py-3" name="name" value="{{ old('name') }}" required placeholder="enter voucher name" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" class="form-control py-3" required name="name" value="{{ old('name') }}" required placeholder="enter voucher name" aria-label="Username" aria-describedby="basic-addon1">
         </div>
 
         <div class="input-group mb-3">

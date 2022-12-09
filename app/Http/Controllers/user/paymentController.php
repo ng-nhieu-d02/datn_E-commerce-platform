@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Coupons;
+use App\Models\HistoryUpdateOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStore;
@@ -107,12 +108,12 @@ class paymentController extends Controller
                                     $order_store->coupons_price = $coupon_price;
                                 }
                             }
-                            if($coupon->remaining_quantity > $coupon->quantity) {
+                            if ($coupon->remaining_quantity > $coupon->quantity) {
                                 $coupon->remaining_quantity = $coupon->remaining_quantity + 1;
                             } else {
                                 $coupon->status = '1';
                             }
-                            
+
                             $coupon->save();
                         }
                     }
@@ -154,21 +155,29 @@ class paymentController extends Controller
                                 $order->coupons_price = $coupon_price;
                             }
                         }
-                        if($bigCoupon->remaining_quantity < $bigCoupon->quantity) {
+                        if ($bigCoupon->remaining_quantity < $bigCoupon->quantity) {
                             $bigCoupon->remaining_quantity = $bigCoupon->remaining_quantity + 1;
                         } else {
                             $bigCoupon->status = '1';
                         }
-                       
+
                         $bigCoupon->save();
                     }
                 }
             }
         }
         $order->save();
+        $history = [
+            'id_order'  => $order->id,
+            'create_by' => 'Bạn',
+            'content'   => 'Tạo đơn hàng thành công'
+        ];
+        HistoryUpdateOrder::create($history);
         if ($order->payment_method == 1) {
-            if (Auth::user()->money > $order->price) {
-                User::find(Auth::user()->id)->update(['money' => Auth::user()->money - $order->price]);
+            if (Auth::user()->money > (($order->total_price - $order->coupons_price) + ($order->ship - $order->coupons_frs_price))) {
+                $userL = User::find(Auth::user()->id);
+                $userL->money = Auth::user()->money - (($order->total_price - $order->coupons_price) + ($order->ship - $order->coupons_frs_price));
+                $userL->save();
                 $order->payment_status = '1';
             } else {
                 $order->payment_status = '0';
@@ -246,6 +255,7 @@ class paymentController extends Controller
             );
             return json_encode($returnData);
         }
+
     }
 
     public function pay_return(Request $request)

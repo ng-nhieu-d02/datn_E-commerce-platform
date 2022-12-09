@@ -24,11 +24,8 @@
                                 </span>
                             </div>
                             <div class="review_star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                                <?= str_repeat('<i class="fa-solid fa-star"></i>', $comment->rate) ?>
+                               
                             </div>
                         </div>
                     </div>
