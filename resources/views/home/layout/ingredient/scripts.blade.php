@@ -586,38 +586,6 @@
         let buttonAlbum = document.querySelector("#button-album");
         let inputAlbum = document.querySelector("#album");
 
-
-<<<<<<< HEAD
-        if(button){
-            console.log($("#upload-file-product").trigger('click'));
-            button.onclick = function() {
-            input.click();
-        }
-        $("#upload-file-product").trigger('click')
-        $("#input-hidden").trigger('click')
-        }
-        
-        if(input){
-
-            input.addEventListener("change", function(){
-
-            file = this.files[0];
-            $(".drag-area").show();
-            $(".drag-area").addClass("active")
-            showFile(); 
-            });
-        }
-        $(".removeFile").show();
-        function showFile(){
-            let fileType = file.type; 
-            let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"]; 
-            if(validExtensions.includes(fileType)){ 
-                let fileReader = new FileReader(); 
-                fileReader.onload = ()=>{
-                    let fileURL = fileReader.result; 
-                    let imgTag = `<img src="${fileURL}" alt="image">`;
-                    $(".drag-area").html(imgTag); 
-=======
         if (button) {
             button.onclick = function() {
                 input.click();
@@ -643,7 +611,6 @@
                     let fileURL = fileReader.result;
                     let imgTag = `<img src="${fileURL}" alt="image">`;
                     $(".drag-area").html(imgTag);
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                     $(".removeFile").show();
                 }
                 fileReader.readAsDataURL(file);
@@ -687,14 +654,6 @@
                     }
                 }
 
-<<<<<<< HEAD
-            showImageAlbum()
-            function showImageAlbum(){
-                console.log(listAlbumImages);
-                let image = "";
-                listAlbumImages.forEach((item) => {
-                    console.log(item);
-=======
                 showImageAlbum()
 
                 function showImageAlbum() {
@@ -702,7 +661,6 @@
                     let image = "";
                     listAlbumImages.forEach((item) => {
 
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         image += `<div class="col-lg-2 position-relative my-4">
                         <img class="img-fluid" src="${item.url}" alt="">
                         <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
@@ -1025,18 +983,11 @@
                 let findUserByUrl = $(this).attr("data-href");
                 $.ajax({
                     url: findUserByUrl,
-<<<<<<< HEAD
-                    type : 'GET',
-                    dataType : 'json',
-                    success : function(result){
-                        console.log(result);
-                        if(result.success){
-=======
                     type: 'GET',
                     dataType: 'json',
                     success: function(result) {
                         if (result.success) {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
+
                             $("select[name=city] option").each(async (i, obj) => {
                                 if (obj.value == result.data.city) {
                                     obj.setAttribute('selected', 'selected');
@@ -1058,20 +1009,11 @@
                         }
                     }
                 })
-<<<<<<< HEAD
-                $(".alert-danger").hide();
-                $("#form-edit").submit(function(e){
-                    e.preventDefault();
-
-
-                    if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "" || $("#phone-2").val() == ""){
-=======
 
                 $("#form-edit").submit(function(e) {
                     e.preventDefault();
 
                     if ($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "") {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         return false;
                     }
 
@@ -1082,19 +1024,6 @@
                         url: route,
                         type: "PUT",
                         data: {
-<<<<<<< HEAD
-                            "_token" : $('input[name=_token]').val(),
-                            "id" : action,
-                            "city" : $("#city-2").val(),
-                            "district" : $("#district-2").val(),
-                            "address" : $("#address-2").val(),
-                            "phone" : $("#phone-2").val(),
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-       
-                            if(data.success) {
-=======
                             "_token": $('input[name=_token]').val(),
                             "id": action,
                             "city": $("#city-2").val(),
@@ -1104,7 +1033,6 @@
                         dataType: 'json',
                         success: function(data) {
                             if (data.success) {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                                 alert(data.message);
                                 window.location.reload();
                             } else {
