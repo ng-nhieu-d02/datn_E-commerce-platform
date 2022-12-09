@@ -60,6 +60,14 @@
             <div class="col-lg-6 d-flex flex-column">
                 <span class="fw-bold fs-3">{{ $adr->user->name }}</span>
                 <span class="text-muted fs-3">{{ $adr->address }}, {{ $adr->district }}, {{ $adr->city }}</span>
+                <span class="text-muted fs-3">
+                    @if ($adr->phone)
+                        {{ $adr->phone }}
+                    @else
+                    {{ $adr->user->phone }}
+                    @endif
+                </span>
+
                 @if($adr->status == '1')
                 <div class="set-defaut mt-2">
                     <span>Mặc định</span>
@@ -125,6 +133,11 @@
                 <input type="text" name="address" value="{{ old('address') }}"
                     placeholder="923/212 đường Dương Đông Kích Tây" id="address" required class="form-control fs-3">
             </div>
+            <div class="col-lg-12 mb-3">
+                <label for=""  class="form-label">Số điện thoại</label>
+                <input type="text" name="phone" value="{{ old("phone", $adr->user->phone) }}" class="form-control fs-3">
+                <span id="message"></span>
+            </div>
            
         </div>
         <div class="modal-footer">
@@ -143,7 +156,13 @@
           <h5 class="modal-title fs-3">Sửa địa chỉ</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+       
         <form id="form-edit" action=""  method="post">
+            <div class="col-lg-12">
+                <div class="alert alert-danger">
+                    <ul id="ulEl"></ul>
+                </div>
+            </div>
         <div class="modal-body">
             @csrf
             @method("PUT")
@@ -167,6 +186,11 @@
                 <input type="text" name="address" value="{{ old('address') }}"
                     placeholder="923/212 đường Dương Đông Kích Tây" id="address-2" required class="form-control fs-3">
             </div>
+            <div class="col-lg-12 mb-3">
+                <label for=""  class="form-label">Số điện thoại</label>
+                <input type="text" name="phone" id="phone-2" class="form-control fs-3">
+                <span id="message"></span>
+            </div>
            
         </div>
         <div class="modal-footer">
@@ -180,4 +204,34 @@
 
 
 
+@endsection
+@section("scripts")
+<script>
+    $(document).ready(function(){
+
+        function checkPhone(El){
+           
+            const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            return El.match(regexPhoneNumber) ? true : false;
+        }
+
+        $('input[name="phone"]').keyup(function(e)
+                                {
+            if (/\D/g.test(this.value))
+            {
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }
+    
+            if(checkPhone($(this).val())){
+                $("#message").removeClass("text-danger")
+                $("#message").html("");
+
+            }else{
+                $("#message").addClass("text-danger")
+                $("#message").html('Số điện thoại không hợp lệ');
+            }
+        });
+    })
+</script>
 @endsection

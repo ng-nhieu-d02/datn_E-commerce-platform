@@ -42,8 +42,7 @@ class storeController extends Controller
         $permission = $this->checkPermission($id);
 
         $store = Store::find($id);
-
-
+        // dd($store);
         if (is_null($store)) {
             return abort(404);
         }
@@ -55,6 +54,146 @@ class storeController extends Controller
             'permission'    => $permission,
             'checkPermissionStore' => $checkPermissionStore,
         ]);
+    }
+
+    public function editProduct($idStore, $idProduct)
+    {
+        $store = Store::with(['product'])->find($idStore);
+        $product = Product::find($idProduct);
+        $categories = $this->getCategoryProduct();
+        $permission = PermissionStore::where('id_store', '=', $idStore)->where('id_user', '=', Auth::user()->id)->count();
+        $checkPermissionStore = PermissionStore::where("id_store", $idStore)->where('id_user', '=', auth()->user()->id)->first();
+
+        if (!is_null($checkPermissionStore) && $store->product->pluck("id")->contains($product->id)) {
+
+            return view("home.pages.edit_product_store", [
+                'product' => $product,
+                'store' => $store,
+                'permission' => $permission,
+                'checkPermissionStore' => $checkPermissionStore,
+                'categories' => $categories,
+            ]);
+        } else {
+            abort(404);
+        }
+    }
+
+    public function updateProduct(Request $request)
+    {
+        return "Đang cập nhật";
+        // $findProduct = Product::find($request->id_product);
+        // $validated = $request->validate([
+        //     'name' => 'bail|required|unique:product,name,' .  $findProduct->id . '|string',
+        //     'description' => 'bail|required|string',
+        //     'long_description' => 'bail|required',
+        //     'type' => 'bail|required|string',
+        //     'category_id' => 'bail|required|exists:App\Models\CategoryProduct,id',
+        //     'thumb' => 'bail|nullable|mimes:jpg,jpeg,png,jfif',
+        //     'brand' => 'bail|required|string',
+        //     'origin' => 'bail|required|string',
+        //     'title' => 'bail|required|string',
+        //     'keyword' => 'bail|required',
+        //     'colorText' => 'bail|required_without:size',
+        //     'sizeText' => 'bail|required_without:color',
+        //     'attribute' => 'nullable',
+        //     'url_image' => 'bail|nullable',
+        //     'url' => 'bail|nullable',
+        //     'url_image.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+        //     'url.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+        //     'price' => 'bail|required',
+        //     'price.*' => 'required|string|gt:0',
+        //     'sale' => 'bail|required',
+        //     'sale.*' => 'required|string|gt:0',
+        //     'weight' => 'bail|required',
+        //     'weight.*' => 'required|string|gt:0',
+        //     'quantity' => 'bail|required',
+        //     'quantity.*' => 'required|string|gt:0',
+        // ]);
+        // if (!is_null($validated["sizeText"][0])) {
+        //     $request->validate(['attribute' => 'required|string']);
+        // }
+
+        // \DB::beginTransaction();
+        // try {
+
+        //     $product['id_store'] = $request->id_store;
+        //     $product['create_by'] = auth()->user()->id;
+        //     $product['name'] = $validated['name'];
+        //     $product['slug'] = Str::slug($product['name'], "-");
+        //     $product['description'] = $validated['description'];
+        //     $product['long_description'] = $validated['long_description'];
+        //     $product['type'] = $validated['type'];
+        //     $product['category_path'] = $validated['category_id'];
+        //     $categoryPath = explode('_', $validated['category_id']);
+        //     $product['category_id'] = end($categoryPath);
+        //     if ($request->hasFile("thumb")) {
+        //         $product['thumb'] = $product['id_store'] . "/thumb/" . $validated['thumb']->hashName();
+        //         // $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+        //         unlink(public_path('upload/product/' . $product->thumb));
+        //     } else {
+        //         $product['thumb'] = $request->thumbOld;
+        //     }
+        //     $product['brand'] = $validated['brand'];
+        //     $product['origin'] = $validated['origin'];
+        //     $product['title'] = $validated['title'];
+        //     $product['keyword'] = implode(",", $validated['keyword']);
+
+        //     // $product_id = Product::create($product)->id;
+        //     $findProduct->update($product);
+
+
+
+        //     $productDetailAttributes = [];
+
+        //     $productListImages = [];
+
+        //     foreach ($validated['colorText'] as $key => $color) {
+        //         $fileName = $findProduct->id . '-size-' . $validated['url_image'][$key]->hashName();
+        //         $productDetailAttributes[] = [
+        //             'id_product' => $findProduct->id,
+        //             'color_value' => $color,
+        //             'attribute' => $validated['attribute'],
+        //             'attribute_value' => $validated['sizeText'][$key],
+        //             'weight' => $validated['weight'][$key],
+        //             'quantity' => $validated['quantity'][$key],
+        //             'price' => $validated['price'][$key],
+        //             'sale' => $validated['sale'][$key],
+        //             'url_image' => $fileName,
+        //             'status' => '0',
+        //         ];
+        //         $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
+        //     }
+
+        //     ProductDetail::insert($productDetailAttributes);
+
+        //     $image = ["jpg", "jpeg", "png", "jfif"];
+        //     $video = ['mp4', 'ogg'];
+
+        //     foreach ($validated['url'] as $url) {
+        //         if (in_array($url->extension(), $image)) {
+        //             $type = "0";
+        //         } else if (in_array($url->extension(), $video)) {
+        //             $type = "1";
+        //         }
+
+        //         $fileName = $product['id_store'] . '-' . "$product_id-" . $url->hashName();
+        //         $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
+
+        //         $productListImages[] = [
+        //             'id_product' => $product_id,
+        //             'type' => $type,
+        //             'url' => $fileName,
+        //         ];
+        //     }
+
+        //     ProductImages::insert($productListImages);
+
+        //     \DB::commit();
+
+        //     return back()->with("message", "Thêm mới sản phẩm thành công");
+        // } catch (\Exception $e) {
+        //     \DB::rollback();
+        // }
     }
 
     public function createProduct($id)
@@ -130,7 +269,7 @@ class storeController extends Controller
             $product['category_path'] = $validated['category_id'];
             $categoryPath = explode('_', $validated['category_id']);
             $product['category_id'] = end($categoryPath);
-            $product['thumb'] = $product['id_store'] . "/thumb" . $validated['thumb']->hashName(); // name file
+            $product['thumb'] = $product['id_store'] . "/thumb/" . $validated['thumb']->hashName(); // name file
             $product['brand'] = $validated['brand'];
             $product['origin'] = $validated['origin'];
             $product['title'] = $validated['title'];

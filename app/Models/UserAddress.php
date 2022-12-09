@@ -17,6 +17,7 @@ class UserAddress extends Model
         "address",
         "status",
         "user_id",
+        "phone",
     ];
 
     public function user()

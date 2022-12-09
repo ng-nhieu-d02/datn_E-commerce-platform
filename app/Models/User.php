@@ -60,12 +60,12 @@ class User extends Authenticatable
 
     public function cartStore()
     {
-        return $this->hasMany(Cart::class, 'id_user')->groupBy('id_store')->orderBy('created_at','desc')->get();
+        return $this->hasMany(Cart::class, 'id_user')->groupBy('id_store')->orderBy('created_at', 'desc')->get();
     }
 
     public function cartStoreActive()
     {
-        return $this->hasMany(Cart::class, 'id_user')->where('status', '1')->groupBy('id_store')->orderBy('created_at','desc')->get();
+        return $this->hasMany(Cart::class, 'id_user')->where('status', '1')->groupBy('id_store')->orderBy('created_at', 'desc')->get();
     }
 
     public function comment()

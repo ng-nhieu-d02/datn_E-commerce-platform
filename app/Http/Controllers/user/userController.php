@@ -98,9 +98,9 @@ class userController extends Controller
     public function updateProfile(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'bail|required|unique:users,name',
+            
             'phone' => 'bail|required|digits:10|numeric',
-            'email' => 'bail|required|unique:users,email,' . auth()->user()->id . '|email:rfc,dns',
+          
             'name' => 'bail|required',
             'gender' => 'bail|required|string',
             'file_image' => 'mimes:jpg,jpeg,png'
@@ -116,7 +116,7 @@ class userController extends Controller
 
         $user = User::find(auth()->user()->id);
         $user->update($validated);
-        return redirect()->back()->with('Update success', 'Update Successfully');
+        return redirect()->back()->with('success', 'Update Successfully');
     }
     public function delete_item_cart(Request $request)
     {
@@ -236,7 +236,6 @@ class userController extends Controller
     public function userAddress()
     {
         $address = UserAddress::with(['user'])->where('user_id', '=', auth()->user()->id)->orderBy("status", 'desc')->get();
-
         return view("home.pages.user_adress", [
             'address' => $address
         ]);
@@ -248,6 +247,12 @@ class userController extends Controller
             "city" => 'bail|required|string',
             "district" => 'bail|required|string',
             "address" => 'bail|required|string',
+            "phone" => [
+                'bail',
+                'required',
+                'string',
+                'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
+            ],
         ]);
         $validated['status'] = "0";
         $validated['user_id'] = auth()->user()->id;
@@ -269,16 +274,25 @@ class userController extends Controller
 
     public function updateUserAddress(Request $request)
     {
-        $id = $request->id;
-        $city = $request->city;
-        $district = $request->district;
-        $address = $request->address;
+        $validated = $request->validate([
+            "city" => 'bail|required|string',
+            "district" => 'bail|required|string',
+            "address" => 'bail|required|string',
+            "phone" => [
+                'bail',
+                'required',
+                'string',
+                'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
+            ],
+        ]);
+       
 
-        $userAddress = UserAddress::find($id);
+        $userAddress = UserAddress::find($request->id);
 
-        $userAddress->city = $city;
-        $userAddress->district = $district;
-        $userAddress->address = $address;
+        $userAddress->city = $validated['city'];
+        $userAddress->district = $validated['district'];
+        $userAddress->address = $validated['address'];
+        $userAddress->phone = $validated['phone'];
 
         $saved = $userAddress->save();
 
