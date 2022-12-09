@@ -38,4 +38,6 @@ class OrderStore extends Model
     {
         return $this->hasMany(OrderDetail::class, 'id_order_store');
     }
+
+   
 }

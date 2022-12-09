@@ -4,6 +4,8 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\CommentProduct;
+use App\Models\PaymentUser;
 use App\Models\PermissionStore;
 use App\Models\Product;
 use App\Models\ProductDetail;
@@ -11,6 +13,7 @@ use App\Models\Store;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserWishlist;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -279,19 +282,17 @@ class userController extends Controller
 
         $saved = $userAddress->save();
 
-        if($saved){
+        if ($saved) {
             return response()->json([
                 'success' => true,
                 'message' => 'Cập nhật thành công',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi vui lòng thử lại',
             ]);
         }
-
-        
     }
 
     public function updateAddressStatus($id)
@@ -326,7 +327,7 @@ class userController extends Controller
 
     public function wishlist()
     {
-        $product = Product::select('product.*')->join('user_wishlist', 'user_wishlist.product_id', '=', 'product.id')->where('user_wishlist.user_id',Auth::user()->id)->paginate(10);
+        $product = Product::select('product.*')->join('user_wishlist', 'user_wishlist.product_id', '=', 'product.id')->where('user_wishlist.user_id', Auth::user()->id)->paginate(10);
         return view('home.pages.wishlist', [
             'product' => $product
         ]);
@@ -335,14 +336,158 @@ class userController extends Controller
     public function add_wishlist(Request $request)
     {
         $id = $request->id;
-        $wishlist = UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->count();
-        if($wishlist == 0) {
+        $wishlist = UserWishlist::where('user_id', Auth::user()->id)->where('product_id', $id)->count();
+        if ($wishlist == 0) {
             UserWishlist::create(['user_id' => Auth::user()->id, 'product_id' => $id]);
             $res = ['status' => 'success', 'message' => 'Thêm vào', 'method' => 'add'];
         } else {
-            UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->delete();
-            $res = ['status' => 'success', 'message' => 'Xoá khỏi' , 'method' => 'remove'];
+            UserWishlist::where('user_id', Auth::user()->id)->where('product_id', $id)->delete();
+            $res = ['status' => 'success', 'message' => 'Xoá khỏi', 'method' => 'remove'];
         }
         return json_encode($res);
+    }
+
+    public function payment()
+    {
+        $payment = PaymentUser::where('id_user', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
+        return view('home.pages.payment_user', [
+            'payment'   => $payment
+        ]);
+    }
+
+    public function payment_checkout(Request $request)
+    {
+        $payment = [
+            'id_user'   => Auth::user()->id,
+            'amount'    => $request->amount,
+            'type'      => '0',
+            'description'   => Auth::user()->name . ' nạp tiền vào tài khoản',
+            'status'    => '2'
+        ];
+        $payment = PaymentUser::create($payment);
+
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = route('user.payment_user_return'); // return url
+        $vnp_TmnCode = "7JV6DF6L"; //Mã website tại VNPAY 
+        $vnp_HashSecret = "VXOMRZOMLKIIGUXOECIYPYIFXGCSJUIT"; //Chuỗi bí mật
+
+        $vnp_TxnRef = $payment->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = 'Thanh toán hoá đơn nạp tiền user ' . $payment->id;
+        $vnp_OrderType = 'billPayment';
+        $vnp_Amount = $payment->amount * 100;
+        $vnp_Locale = 'vn';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+        }
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+
+        return redirect()->to($vnp_Url);
+    }
+
+    public function payment_return(Request $request)
+    {
+        if (isset($request->vnp_Amount)) {
+            $inputData = array();
+            $vnp_HashSecret = "VXOMRZOMLKIIGUXOECIYPYIFXGCSJUIT";
+            foreach ($_GET as $key => $value) {
+                if (substr($key, 0, 4) == "vnp_") {
+                    $inputData[$key] = $value;
+                }
+            }
+            $vnp_SecureHash = $inputData['vnp_SecureHash'];
+            unset($inputData['vnp_SecureHash']);
+            ksort($inputData);
+            $i = 0;
+            $hashData = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+            }
+            $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+            $data = [
+                'id_order'  => $request->vnp_TxnRef,
+                'amount'    => $request->vnp_Amount / 100,
+                'id_payment_vnpay'  => $request->vnp_TransactionNo,
+                'id_payment_bank'   =>  $request->vnp_BankTranNo,
+                'message'   => $request->vnp_OrderInfo
+            ];
+
+            try {
+                if ($secureHash == $vnp_SecureHash) {
+                    $payment = PaymentUser::find($request->vnp_TxnRef);
+                    if ($payment->amount == $request->vnp_Amount / 100) {
+                        if ($request->vnp_ResponseCode == '00' && $request->vnp_TransactionStatus == '00') {
+                            $data['status'] = 'success';
+                            $payment->status = '1';
+                            $payment->save();
+                            $user = User::find(Auth::user()->id);
+                            $user->money = Auth::user()->money + $payment->amount;
+                            $user->save();
+                        } else {
+                            $data['status'] = 'error';
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+            };
+            return redirect()->route('user.payment_user')->with('success', 'Nạp tiền thành công');
+        }
+    }
+
+    public function comment($id, $store, Request $request)
+    {
+        $comment = [
+            'create_by' => Auth::user()->id,
+            'id_store'  => $store,
+            'id_product'    => $id,
+            'message'   => $request->message,
+            'rate'  => $request->rate,
+            'parent_id'    => 0,
+            'parent_path'   => '0_'
+        ];
+        $comment = CommentProduct::create($comment);
+        return redirect()->back()->with('success', 'comment hoàn thành');
     }
 }

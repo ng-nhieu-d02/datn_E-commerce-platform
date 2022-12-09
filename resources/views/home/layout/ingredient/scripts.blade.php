@@ -249,12 +249,12 @@
                                     </div>
                                 </div>`);
                         } else {
-                            ToastSuccess('Lỗi:', response.message, 'warring', 3000);
+                            ToastSuccess('Lỗi:', response.message, 'warning', 3000);
                         }
                     }
                 });
             } else {
-                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warring', 3000)
+                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warning', 3000)
             }
         });
     })

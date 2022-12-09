@@ -360,7 +360,6 @@
 
 .container__section__content {
   width: 100%;
-  min-height: 1fr;
   padding: 10px 0px;
 }
 .container__section__content .content {
@@ -368,6 +367,11 @@
   width: 100%;
   min-height: 100px;
   border-radius: 10px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+.container__section__content .content::-webkit-scrollbar {
+  display: none;
 }
 .container__section__content .content__voucher {
   padding: 10px 25px;
