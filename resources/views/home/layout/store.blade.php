@@ -47,11 +47,12 @@
                     </div>
                 </div>
                 <div class="menu-profile">
-                    @if($permission == 0)
                     <ul>
                         <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
                             <a href="{{ route('user.store', [$store->id]) }}">Trang chủ</a>
                         </li>
+
+                        @if($permission == 0)
                         <li>
                             <a href="">Thông tin shop</a>
                         </li>
@@ -60,23 +61,26 @@
                         </li>
                     </ul>
                     @elseif($permission == 1)
-                    <ul>
-                        <li>Dashboard</li>
-                        <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
-                            <a href="{{ route('user.store', [$store->id]) }}">Đăng sản phẩm</a>
-                        </li>
-                        <li>
-                            <a href="">Chỉnh sửa thông tin shop</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
-                            <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>
-                        </li>
-                        <li>
-                            <a href="">Đánh giá shop</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.voucher_store', [$store->id])) active @endif">
-                            <a href="{{ route('user.voucher_store', [$store->id]) }} }}">Voucher</a>
-                        </li>
+
+                    <li>Dashboard</li>
+                    <li class="@if (request()->routeIs('user.product_store', [$store->id])) active @endif">
+                        <a href="{{ route('user.product_store', [$store->id]) }}">Đăng sản phẩm</a>
+                    </li>
+                    <li>
+                        <a href="">Chỉnh sửa thông tin shop</a>
+                    </li>
+                    <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
+                        <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>
+                    </li>
+                    <li>
+                        <a href="">Đánh giá shop</a>
+                    </li>
+                    <li class="@if (request()->routeIs('user.voucher_store', [$store->id])) active @endif">
+                        <a href="{{ route('user.voucher_store', [$store->id]) }} }}">Voucher</a>
+                    </li>
+                    <li class="@if (request()->routeIs('user.payment_store', [$store->id])) active @endif">
+                        <a href="{{ route('user.payment_store', [$store->id]) }} }}">Nạp rút tiền</a>
+                    </li>
                     </ul>
                     @endif
                 </div>

@@ -11,6 +11,27 @@ class CategoryProduct extends Model
 
     protected $table = 'category_product';
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'parent_id',
+        'path',
+        'create_by',
+        'avatar',
+        'title',
+        'keyword',
+        'status'
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::deleting(function ($category) {
+            unlink('upload/category/'.$category->avatar);         
+        });
+    }
+
     public function product()
     {
         return $this->hasMany(Product::class, 'category_id')->where('status', 0)->withDefault();
@@ -29,5 +50,9 @@ class CategoryProduct extends Model
                 }
             }
         }
+    }
+    public function recursive_parent($id)
+    {
+        return CategoryProduct::where('parent_id', $id)->count();
     }
 }

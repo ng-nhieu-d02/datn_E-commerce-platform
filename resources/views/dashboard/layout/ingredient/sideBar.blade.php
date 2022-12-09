@@ -65,51 +65,8 @@
                     </div>
                 </div>
             </a>
-
-            <a href="#">
-                <div class="sideBar--menu--content table">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-table"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Component</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#">
-                <div class="sideBar--menu--content billing">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-wallet"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Billing</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#">
-                <div class="sideBar--menu--content product">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-building-shield"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Product</p>
-                    </div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="sideBar--menu--content post">
-                    <div class="sideBar--menu--content--icon">
-                        <i class="fa fa-newspaper"></i>
-                    </div>
-                    <div class="sideBar--menu--content--title">
-                        <p>Post</p>
-                    </div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="sideBar--menu--content payment">
+            <a href="{{route('admin.payment')}}">
+                <div class="sideBar--menu--content payment @if (request()->routeIs('admin.payment')) active @endif">
                     <div class="sideBar--menu--content--icon">
                         <i class="fa fa-money-check"></i>
                     </div>
@@ -118,7 +75,8 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
+
+            <!-- <a href="#">
                 <div class="sideBar--menu--content mail">
                     <div class="sideBar--menu--content--icon">
                         <i class="fa fa-envelope"></i>
@@ -127,10 +85,48 @@
                         <p>Mail</p>
                     </div>
                 </div>
-            </a>
-            
-
-            <a href="#">
+            </a> -->
+            <!-- <a href="#">
+                <div class="sideBar--menu--content table">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-table"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Component</p>
+                    </div>
+                </div>
+            </a> -->
+            <!-- <a href="#">
+                <div class="sideBar--menu--content billing">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-wallet"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Billing</p>
+                    </div>
+                </div>
+            </a> -->
+            <!-- <a href="#">
+                <div class="sideBar--menu--content product">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-building-shield"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Product</p>
+                    </div>
+                </div>
+            </a> -->
+            <!-- <a href="#">
+                <div class="sideBar--menu--content post">
+                    <div class="sideBar--menu--content--icon">
+                        <i class="fa fa-newspaper"></i>
+                    </div>
+                    <div class="sideBar--menu--content--title">
+                        <p>Post</p>
+                    </div>
+                </div>
+            </a> -->
+            <!-- <a href="#">
                 <div class="sideBar--menu--content setting">
                     <div class="sideBar--menu--content--icon">
                         <i class="fa fa-gear"></i>
@@ -139,7 +135,7 @@
                         <p>Setting</p>
                     </div>
                 </div>
-            </a>
+            </a> -->
         </div>
     </div>
     <div class="sideBar--footer">

@@ -46,7 +46,7 @@
                         <li class="@if (request()->routeIs('user.wishlist')) active @endif">
                             <a href="{{route('user.wishlist')}}">Ưu thích</a>
                         </li>
-                        <li class="@if (request()->routeIs('user.manage-order')) active @endif">
+                        <li class="@if (request()->routeIs('user.manage-order')) active @endif @if (request()->routeIs('user.manager-orderDetail')) active @endif">
                             <a href="{{ route('user.manage-order') }}">Hoá đơn</a>
                         </li>
                         @if(Auth::user()->permission_store()->count() == 0)
@@ -55,11 +55,11 @@
                         </li>
                         @else 
                         <li class="@if (request()->routeIs('user.register_booth')) active @endif">
-                            <a href="{{ route('user.register_booth') }}">Quản lí gian hàng</a>
+                            <a href="{{ route('user.store', [Auth::user()->permission_store[0]->id_store]) }}">Quản lí gian hàng</a>
                         </li>
                         @endif
-                        <li>
-                            <a href="">Nạp tiền</a>
+                        <li class="@if (request()->routeIs('user.payment_user')) active @endif">
+                            <a href="{{route('user.payment_user')}}">Nạp tiền</a>
                         </li>
                         <li class="@if (request()->routeIs('user.address')) active @endif">
                             <a href="{{ route('user.address') }}">Địa chỉ giao hàng</a>

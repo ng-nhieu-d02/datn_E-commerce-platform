@@ -68,6 +68,7 @@
                             </div>
                         </div>
                     </div>
+                    @if($product->type != 2)
                     <div class="color">
                         <span>Color: <b style="padding-left: 10px" id="color_value"></b></span>
                         <div class="list-box-color">
@@ -76,6 +77,8 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif
+                    @if($product->type != 1)
                     <div class="size">
                         <span>{{ $product->attributes[0]->attribute }}: <b style="padding-left: 10px" id="attribute_value"></b></span>
                         <div class="list-sizes-item">
@@ -84,6 +87,7 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif
                     <div class="cart">
                         <div class="form-submit-cart align-items-center flex-wrap">
                             <div class="quantity">
@@ -221,7 +225,7 @@
             <div class="contact-store col-md-3 align-items-center">
                 <div class="form-contact">
                     <a href="">Nhắn tin</a>
-                    <a href="">Xem gian hàng</a>
+                    <a href="{{route('user.store', [$product->store->id])}}">Xem gian hàng</a>
                 </div>
             </div>
         </div>
@@ -232,24 +236,14 @@
         <div class="text_detail">
             <h2>Product Details</h2>
             <div class="text">
-                <p>The patented eighteen-inch hardwood Arrowhead deck --- finely mortised in, makes this the
-                    strongest and most rigid canoe ever built. You cannot buy a canoe that will afford greater
-                    satisfaction.</p>
-                <p>The St. Louis Meramec Canoe Company was founded by Alfred Wickett in 1922. Wickett had previously
-                    worked for the Old Town Canoe Co from 1900 to 1914. Manufacturing of the classic wooden canoes
-                    in Valley Park, Missouri ceased in 1978.</p>
-                <ul>
-                    <li>Regular fit, mid-weight t-shirt</li>
-                    <li>Natural color, 100% premium combed organic cotton</li>
-                    <li>Quality cotton grown without the use of herbicides or pesticides - GOTS certified</li>
-                    <li>Soft touch water based printed in the USA</li>
-                </ul>
+                {{$product->long_description}}
             </div>
         </div>
         <hr class="line">
         <x-productDetailReview :comments="$product
                 ->comment()
                 ->where('parent_id', 0)
+                ->orderBy('id', 'DESC')
                 ->paginate(8)" :product="$product">
         </x-productDetailReview>
         <hr class="line">

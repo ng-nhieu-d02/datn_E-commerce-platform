@@ -41,4 +41,9 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function order_history()
+    {
+        return $this->hasMany(HistoryUpdateOrder::class, 'id_order')->orderBy('id', 'DESC');
+    }
+
 }

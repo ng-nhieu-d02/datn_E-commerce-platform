@@ -1,7 +1,7 @@
 @props(['data'])
-<div class="component--cardProductCart cardProductCartDetail">
+<div class="component--cardProductCart cardProductCartDetail {{$data->detail->id}} {{$data->detail->quantity <= $data->detail->sold ? 'disable' : ''}}" data-warring="Sản phẩm này hiện đã hết hàng">
     <div class="component--cardProductCart--content center">
-        <input type="checkbox" data-id="{{$data->id}}" class="required_checkbox" value="{{$data->id}}" required>
+        <input type="checkbox" data-id="{{$data->id}}" class="required_checkbox" value="{{$data->id}}" required {{$data->detail->quantity <= $data->detail->sold ? 'disabled' : ''}}>
     </div>
     <div class="component--cardProductCart--content">
         <a href="{{route('user.productDetail', ['slug' => $data->product->slug])}}" class="images-content">

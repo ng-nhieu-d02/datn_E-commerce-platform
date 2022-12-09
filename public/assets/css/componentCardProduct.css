@@ -10,6 +10,21 @@
 .component--cardProductCart.cardProductCartDetail {
   grid-template-columns: 5% 80px 1fr 15% 10% 10%;
 }
+.component--cardProductCart.cardProductCartDetail.disable {
+  position: relative;
+  padding-top: 40px;
+}
+.component--cardProductCart.cardProductCartDetail.disable .component--cardProductCart--content {
+  opacity: 0.7;
+}
+.component--cardProductCart.cardProductCartDetail.disable::before {
+  content: attr(data-warring);
+  position: absolute;
+  top: 0;
+  opacity: 1;
+  color: red;
+  line-height: 40px;
+}
 .component--cardProductCart:last-child {
   border-bottom: none;
 }
