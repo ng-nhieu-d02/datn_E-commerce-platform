@@ -97,21 +97,6 @@
     }
 </style>
 <a href="" class="btn btn-primary fs-4 mb-4">Quay trở lại</a>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-@if($message = session('message'))
-    <div class="alert alert-success">
-        {{ $message }}
-    </div>
-@endif
 
 <form action="{{ route("user.update-product-store", [$store->id, $product->id]) }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -167,7 +152,7 @@
                     <input type="file" hidden id="input-hidden" name="thumb"></div>
                     <input type="hidden" name="thumbOld" value="{{ $product->thumb }}">
                 <div class="drag-area" style="display: block">
-                   <img src="{{ asset("upload/product/$product->thumb") }}" alt="">
+                   <img src="{{ asset('upload/product/'.$product->thumb) }}" alt="">
                 </div>
                 <div class="removeFile position-absolute top-0 right-0">
                     <i class="fa-regular fa-circle-xmark text-white"></i>
@@ -184,10 +169,10 @@
                     {{-- @foreach ($store->product as $prd)
                         @foreach ($prd->images as $key => $image)
                         <div class="col-lg-2 position-relative my-4">
-                            <img class="img-fluid" src="{{ asset("upload/product/$store->id/album/$image->url") }}" alt="">
+                            <img class="img-fluid" src="{{ asset('upload/product/'.$store->id.'/album/'.$image->url) }}" alt="">
                             <input type="hidden" name="imageOld" value="{{ $image->url }}">
                             <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
-                                <i class="fa-regular fa-circle-xmark text-dark" onclick="removeFileOnlyAlbum({{ $key }})"></i>
+                                <i class="fa-regular fa-circle-xmark text-dark" onclick="removeFileOnlyAlbum('{{ $key }}')"></i>
                             </div>
                             </div>
                         @endforeach

@@ -8,17 +8,6 @@
             <button type="button" id="add_new_address" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Rút tiền</button>
         </div>
     </div>
-    @if (session('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
-
-    @if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
     <div class="container--voucher_store_table">
 
         <table class="table">

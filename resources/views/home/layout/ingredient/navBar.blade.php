@@ -15,20 +15,20 @@
     </div>
     <div class="ingredient--navBar--menu">
         <ul class="menu--li">
-            <li>
-                <a href="">Trang chủ</a>
+            <li class="@if (request()->routeIs('user.home')) active @endif">
+                <a href="{{route('user.home')}}">Trang chủ</a>
             </li>
             <li class="@if (request()->routeIs('user.pageSearch')) active @endif">
                 <a href="{{route('user.pageSearch')}}">Sản phẩm</a>
             </li>
-            <li>
+            <li class="@if (request()->routeIs('user.cart')) active @endif">
                 <a href="{{route('user.cart')}}">Giỏ hàng</a>
             </li>
             <li>
                 <a href="">Về chúng tôi</a>
             </li>
-            <li>
-                <a href="">Liên hệ</a>
+            <li class="@if (request()->routeIs('user.lucky')) active @endif">
+                <a href="{{route('user.lucky')}}">Vòng quay may mắn</a>
             </li>
         </ul>
     </div>

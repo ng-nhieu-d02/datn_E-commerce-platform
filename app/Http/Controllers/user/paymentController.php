@@ -84,8 +84,8 @@ class paymentController extends Controller
                 if ($coupon->apply_store == 0 || $coupon->apply_store == $store->$order_store->id) {
                     if (
                         $total < $coupon->money_apply_end && $total > $coupon->money_apply_start
-                        && $coupon->remaining_quantity < $coupon->quantity && Carbon::today()->toDateString() > $coupon->start_time
-                        && Carbon::today()->toDateString() < $coupon->stop_time && $coupon->status == 0
+                        && $coupon->remaining_quantity < $coupon->quantity && Carbon::now('Asia/Ho_Chi_Minh')->toDateTime() > $coupon->start_time
+                        && Carbon::now('Asia/Ho_Chi_Minh')->toDateTime() < $coupon->stop_time && $coupon->status == 0
                     ) {
                         if (($coupon->apply_with == 1 && $coupon->user_id == Auth::user()->id) || $coupon->apply_with == 0) {
                             if ($coupon->type == 2) {
@@ -131,8 +131,8 @@ class paymentController extends Controller
             if ($bigCoupon->apply_store == 0) {
                 if (
                     $price < $bigCoupon->money_apply_end && $price > $bigCoupon->money_apply_start
-                    && $bigCoupon->remaining_quantity < $bigCoupon->quantity && Carbon::today()->toDateString() > $bigCoupon->start_time
-                    && Carbon::today()->toDateString() < $bigCoupon->stop_time && $bigCoupon->status == 0
+                    && $bigCoupon->remaining_quantity < $bigCoupon->quantity && Carbon::now('Asia/Ho_Chi_Minh')->toDateTime() > $bigCoupon->start_time
+                    && Carbon::now('Asia/Ho_Chi_Minh')->toDateTime() < $bigCoupon->stop_time && $bigCoupon->status == 0
                 ) {
                     if (($bigCoupon->apply_with == 1 && $bigCoupon->user_id == Auth::user()->id) || $bigCoupon->apply_with == 0) {
                         if ($bigCoupon->type == 2) {
@@ -313,7 +313,6 @@ class paymentController extends Controller
     }
     public function checkout_return($order)
     {
-        $message = 'chúc mừng bạn thanh toán hoá đơn ' . $order . ' thành công';
-        return $message;
+        return redirect()->route('user.manager-orderDetail', $order)->with('success', 'Thanh toán hoá đơn thành công');  
     }
 }

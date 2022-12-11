@@ -143,16 +143,6 @@
             display: flex;
         }
     </style>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
     @if(is_null($checkStore))
     <h1>Đăng ký gian hàng của bạn</h1>
 

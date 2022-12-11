@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="{{ url('assets/css/cart.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/productDetail.css') }}">
 <link rel="stylesheet" href="{{ url('assets/css/checkout.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/hc-canvas-luckwheel.css') }}" />
 
 <script src="{{ url('assets/js/app.js') }}"></script>
 

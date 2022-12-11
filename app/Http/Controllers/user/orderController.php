@@ -27,7 +27,7 @@ class orderController extends Controller
                 return redirect()->route('user.address');
             }
         }
-        $system_coupons = Coupons::where(['apply_store' => '0' , 'status' => '0', 'coupon_type' => '0'])->where('stop_time','>=',Carbon::today()->toDateString())->where('start_time','<=',Carbon::today()->toDateString())->get();
+        $system_coupons = Coupons::where(['apply_store' => '0' , 'status' => '0', 'coupon_type' => '0'])->where('stop_time','>=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->where('start_time','<=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->get();
         return view('home.pages.checkout', [
             'address' => $address,
             'system_coupons'    => $system_coupons

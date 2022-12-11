@@ -51,16 +51,16 @@
                                         @if($product->comment()->count() > 0)
 
                                         {{ $product->comment()->sum('rate') / $product->comment()->count()}}</span>
-                                        @endif
+                                    @endif
                                 </div>
                                 <div class="review"><span>
-                                    @if ($product->comment()->count() > 0)
-                                    {{ $product->comment()->count() }}
-                                    reviews
+                                        @if ($product->comment()->count() > 0)
+                                        {{ $product->comment()->count() }}
+                                        reviews
 
-                                    @else
-                                    Chưa có nhận xét nào
-                                    @endif
+                                        @else
+                                        Chưa có nhận xét nào
+                                        @endif
                                     </span></div>
                             </a>
                             <div class="new-in">
@@ -95,8 +95,8 @@
                                 <input type="number" onKeyUp="if(this.value>999){this.value='999';}else if(this.value<1){this.value='1';}" class="input-quantity-function" value="1">
                                 <span class="cong quantity-function" data-action="plus">+</span>
                             </div>
-                            <button class="btn-submit-add-cart"><i class="fa-sharp fa-solid fa-cart-shopping"></i> Add to cart</button>
-                            <p> <span class="quantity_detail">{{$product->detail->sum('quantity') - $product->detail->sum('sold')}}</span>  sản phẩm trong kho</p>
+                            <button class="btn-submit-add-cart" data-status="{{$product->store->status == 1 ? 'true' : ''}}"><i class="fa-sharp fa-solid fa-cart-shopping"></i> Add to cart</button>
+                            <p> <span class="quantity_detail">{{$product->detail->sum('quantity') - $product->detail->sum('sold')}}</span> sản phẩm trong kho</p>
                         </div>
                     </div>
                     <hr>
@@ -211,13 +211,13 @@
                         <i class="fa-solid fa-star"></i>
 
                         <span>
-                            @if($product->store->comment()->count() > 0) 
-                                {{ number_format($product->store->comment()->sum('rate') / $product->store->comment()->count(), 1, '.', ',') }}
+                            @if($product->store->comment()->count() > 0)
+                            {{ number_format($product->store->comment()->sum('rate') / $product->store->comment()->count(), 1, '.', ',') }}
                             @endif
                             &nbsp; @if ($product->store->comment()->count() > 0)
-                                ({{$product->store->comment()->count()}} reviews)
-                                @else
-                                Chưa có nhận xét nào
+                            ({{$product->store->comment()->count()}} reviews)
+                            @else
+                            Chưa có nhận xét nào
                             @endif</span>
                     </div>
                 </div>
@@ -254,4 +254,26 @@
     const detail = JSON.parse('<?= json_encode($product->detail) ?>');
     const type = '{{ $product->type }}';
 </script>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        const url__submit = '{{route("user.update_view", $product->id)}}';
+
+        const myTimeout = setTimeout(() => {
+            update_view(url__submit)
+        }, 60000);
+
+
+        function update_view(url__submit) {
+            $.ajax({
+                url: url__submit,
+                type: 'GET',
+            });
+        }
+    })
+</script>
+
 @endsection

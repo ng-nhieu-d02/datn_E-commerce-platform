@@ -5,17 +5,6 @@
         <button type="button" class="btn btn-outline-primary">Voucher</button>
         <button type="button" class="btn btn-primary add_new_voucher">Thêm voucher</button>
     </div>
-    @if (session('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
-
-    @if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
     <div class="container--voucher_store_table">
 
         <table class="table">
@@ -56,8 +45,6 @@
                         <span style="font-size: 1.4rem;" class="badge text-bg-info btn-view-code-voucher" role="button" data-code='{{$coupon->code}}' data-action='show'>Xem code</span>
                         @if($coupon->quantity == $coupon->remaining_quantity)
                         <span class="badge text-bg-danger btn-remove-coupon" role="button" data-id="{{$coupon->id}}">Xoá</span>
-                        @else
-
                         @endif
                     </td>
                 </tr>
