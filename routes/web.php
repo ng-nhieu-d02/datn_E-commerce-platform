@@ -34,6 +34,8 @@ Route::prefix('/')->group(function () {
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
     Route::get('/page-search', [homeController::class, 'pageSearch'])->name('user.pageSearch');
     Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
+    Route::get('/lucky-page', [homeController::class, 'lucky'])->name('user.lucky');
+    Route::get('/update-view/{product}', [homeController::class, 'view'])->name('user.update_view');
 
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
@@ -64,6 +66,7 @@ Route::prefix('/')->group(function () {
         Route::get('/order-store/10000000000{id}', [storeController::class, 'order'])->name('user.order_store');
         Route::get('/detail-order-store/{id_order_store}/10000000000{id}', [storeController::class, 'order_detail'])->name('user.order_detail_store');
         Route::get('/update-store-store/10000000000{id}/{order}/{status}', [storeController::class, 'update_order_store'])->name('user.update_order_store');
+        Route::post('/marketing/10000000000{id}/{product}', [storeController::class, 'marketing'])->name('user.marketing');
 
         // edit store
         Route::get("/store/edit/10000000000{id}", [storeController::class, 'editStore'])->name('user.store_edit');
@@ -96,6 +99,7 @@ Route::prefix('/')->group(function () {
         Route::post('/payment-user', [userController::class, 'payment_checkout'])->name('user.payment_user_checkout');
         Route::get('/return-payment-user', [userController::class, 'payment_return'])->name('user.payment_user_return');
         Route::post('/comment/{id}/{store}', [userController::class, 'comment'])->name('user.comment');
+        Route::get('/lucky-quay', [userController::class, 'lucky_random'])->name('user.lucky_random');
 
         // register booth
         Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");
@@ -103,7 +107,7 @@ Route::prefix('/')->group(function () {
 
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
-        Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
+        Route::get('/order-detail/{id_order}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
 
     });
 });

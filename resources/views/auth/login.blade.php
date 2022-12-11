@@ -1,20 +1,7 @@
 @extends('home.layout.main')
 
 @section('content')
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-@if ($message = session("error"))
-    <div class="alert alert-danger">
-        {{ $message }}
-    </div>
-@endif
+
 <div class="pages--auth">
     <div class="pages--auth--content">
         <div class="pages--auth--content__grid">

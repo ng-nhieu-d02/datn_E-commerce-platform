@@ -1,10 +1,5 @@
 @extends('home.layout.profile')
 @section('content')
-    @if ($message = session("success"))
-        <div class="alert alert-success">
-            {{ $message }}
-        </div>
-    @endif
     <form action="{{ route('user.update_profile') }}" method="POST" enctype="multipart/form-data" class="show-profile col-md-12 d-flex justify-content-between">
         @csrf
         

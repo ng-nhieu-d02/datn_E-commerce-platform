@@ -32,21 +32,6 @@
         cursor: pointer;
     }
 </style>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-@if($message = session("message"))
-<div class="alert alert-success">
-    {{ $message }}
-</div>
-@endif
 
 <div class="address-container d-flex justify-content-between align-items-center">
     <h1 class="h1_address">Địa chỉ của tôi</h1>

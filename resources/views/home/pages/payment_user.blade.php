@@ -39,17 +39,6 @@
         cursor: pointer;
     }
 </style>
-@if (session('error'))
-<div class="alert alert-danger" role="alert">
-    {{ session('error') }}
-</div>
-@endif
-
-@if (session('success'))
-<div class="alert alert-success" role="alert">
-    {{ session('success') }}
-</div>
-@endif
 
 <div class="address-container d-flex justify-content-between align-items-center">
     <h1 class="h1_address">Lịch sử nạp tiền</h1>

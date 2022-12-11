@@ -53,7 +53,7 @@ class Cart extends Model
 
     public function coupon($id_store)
     {
-        return Coupons::where(['apply_store' => $id_store , 'status' => '0', 'coupon_type' => '0'])->whereDate('stop_time','>=',Carbon::today()->toDateString())->whereDate('start_time','<=',Carbon::today()->toDateString())->get();
+        return Coupons::where(['apply_store' => $id_store , 'status' => '0', 'coupon_type' => '0'])->whereDate('stop_time','>=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->whereDate('start_time','<=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->get();
     }
 
     public function shipping_fees($data)
