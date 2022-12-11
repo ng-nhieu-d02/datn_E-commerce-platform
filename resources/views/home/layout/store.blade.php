@@ -61,25 +61,6 @@
                         </li>
                     </ul>
                     @elseif($permission == 1)
-<<<<<<< HEAD
-                    <ul>
-                        <li>Dashboard</li>
-                        <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
-                            <a href="{{ route('user.store', [$store->id]) }}">Đăng sản phẩm</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.store_edit', [$store->id])) active @endif">
-                            <a href="{{ route("user.store_edit", [$store->id]) }}">Chỉnh sửa thông tin shop</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
-                            <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>
-                        </li>
-                        <li>
-                            <a href="">Đánh giá shop</a>
-                        </li>
-                        <li class="@if (request()->routeIs('user.voucher_store', [$store->id])) active @endif">
-                            <a href="{{ route('user.voucher_store', [$store->id]) }} }}">Voucher</a>
-                        </li>
-=======
 
                     <li>Dashboard</li>
                     <li class="@if (request()->routeIs('user.product_store', [$store->id])) active @endif">
@@ -100,7 +81,7 @@
                     <li class="@if (request()->routeIs('user.payment_store', [$store->id])) active @endif">
                         <a href="{{ route('user.payment_store', [$store->id]) }} }}">Nạp rút tiền</a>
                     </li>
->>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
+
                     </ul>
                     @endif
                 </div>
