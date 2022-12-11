@@ -103,12 +103,8 @@ Route::prefix('/')->group(function () {
 
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
-<<<<<<< HEAD
-        Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail']);
-=======
         Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
 
->>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
     });
 });
 
@@ -123,14 +119,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
         Route::get('/category', [dashboardController::class, 'category'])->name('admin.category');
-<<<<<<< HEAD
-
-=======
         Route::post('/category', [dashboardController::class, 'store_category'])->name('admin.store_category');
         Route::post('/category/{id}', [dashboardController::class, 'update_category'])->name('admin.update_category');
         Route::get('/delete-category/{id}', [dashboardController::class, 'delete_category'])->name('admin.delete_category');
         
->>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
         Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
         Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
         Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
@@ -141,14 +133,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/store', [dashboardController::class, 'store'])->name('admin.store');
         Route::get('/update-store/{store}/{status}', [dashboardController::class, 'update_store'])->name('admin.update_store');
         Route::get('/update-ticket-store/{ticket}/{status}', [dashboardController::class, 'update_ticket_store'])->name('admin.update_ticket_store');
-<<<<<<< HEAD
-    });
-=======
 
         Route::get('/payment', [dashboardController::class, 'payment'])->name('admin.payment');
         Route::get('/update_payment/{id}/{status}', [dashboardController::class, 'update_payment'])->name('admin.update_payment');
     }); 
->>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
 });
 
 require __DIR__ . '/auth.php';
