@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CommentProduct;
+use App\Models\Coupons;
 use App\Models\PaymentUser;
 use App\Models\PermissionStore;
 use App\Models\Product;
@@ -13,6 +14,7 @@ use App\Models\Store;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserWishlist;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,9 +100,9 @@ class userController extends Controller
     public function updateProfile(Request $request)
     {
         $validated = $request->validate([
-            
+
             'phone' => 'bail|required|digits:10|numeric',
-          
+
             'name' => 'bail|required',
             'gender' => 'bail|required|string',
             'file_image' => 'mimes:jpg,jpeg,png'
@@ -285,7 +287,7 @@ class userController extends Controller
                 'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
             ],
         ]);
-       
+
 
         $userAddress = UserAddress::find($request->id);
 
@@ -503,5 +505,131 @@ class userController extends Controller
         ];
         $comment = CommentProduct::create($comment);
         return redirect()->back()->with('success', 'comment hoàn thành');
+    }
+
+    public function lucky_random()
+    {
+        $user = User::find(Auth::user()->id);
+        if ($user->turns == 0) {
+            return 'error';
+        }
+        $day = Carbon::now('Asia/Ho_Chi_Minh');
+        $day->addMonth();
+        $lucky = random_int(0, 6);
+
+        if ($lucky == 0) {
+            $data = [
+                'create_by_user'    => $user->id,
+                'apply_store'   => 0,
+                'code'  => time(),
+                'name'  => 'Lucky random',
+                'type'  => '2',
+                'message'   => 'Vòng quay may mắn',
+                'money_apply_start' => 1,
+                'money_apply_end'   => 100000000,
+                'value' => 10000,
+                'max_price' => 10000,
+                'quantity'  => 1,
+                'remaining_quantity'    => 0,
+                'start_time'    => Carbon::now('Asia/Ho_Chi_Minh')->toDateTime(),
+                'stop_time' => $day->toDateTime(),
+                'coupon_type'   => '1',
+                'apply_with'    => '1',
+                'user_id'       => $user->id,
+                'status'    => '0'
+            ];
+            Coupons::create($data);
+        } elseif ($lucky == 1) {
+            $data = [
+                'create_by_user'    => $user->id,
+                'apply_store'   => 0,
+                'code'  => time(),
+                'name'  => 'Lucky random',
+                'type'  => '2',
+                'message'   => 'Vòng quay may mắn',
+                'money_apply_start' => 1,
+                'money_apply_end'   => 100000000,
+                'value' => 20000,
+                'max_price' => 20000,
+                'quantity'  => 1,
+                'remaining_quantity'    => 0,
+                'start_time'    => Carbon::now('Asia/Ho_Chi_Minh')->toDateTime(),
+                'stop_time' => $day->toDateTime(),
+                'coupon_type'   => '1',
+                'apply_with'    => '1',
+                'user_id'       => $user->id,
+                'status'    => '0'
+            ];
+            Coupons::create($data);
+        } elseif ($lucky == 2) {
+            $data = [
+                'create_by_user'    => $user->id,
+                'apply_store'   => 0,
+                'code'  => time(),
+                'name'  => 'Lucky random',
+                'type'  => '0',
+                'message'   => 'Vòng quay may mắn',
+                'money_apply_start' => 1,
+                'money_apply_end'   => 100000000,
+                'value' => 10000,
+                'max_price' => 10000,
+                'quantity'  => 1,
+                'remaining_quantity'    => 0,
+                'start_time'    => Carbon::now('Asia/Ho_Chi_Minh')->toDateTime(),
+                'stop_time' => $day->toDateTime(),
+                'coupon_type'   => '1',
+                'apply_with'    => '1',
+                'user_id'       => $user->id,
+                'status'    => '0'
+            ];
+            Coupons::create($data);
+        } elseif ($lucky == 3) {
+            $data = [
+                'create_by_user'    => $user->id,
+                'apply_store'   => 0,
+                'code'  => time(),
+                'name'  => 'Lucky random',
+                'type'  => '0',
+                'message'   => 'Vòng quay may mắn',
+                'money_apply_start' => 1,
+                'money_apply_end'   => 100000000,
+                'value' => 20000,
+                'max_price' => 20000,
+                'quantity'  => 1,
+                'remaining_quantity'    => 0,
+                'start_time'    => Carbon::now('Asia/Ho_Chi_Minh')->toDateTime(),
+                'stop_time' => $day->toDateTime(),
+                'coupon_type'   => '1',
+                'apply_with'    => '1',
+                'user_id'       => $user->id,
+                'status'    => '0'
+            ];
+            Coupons::create($data);
+        } elseif ($lucky == 4) {
+            $user->money = $user->money + 10000;
+            $user->save();
+            $info = [
+                'id_user'   => $user->id,
+                'amount'    => 10000,
+                'type'      => '0',
+                'description'   => 'Thưởng vòng quay may mắn',
+                'status'    => '1'
+            ];
+            PaymentUser::create($info);
+        } elseif ($lucky == 5) {
+            $user->money = $user->money + 20000;
+            $user->save();
+            $info = [
+                'id_user'   => $user->id,
+                'amount'    => 10000,
+                'type'      => '0',
+                'description'   => 'Thưởng vòng quay may mắn',
+                'status'    => '1'
+            ];
+            PaymentUser::create($info);
+        }
+        $user->turns = $user->turns - 1;
+        $user->save();
+        return $lucky;
     }
 }

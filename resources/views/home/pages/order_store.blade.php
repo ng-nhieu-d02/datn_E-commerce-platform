@@ -5,17 +5,6 @@
         <button type="button" class="btn btn-outline-primary">Hoá đơn</button>
 
     </div>
-    @if (session('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
-
-    @if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
     <div class="container--voucher_store_table">
 
         <table class="table">

@@ -2,17 +2,7 @@
 @section('content')
 <div class="page--receipt--detail">
     <div class="container container-page--receipt--detail">
-    @if (session('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
 
-    @if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
         <table class="table mt-5 table--listl--order--detai">
             <thead>
                 <tr>

@@ -13,6 +13,11 @@
 
 {{-- CKeditor --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{ url('assets/js/hc-canvas-luckwheel.js') }}"></script>
+
 <script>
     // toggle menu-modals
     $(document).ready(function() {
@@ -205,6 +210,15 @@
             let urlLogin = "{{ route('login') }}";
             e.preventDefault();
 
+            const status = $(this).attr('data-status');
+            if (!status) {
+                return Swal.fire(
+                    'Lỗi',
+                    'Không thể thực hiện thao tác này ! <br> Cửa hàng này đang bị khoá',
+                    'error'
+                );
+            }
+
             if (!isLogin) {
                 return window.location = urlLogin;
             }
@@ -221,11 +235,19 @@
                     success: function(res) {
                         const response = JSON.parse(res);
                         if (response.status == 200) {
-                            alert('update');
+                            Swal.fire(
+                                'Thành công',
+                                'Đã cập nhật sản phẩm trong giỏ hàng',
+                                'success'
+                            );
                             $(`.quantity__change__for_update_${response.data.id}`).html(
                                 response.data.quantity);
                         } else if (response.status == 201) {
-                            alert('success');
+                            Swal.fire(
+                                'Thành công',
+                                'Đã cập nhật sản phẩm trong giỏ hàng',
+                                'success'
+                            )
                             $('.tip__cartBar').text(Number($('.tip__cartBar').text()) + 1);
                             $('.list__product__cart__bar').prepend(`
                                 <div class="component--cardProductCart">
@@ -249,12 +271,20 @@
                                     </div>
                                 </div>`);
                         } else {
-                            ToastSuccess('Lỗi:', response.message, 'warning', 3000);
+                            Swal.fire(
+                                'Thất bại',
+                                'Số lượng sản phẩm không đủ.<br> Vui lòng kiếm tra lại.',
+                                'error'
+                            )
                         }
                     }
                 });
             } else {
-                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warning', 3000)
+                Swal.fire(
+                    'Thất bại',
+                    'Vui lòng chọn loại sản phẩm',
+                    'error'
+                )
             }
         });
     })
@@ -278,15 +308,12 @@
                 success: function(res) {
                     const response = JSON.parse(res);
                     if (response.status == 200) {
-                        console.log(response.message);
                         const index = id;
                         const val = detail.filter(({
                             id
                         }) => id == index);
                         val[0].quantity = quantity;
                         update_total();
-                    } else {
-                        console.log(response.message);
                     }
                 }
             });
@@ -298,13 +325,21 @@
             const action = $(this).attr('data-action');
             if (action == 'minus') {
                 if ((Number(quantity.val()) - 1) < 1) {
-                    ToastSuccess('Lỗi:', 'Ko nhập thấp hơn 0', 'warning', 3000);
+                    Swal.fire(
+                        'Thất bại',
+                        'Số lượng sản phẩm không hợp lệ. <br> Vui lòng kiểm tra lại',
+                        'error'
+                    )
                 } else {
                     quantity.val(Number(quantity.val()) - 1);
                 }
             } else {
                 if ((Number(quantity.val()) + 1) > Number(quantity_detail.val())) {
-                    ToastSuccess('Lỗi:', 'Hàng không đủ', 'warning', 3000);
+                    Swal.fire(
+                        'Thất bại',
+                        'Số lượng sản phẩm trong kho không đủ. <br> Rất tiếc vì sự bất tiện này',
+                        'error'
+                    )
                     return;
                 } else {
                     quantity.val(Number(quantity.val()) + 1);
@@ -341,11 +376,19 @@
                     success: function(res) {
                         const response = JSON.parse(res);
                         if (response.status == 200) {
-                            alert('success');
+                            Swal.fire(
+                                'Thành công',
+                                'Đã xoá sản phẩm này khỏi giỏ hàng',
+                                'success'
+                            );
                             parentElement.remove();
                             $('.tip__cartBar').text(Number($('.tip__cartBar').text()) - 1);
                         } else {
-                            alert(`${response.data}`);
+                            Swal.fire(
+                                'Thất bại',
+                                'Có lỗi gì đó. <br> Vui lòng thử lại.',
+                                'error'
+                            );
                         }
                     }
                 });
@@ -418,12 +461,20 @@
             const address = $('input[name=option]:checked', '#form_radio').val();
 
             if (address == 'required') {
-                ToastSuccess('Lỗi:', 'address cannot be null', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Địa chỉ không được để trống. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
 
             if (paymentMethod == null) {
-                ToastSuccess('Lỗi:', 'paymentMethod cannot be null', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Kiểu thanh toán không được để trống. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
 
@@ -615,7 +666,11 @@
                 }
                 fileReader.readAsDataURL(file);
             } else {
-                ToastSuccess('Lỗi:', 'This is not an Image File!', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Chỉ chấp nhận file ảnh. <br> Vui lòng thử lại.',
+                    'error'
+                )
             }
         }
 
@@ -650,7 +705,11 @@
 
                         })
                     } else {
-                        ToastSuccess('Lỗi:', 'Có file không hợp lệ, vui lòng kiểm tra lại', 'warning', 3000);
+                        Swal.fire(
+                            'Lỗi',
+                            'Có file không hợp lệ. <br> Vui lòng kiểm tra lại.',
+                            'error'
+                        )
                     }
                 }
 
@@ -736,10 +795,18 @@
             let html = '';
             let valueSize = $("#text-size").val().trim();
             if (checkSize(valueSize)) {
-                ToastSuccess('Lỗi:', 'Giá trị bạn chọn đã tồn tại', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Giá trị bạn chọn đã tồn tại. <br> Vui lòng kiểm tra lại.',
+                    'error'
+                )
             } else {
                 if (valueSize == '') {
-                    ToastSuccess('Lỗi:', 'Chưa chọn size', 'warning', 3000);
+                    Swal.fire(
+                        'Lỗi',
+                        'Chưa chọn size. <br> Vui lòng kiểm tra lại.',
+                        'error'
+                    )
                 } else {
                     html += `
                     <div class="checkbox me-2">
@@ -759,10 +826,18 @@
             let valueColor = $("#text-color").val().trim();
 
             if (checkColor(valueColor)) {
-                ToastSuccess('Lỗi:', 'Màu bạn chọn đã tồn tại', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Màu bạn chọn đã tồn tại. <br> Vui lòng thử lại.',
+                    'error'
+                )
             } else {
                 if (valueColor == '') {
-                    ToastSuccess('Lỗi:', 'Chưa chọn màu', 'warning', 3000);
+                    Swal.fire(
+                        'Lỗi',
+                        'Chưa chọn màu. <br> Vui lòng thử lại.',
+                        'error'
+                    )
                 } else {
                     html += `
                     <div class="checkbox-color me-3">
@@ -791,7 +866,12 @@
             let trElement = '';
 
             if (checkedSize.length == 0 && checkedColor.length == 0) {
-                ToastSuccess('Lỗi:', 'Chưa chọn phân loại sản phẩm', 'warning', 3000);
+
+                Swal.fire(
+                    'Lỗi',
+                    'Chưa chọn phân loại sản phẩm. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
 
@@ -911,7 +991,11 @@
             let quantitySpeed = $("#quantitySpeed").val().trim();
 
             if (priceSpeed == '' && saleSpeed == '' && weightSpeed == '' && quantitySpeed == '') {
-                ToastSuccess('Lỗi:', 'Không có giá trị, không thể áp dụng', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Không có giá trị, không thể áp dụng. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
 
@@ -1033,19 +1117,27 @@
                         dataType: 'json',
                         success: function(data) {
                             if (data.success) {
-                                alert(data.message);
+                                Swal.fire(
+                                    'Thành công',
+                                    data.message + '. <br>',
+                                    'sưccess'
+                                )
                                 window.location.reload();
                             } else {
-                                alert(data.message);
+                                Swal.fire(
+                                    'Lỗi',
+                                    data.message + '. <br> Vui lòng thử lại.',
+                                    'error'
+                                )
                             }
-                        }, 
+                        },
                         error: function(jqXHR) {
                             let msg = '';
-                            
+
                             for (var key in jqXHR.responseJSON.errors) {
-                                    if (jqXHR.responseJSON.errors.hasOwnProperty(key)) {
-                                       msg += '<li>'+jqXHR.responseJSON.errors[key][0]+'</li>';
-                                    }
+                                if (jqXHR.responseJSON.errors.hasOwnProperty(key)) {
+                                    msg += '<li>' + jqXHR.responseJSON.errors[key][0] + '</li>';
+                                }
                             }
                             $(".alert-danger").show();
                             $("#ulEl").html(msg)
@@ -1064,11 +1156,20 @@
         $("#btn-attribute").click(function() {
             let input_attribute = $("#add-attribute").val().trim();
             if ($("#add-attribute").val() == '') {
-                ToastSuccess('Lỗi:', 'Chưa chọn thuộc tính', 'warning', 3000);
+
+                Swal.fire(
+                    'Lỗi',
+                    'Chưa chọn thuộc tính. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
             if (checkAttribute(input_attribute)) {
-                ToastSuccess('Lỗi:', 'Đã tồn tại thuộc tính', 'warning', 3000);
+                Swal.fire(
+                    'Lỗi',
+                    'Đã tồn tại thuộc tính. <br> Vui lòng thử lại.',
+                    'error'
+                )
                 return;
             }
             let attributeElement = `
@@ -1179,17 +1280,23 @@
             url: url__submit,
             type: 'POST',
             data: data,
-            success:function(res) {
+            success: function(res) {
                 const json = JSON.parse(res);
-                if(json.method == "add") {
+                if (json.method == "add") {
                     $(this).addClass('wishlist__add');
-                }else {
+                } else {
                     $(this).removeClass('wishlist__add');
                 }
-                ToastSuccess('Thành công:', 'Sản phẩm đã được '+json.message+' wishlist', json.status, 3000);
+                Swal.fire(
+                    'Thành công',
+                    'Sản phẩm đã được ' + json.message + ' wishlist',
+                    'success'
+                )
             }.bind(this)
         });
     })
 </script>
 
 @yield('scripts')
+
+@include('home.layout.ingredient.errorFunction')

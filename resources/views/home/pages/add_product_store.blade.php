@@ -97,21 +97,6 @@
     }
 </style>
 <a href="" class="btn btn-primary fs-4 mb-4">Quay trở lại</a>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-@if($message = session('message'))
-    <div class="alert alert-success">
-        {{ $message }}
-    </div>
-@endif
 
 <form action="{{ route("user.add-product-store", $store->id) }}" method="post" enctype="multipart/form-data">
     @csrf

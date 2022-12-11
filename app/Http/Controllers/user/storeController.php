@@ -11,12 +11,14 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStore;
 use App\Models\PaymentStore;
+use App\Models\PaymentUser;
 use App\Models\PermissionStore;
 use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\ProductImages;
 use App\Models\Store;
 use App\Models\StoreCate;
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -47,12 +49,15 @@ class storeController extends Controller
             return abort(404);
         }
 
+        $products = Product::where('id_store', $store->id)->orderBy('id', 'DESC')->paginate(3);
+
         $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
 
         return view('home.pages.manager_product_store', [
             'store' => $store,
             'permission'    => $permission,
             'checkPermissionStore' => $checkPermissionStore,
+            'products'  => $products
         ]);
     }
 
@@ -222,6 +227,7 @@ class storeController extends Controller
 
     public function storeAddProduct(Request $request)
     {
+        
         $validated = $request->validate([
             'name' => 'bail|required|unique:product,name|string',
             'description' => 'bail|required|string',
@@ -362,6 +368,7 @@ class storeController extends Controller
     public function add_voucher($id, Request $request)
     {
         $permission = $this->checkPermission($id);
+        $this->check_status_store($id);
         if (strtotime($request->day_start) > strtotime($request->day_end)) {
             return redirect()->back()->with('error', 'Ngày không hợp lệ')->withInput($request->input());
         }
@@ -423,11 +430,13 @@ class storeController extends Controller
     public function delete_voucher($id, Request $request)
     {
         $permission = $this->checkPermission($id);
+        $this->check_status_store($id);
         Coupons::find($request->id)->delete();
     }
     public function update_voucher($id, Request $request)
     {
         $permission = $this->checkPermission($id);
+        $this->check_status_store($id);
         $coupon = Coupons::find($request->id);
         if ($coupon->quantity > $coupon->remaining_quantity) {
             Coupons::find($request->id)->update(['status'   => $request->status]);
@@ -475,6 +484,7 @@ class storeController extends Controller
     public function deleteProduct($id)
     {
         $findProduct = Product::find($id);
+        $this->check_status_store($id);
 
         if (is_null($findProduct)) {
             return redirect()->back()->with("error", "Sản phẩm không tồn tại");
@@ -510,6 +520,7 @@ class storeController extends Controller
     {
         $permission = $this->checkPermission($id);
         $orderStore = OrderStore::find($order);
+        $this->check_status_store($id);
         $orderStore->status_order = $status;
         if ($status == 3) {
             $orderStore->status_payment_store = '1';
@@ -539,12 +550,31 @@ class storeController extends Controller
                 'create_by' => $orderStore->store->name,
                 'content'   => 'Đã giao hàng thành công'
             ];
+            $store = Store::find($orderStore->store->id);
+            $store->money = $store->money + ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price);
+            $store->save();
+            $user = User::find($orderStore->order->create_by);
+            $user->turns = $user->turns + 1;
+            $user->save();
         } else if ($status == 4) {
             $history = [
                 'id_order'  => $orderStore->id_order,
                 'create_by' => $orderStore->store->name,
                 'content'   => 'Đã giao hàng thất bại - huỷ đơn hàng'
             ];
+            if($orderStore->order->payment_status == 1) {
+                $user = User::find($orderStore->order->create_by);
+                $user->money = $user->money + ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price);
+                $user->save();
+                $info = [
+                    'id_user'   => $orderStore->order->create_by,
+                    'amount'    => ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price),
+                    'type'      => '0',
+                    'description'   => 'Hoàn tiền hoá đơn '.$orderStore->id,
+                    'status'    => '1'
+                ];
+                PaymentUser::create($info);
+            } 
         }
         HistoryUpdateOrder::create($history);
         $orderStore->save();
@@ -569,6 +599,7 @@ class storeController extends Controller
     public function store_payment($id, Request $request)
     {
         $permission = $this->checkPermission($id);
+        $this->check_status_store($id);
         $payment = [
             'id_store'  => $id,
             'create_by' => Auth::user()->id,
@@ -728,5 +759,30 @@ class storeController extends Controller
         else {
             return $permission;
         }
+        
+    }
+
+    public function marketing($id,$product, Request $request)
+    {
+        $permission = $this->checkPermission($id);
+        $this->check_status_store($id);
+        $store = Store::find($id);
+        if($store->money < $request->amount) {
+            return redirect()->back()->with('error', 'Số dư không khả dụng');
+        }
+        $product = Product::find($product);
+        $product->view_prioritized = $product->view_prioritized + ($request->amount*2);
+        $product->save();
+        $store->money = $store->money - $request->amount;
+        $store->save();
+        return redirect()->back()->with('success', 'Mua lượt view thành công');
+    }
+
+    public function check_status_store($id)
+    {
+        $store = Store::find($id);
+        if($store->status != 1) {
+            return redirect()->back()->with('error', 'Cửa hàng đang bị khoá');
+        } 
     }
 }
