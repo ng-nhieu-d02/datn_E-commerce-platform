@@ -23,7 +23,7 @@
                 </div>
                 <div class="d-flex info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
-                        <img class="rounded-circle img-fluid" src="{{ asset('upload/store/avatars/' . $store->avatar) }}" alt="">
+                        <img class="rounded-circle img-fluid" style="width: 100%;" src="{{ asset('upload/store/avatars/' . $store->avatar) }}" alt="">
                     </div>
                     <div class="name-profile" style="flex-grow: 1;">
                         <h2 class="name-profile-h2">{{$store->name}}</h2>
