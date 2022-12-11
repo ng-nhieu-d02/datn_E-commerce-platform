@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $user = User::where("email", $request->email)->first();
+
+        if($user->status == '4'){
+            return back()->with("error", "Tài khoản bị khoá, vui lòng liên hệ quản trị viên");
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();

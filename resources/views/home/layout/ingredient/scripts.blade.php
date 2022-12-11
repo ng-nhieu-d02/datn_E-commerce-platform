@@ -525,53 +525,6 @@
 
     });
 
-    // api address
-    let selecteCity = $("#city")
-    let selecteDistrict = $("#district")
-
-    loadCity()
-    selecteCity.on("change", async function() {
-        let selectedCity = await $(this).find(':selected').attr("data-codeCity");
-        await loadDistricts(selectedCity)
-    })
-
-    function loadCity() {
-        selecteCity.empty();
-        let city = '<option value="" readonly>Chọn thành phố</option>';
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p/",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-
-                data.forEach((item, index) => {
-                    city += `
-                            <option value="${item.name}" data-codeCity="${item.code}">${item.name}</option>
-                    `;
-                })
-                $("#city").html(city)
-            }
-        })
-    }
-
-    function loadDistricts(codeCity) {
-        selecteDistrict.empty();
-        let district = '<option value="" readonly>Chọn huyện</option>';
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
-            dataType: "json",
-            type: "GET",
-            success: function(data) {
-                data.districts.forEach((item, index) => {
-                    district += `
-                            <option value="${item.name}" data-idDistrict="${item.code}">${item.name}</option>
-                        `;
-                })
-                $("#district").html(district)
-            }
-        });
-
-    }
 </script>
 
 <script>
@@ -1071,7 +1024,6 @@
                     dataType: 'json',
                     success: function(result) {
                         if (result.success) {
-
                             $("select[name=city] option").each(async (i, obj) => {
                                 if (obj.value == result.data.city) {
                                     obj.setAttribute('selected', 'selected');
@@ -1088,12 +1040,12 @@
                                 })
                             }, 500)
 
+                            $("#name").val(result.data.name)
                             $("#address-2").val(result.data.address);
                             $("#phone-2").val(result.data.phone);
                         }
                     }
                 })
-
                 $("#form-edit").submit(function(e) {
                     e.preventDefault();
 
@@ -1299,4 +1251,71 @@
 
 @yield('scripts')
 
+
+<script>
+     // api address
+     let selecteCity = $("#city")
+    let selecteDistrict = $("#district")
+
+    let cityOld = ''
+    let districtOld = ''
+    @isset($store)
+        var cityByStore = "{!! $store->city !!}"; 
+        cityOld = cityByStore
+
+        var districtByStore = "{!! $store->district !!}"; 
+        districtOld = districtByStore
+    @endisset
+  
+   console.log(cityOld);
+
+    loadCity()
+    selecteCity.on("change", async function() {
+
+        let selectedCity = await $(this).find(':selected').attr("data-codeCity");
+        await loadDistricts(selectedCity)
+    })
+
+    function loadCity() {
+        selecteCity.empty();
+        let city = '<option value="" readonly>Chọn thành phố</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+
+                data.forEach((item, index) => {
+                    city += `
+                            <option value="${item.name}" ${item.name == cityOld ? 'selected' : ''} data-codeCity="${item.code}">${item.name}</option>
+                    `;
+                })
+                $("#city").html(city)
+                selecteCity.trigger("change")
+            }
+        })
+    }
+
+    function loadDistricts(codeCity) {
+        selecteDistrict.empty();
+        let district = '<option value="" readonly>Chọn huyện</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                data.districts.forEach((item, index) => {
+                    district += `
+                            <option value="${item.name}" ${item.name == districtOld ? 'selected' : ''} data-idDistrict="${item.code}">${item.name}</option>
+                        `;
+                })
+                $("#district").html(district)
+                selecteDistrict.trigger('change')
+            }
+        });
+
+    }
+</script>
+
 @include('home.layout.ingredient.errorFunction')
+

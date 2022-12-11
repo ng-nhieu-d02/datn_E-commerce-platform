@@ -21,7 +21,11 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('history_update_order', function ($table) {
+<<<<<<< HEAD
+            $table->foreign('id_order')->nullable()->references('id')->on('order');
+=======
             $table->foreign('id_order')->references('id')->on('order');
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
         });
     }
 

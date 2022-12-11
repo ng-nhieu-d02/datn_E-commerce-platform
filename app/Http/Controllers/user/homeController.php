@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+
+use App\Models\CategoryProduct;
+
 use App\Models\Coupons;
+
 use App\Models\Product;
 use App\Models\ProductDetail;
 use Carbon\Carbon;
@@ -14,7 +18,6 @@ class homeController extends Controller
 {
     public function __construct()
     {
-        
     }
     public function home()
     {
@@ -55,12 +58,43 @@ class homeController extends Controller
             'product' => $product
         ]);
     }
-    public function pageSearch(){
-        $product = Product::paginate(9);
+
+    public function pageSearch()
+    {
+        $product = Product::paginate(8);
+
+        $getAllCategoryProducts = CategoryProduct::where("parent_id", 0)->get();
+
+        $getCategoryProductChildren = CategoryProduct::where("parent_id", "<>", 0)->get();
+
+
         return view('home.pages.pageSearch', [
-            'product' => $product
+            'product' => $product,
+            'getAllCategoryProducts' => $getAllCategoryProducts,
+            'getCategoryProductChildren' => $getCategoryProductChildren,
         ]);
     }
+
+    public function filterProductChildren(Request $request)
+    {
+        $categoryProductParentId = $request->id;
+        $findChildrent = CategoryProduct::query();
+
+        if ($categoryProductParentId == 0) {
+            $findChildrent->where("parent_id", "<>", 0);
+        } else {
+            $findChildrent->where("parent_id", $categoryProductParentId);
+        }
+
+        $data = $findChildrent->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+        ]);
+    }
+
+
     public function lucky()
     {
         return view('home.pages.lucky_page', []);
@@ -74,3 +108,4 @@ class homeController extends Controller
         $product->save();
     }
 }
+

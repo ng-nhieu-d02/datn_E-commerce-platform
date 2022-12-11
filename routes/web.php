@@ -37,6 +37,9 @@ Route::prefix('/')->group(function () {
     Route::get('/lucky-page', [homeController::class, 'lucky'])->name('user.lucky');
     Route::get('/update-view/{product}', [homeController::class, 'view'])->name('user.update_view');
 
+    // ajax call category product children by parent
+    Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
+
     Route::prefix('/')->middleware('auth')->group(function () {
         // cart
         Route::get('/your-cart', [userController::class, 'cart'])->name('user.cart');
@@ -49,7 +52,7 @@ Route::prefix('/')->group(function () {
         Route::get('/pay-return', [paymentController::class, 'pay_return'])->name('user.pay-return');
         Route::get('/checkout-return/{order}', [paymentController::class, 'checkout_return'])->name('user.checkout-return');
         Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
-        
+
         // store
         Route::get('/payment/10000000000{id}', [storeController::class, 'payment'])->name('user.payment_store');
         Route::post('/payment-store/10000000000{id}', [storeController::class, 'store_payment'])->name('user.payment_store_post');
@@ -64,6 +67,10 @@ Route::prefix('/')->group(function () {
         Route::get('/detail-order-store/{id_order_store}/10000000000{id}', [storeController::class, 'order_detail'])->name('user.order_detail_store');
         Route::get('/update-store-store/10000000000{id}/{order}/{status}', [storeController::class, 'update_order_store'])->name('user.update_order_store');
         Route::post('/marketing/10000000000{id}/{product}', [storeController::class, 'marketing'])->name('user.marketing');
+
+        // edit store
+        Route::get("/store/edit/10000000000{id}", [storeController::class, 'editStore'])->name('user.store_edit');
+        Route::put("/store/edit/10000000000{id}", [storeController::class, 'updateStore'])->name('user.update_store');
 
         // add product into store
         Route::get('/create-product-store/{id}', [storeController::class, 'createProduct'])->name('user.create-product-store');
@@ -123,7 +130,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
         Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
         Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
-    
+
         Route::get('/member', [dashboardController::class, 'member'])->name('admin.member');
         Route::get('/update-member/{member}/{status}', [dashboardController::class, 'update_member'])->name('admin.update_member');
 

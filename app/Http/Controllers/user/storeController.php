@@ -61,6 +61,91 @@ class storeController extends Controller
         ]);
     }
 
+    public function editStore($id)
+    {
+        $store = Store::find($id);
+        
+        $nameCateByStore = null;
+        
+        if(!is_null($store)){
+            $nameCateByStore = implode(",", $store->store_cate->pluck("name")->toArray());
+        }
+        
+
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+
+        $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
+
+        if (is_null($checkPermissionStore)) {
+            return abort(404);
+        }
+        return view("home.pages.edit_store", [
+            'store' => $store,
+            'permission' => $permission,
+            'nameCateByStore' => $nameCateByStore
+        ]);
+    }
+
+    public function updateStore(Request $request, $id)
+    {
+        $store = Store::find($id);
+
+        $validate = [
+            "name" => 'required|string|unique:store,name,' . $id,
+            "name_cate" => 'required',
+            "slogan" => 'required',
+            "message" => 'nullable',
+            "city" => 'required',
+            "district" => 'required',
+            "address" => 'required',
+        ];
+
+        $validated = $request->validate($validate);
+
+        $validated['slug'] = str()->slug($validated['name']);
+
+        $arrayStoreCateNotIn = [];
+        $arrayStoreCateNew = [];
+
+        $getIdByStoreCate = StoreCate::where("id_store", $store->id)->whereNotIn("name", explode(",", $validated['name_cate']))->get()->pluck("id")->toArray();
+
+        if (count($getIdByStoreCate) > 0) {
+            $arrayStoreCateNotIn = $getIdByStoreCate;
+        }
+
+        $store->store_cate()->whereIn("id", $arrayStoreCateNotIn)->delete();
+
+        foreach (explode(",", $validated['name_cate']) as $nameCate) {
+            $storeCateNew = StoreCate::where("id_store", $store->id)->where("name", explode(",", $nameCate))->first();
+            if (is_null($storeCateNew)) {
+                $createStoreCateNew = StoreCate::create(['id_store' => $store->id, 'slug' => str()->slug($nameCate), 'name' => $nameCate]);
+                $arrayStoreCateNew[] = $createStoreCateNew->id;
+            }
+        }
+
+
+        if ($request->hasFile("avatar")) {
+            $pathAvatar = "upload/store/avatars/";
+            $avatar = $request->file("avatar");
+            $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
+            $validated['avatar'] = $fileNameAvatar;
+            unlink("upload/store/avatars/$store->avatar");
+            $avatar->move(public_path($pathAvatar), $fileNameAvatar);
+        }
+        if ($request->hasFile("background")) {
+            $pathBackground = "upload/store/backgrounds/";
+            $background = $request->file("background");
+            $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
+            $validated['background'] = $fileNameBackground;
+            unlink("upload/store/backgrounds/$store->background");
+            $background->move(public_path($pathBackground),  $fileNameBackground);
+        }
+
+        $store->update($validated);
+        return back()->with("success", "Cập nhật thành công");
+        // đã xong phần chỉnh sửa SHOP
+    }
+
     public function editProduct($idStore, $idProduct)
     {
         $store = Store::with(['product'])->find($idStore);
@@ -496,6 +581,7 @@ class storeController extends Controller
 
     public function order($id)
     {
+
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
@@ -507,6 +593,7 @@ class storeController extends Controller
     }
     public function order_detail($id, $id_order_store)
     {
+
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
         $details = OrderDetail::where('id_order_store', $id_order_store)->get();
@@ -518,6 +605,7 @@ class storeController extends Controller
     }
     public function update_order_store($id, $order, $status)
     {
+
         $permission = $this->checkPermission($id);
         $orderStore = OrderStore::find($order);
         $this->check_status_store($id);
@@ -759,7 +847,6 @@ class storeController extends Controller
         else {
             return $permission;
         }
-        
     }
 
     public function marketing($id,$product, Request $request)
