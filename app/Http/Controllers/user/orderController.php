@@ -23,6 +23,9 @@ class orderController extends Controller
             $address = UserAddress::where('id', '=', $request->address)->first();
         } else {
             $address = UserAddress::where('user_id', '=', Auth::user()->id)->where('status', '=', '0')->first();
+            if($address == null) {
+                return redirect()->route('user.address');
+            }
         }
         $system_coupons = Coupons::where(['apply_store' => '0' , 'status' => '0', 'coupon_type' => '0'])->where('stop_time','>=',Carbon::today()->toDateString())->where('start_time','<=',Carbon::today()->toDateString())->get();
         return view('home.pages.checkout', [

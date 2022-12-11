@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('password');
-            $table->string('phone')->unique();
-            $table->string('email')->unique();
+            $table->string('password')->nullable();
+            $table->string('phone')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('name');
             $table->bigInteger('money')->unsigned()->default(0);
             $table->enum('gender',['man', 'women', 'other'])->default('man');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('token')->nullable();
             $table->enum('permission',[0,1])->comment('0 là user, 1 là admin')->default(0);
             $table->integer('prestige')->comment('uy tín +1 mỗi khi đơn hàng dc xử lí thành công')->default(0);
+            $table->integer('turns')->default(0);
             $table->string('address')->nullable();
             $table->string('district')->nullable();
             $table->string('city')->nullable();

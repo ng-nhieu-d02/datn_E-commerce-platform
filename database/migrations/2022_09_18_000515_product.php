@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('thumb');
             $table->integer('like')->default(0);
             $table->bigInteger('view')->default(0);
+            $table->bigInteger('view_prioritized')->default(0);
             $table->string('brand');
             $table->string('origin');
             $table->string('title')->comment('on sale');

@@ -65,10 +65,8 @@
                                     Đã xác nhận - Đang xử lí
                                     @elseif($list->status_order==2)
                                     Đang giao hàng
-                                    @elseif($list->status_order==3)
-                                    Thành công
-                                    @elseif($list->status_order==4)
-                                    Thất bại
+                                    @else
+                                    Hoàn thành
                                     @endif
                                 </p>
                             </td>

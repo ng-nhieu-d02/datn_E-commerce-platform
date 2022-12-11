@@ -35,35 +35,29 @@
     <div class="ingredient--navBar--action">
 
         <li>
-            <i class="fa fa-magnifying-glass"></i>
+            <a href="{{route('user.pageSearch')}}">
+                <i class="fa fa-magnifying-glass"></i>
+            </a>
         </li>
         @if (Auth::check())
-            <li class="ingredient--navBar--action--modals">
-                <i class="fa-regular fa-bell"></i>
-                <span class="tip">0</span>
-            </li>
+        <li class="ingredient--navBar--action--modals">
+            <i class="fa-regular fa-bell"></i>
+            <span class="tip">0</span>
+        </li>
         @endif
         @if (Auth::check())
-            <li class="ingredient--navBar--action--modals">
-                <a href="{{ route('user.profile') }}">
-                    <i class="fa-regular fa-user"></i>
-                    <span class="tip">2</span>
-                    <!-- Authentication -->
-                    <!-- @if (Auth::check())
-<form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <button>Đăng xuất</button>
-                </form>
-@endif -->
-                </a>
-            </li>
-        @else
-            <a href="{{ route('login') }}">
-                <li class="ingredient--navBar--action--modals">
-                    <i class="fa-regular fa-user"></i>
-                </li>
+        <li class="ingredient--navBar--action--modals">
+            <a href="{{ route('user.profile') }}">
+                <i class="fa-regular fa-user"></i>
+                <span class="tip">2</span>
             </a>
+        </li>
+        @else
+        <a href="{{ route('login') }}">
+            <li class="ingredient--navBar--action--modals">
+                <i class="fa-regular fa-user"></i>
+            </li>
+        </a>
         @endif
         <li class="ingredient--navBar--action--modals">
             <i class="fa fa-cart-shopping" id="toggle-modals" data-modals="shopping-cart"></i>

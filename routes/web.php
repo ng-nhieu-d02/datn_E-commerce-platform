@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\dashboardController;
+use App\Http\Controllers\user\authController;
 use App\Http\Controllers\user\homeController;
 use App\Http\Controllers\user\orderController;
 use App\Http\Controllers\user\paymentController;
@@ -28,9 +29,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
 
+    Route::get('/login-google', [authController::class, 'loginGoogle'])->name('user.loginGoogle');
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
     Route::get('/page-search', [homeController::class, 'pageSearch'])->name('user.pageSearch');
+    Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
 
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
@@ -49,7 +52,10 @@ Route::prefix('/')->group(function () {
         Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
 
         // store
-        Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
+        Route::get('/payment/10000000000{id}', [storeController::class, 'payment'])->name('user.payment_store');
+        Route::post('/payment-store/10000000000{id}', [storeController::class, 'store_payment'])->name('user.payment_store_post');
+        Route::get('/pay-return-store', [storeController::class, 'payment_return'])->name('user.store_pay_return');
+        Route::get('/product-store/10000000000{id}', [storeController::class, 'product'])->name('user.product_store');
         Route::get('/voucher-store/10000000000{id}', [storeController::class, 'voucher_store'])->name('user.voucher_store');
         Route::POST('/check-code', [storeController::class, 'check_code'])->name('user.check_code');
         Route::POST('/add-voucher/10000000000{id}', [storeController::class, 'add_voucher'])->name('user.add_voucher');
@@ -86,6 +92,10 @@ Route::prefix('/')->group(function () {
         Route::put("/update-status-address/{id}", [userController::class, 'updateAddressStatus'])->name('user.update_status_address');
         Route::post('/add-wishlist', [userController::class, 'add_wishlist'])->name('user.add_wishlist');
         Route::get('/wishlist', [userController::class, 'wishlist'])->name('user.wishlist');
+        Route::get('/payment-user', [userController::class, 'payment'])->name('user.payment_user');
+        Route::post('/payment-user', [userController::class, 'payment_checkout'])->name('user.payment_user_checkout');
+        Route::get('/return-payment-user', [userController::class, 'payment_return'])->name('user.payment_user_return');
+        Route::post('/comment/{id}/{store}', [userController::class, 'comment'])->name('user.comment');
 
         // register booth
         Route::get("/register-booth", [userController::class, 'registerBooth'])->name("user.register_booth");
@@ -93,7 +103,12 @@ Route::prefix('/')->group(function () {
 
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
+<<<<<<< HEAD
         Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail']);
+=======
+        Route::get('/order-detail/{slug}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
+
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
     });
 });
 
@@ -108,7 +123,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
         Route::get('/category', [dashboardController::class, 'category'])->name('admin.category');
+<<<<<<< HEAD
 
+=======
+        Route::post('/category', [dashboardController::class, 'store_category'])->name('admin.store_category');
+        Route::post('/category/{id}', [dashboardController::class, 'update_category'])->name('admin.update_category');
+        Route::get('/delete-category/{id}', [dashboardController::class, 'delete_category'])->name('admin.delete_category');
+        
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
         Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
         Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
         Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
@@ -119,7 +141,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/store', [dashboardController::class, 'store'])->name('admin.store');
         Route::get('/update-store/{store}/{status}', [dashboardController::class, 'update_store'])->name('admin.update_store');
         Route::get('/update-ticket-store/{ticket}/{status}', [dashboardController::class, 'update_ticket_store'])->name('admin.update_ticket_store');
+<<<<<<< HEAD
     });
+=======
+
+        Route::get('/payment', [dashboardController::class, 'payment'])->name('admin.payment');
+        Route::get('/update_payment/{id}/{status}', [dashboardController::class, 'update_payment'])->name('admin.update_payment');
+    }); 
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
 });
 
 require __DIR__ . '/auth.php';

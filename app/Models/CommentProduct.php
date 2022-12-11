@@ -11,6 +11,16 @@ class CommentProduct extends Model
     use HasFactory;
 
     protected $table = 'comment_product';
+    protected $fillable = [
+        'create_by',
+        'id_store',
+        'id_product',
+        'message',
+        'rate',
+        'derImg',
+        'parent_id',
+        'parent_path'
+    ];
 
     public function product()
     {

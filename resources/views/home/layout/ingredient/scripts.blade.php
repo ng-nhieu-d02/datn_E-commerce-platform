@@ -249,12 +249,12 @@
                                     </div>
                                 </div>`);
                         } else {
-                            ToastSuccess('Lỗi:', response.message, 'warring', 3000);
+                            ToastSuccess('Lỗi:', response.message, 'warning', 3000);
                         }
                     }
                 });
             } else {
-                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warring', 3000)
+                ToastSuccess('Lỗi:', 'Vui lòng chọn loại sản phẩm', 'warning', 3000)
             }
         });
     })
@@ -539,7 +539,10 @@
         let buttonAlbum = document.querySelector("#button-album");
         let inputAlbum = document.querySelector("#album");
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
         if (button) {
             button.onclick = function() {
                 input.click();
@@ -937,11 +940,19 @@
                 let findUserByUrl = $(this).attr("data-href");
                 $.ajax({
                     url: findUserByUrl,
+<<<<<<< HEAD
                     type : 'GET',
                     dataType : 'json',
                     success : function(result){
                         console.log(result);
                         if(result.success){
+=======
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result.success) {
+
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
                             $("select[name=city] option").each(async (i, obj) => {
                                 if (obj.value == result.data.city) {
                                     obj.setAttribute('selected', 'selected');
@@ -964,12 +975,20 @@
                         }
                     }
                 })
+<<<<<<< HEAD
                 $(".alert-danger").hide();
                 $("#form-edit").submit(function(e){
                     e.preventDefault();
 
 
                     if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "" || $("#phone-2").val() == ""){
+=======
+
+                $("#form-edit").submit(function(e) {
+                    e.preventDefault();
+
+                    if ($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "") {
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
                         return false;
                     }
 
@@ -980,6 +999,7 @@
                         url: route,
                         type: "PUT",
                         data: {
+<<<<<<< HEAD
                             "_token" : $('input[name=_token]').val(),
                             "id" : action,
                             "name" : $("#name").val(),
@@ -992,6 +1012,17 @@
                         success: function(data) {
        
                             if(data.success) {
+=======
+                            "_token": $('input[name=_token]').val(),
+                            "id": action,
+                            "city": $("#city-2").val(),
+                            "district": $("#district-2").val(),
+                            "address": $("#address-2").val(),
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.success) {
+>>>>>>> fdca0204e789172b5dcf9f662990e355b44886f3
                                 alert(data.message);
                                 window.location.reload();
                             } else {
