@@ -841,12 +841,7 @@ class storeController extends Controller
     public function checkPermission($id)
     {
         $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
-        if ($permission == 0) {
-            return redirect()->back()->with('error', 'you have no right');
-        }
-        else {
-            return $permission;
-        }
+        return $permission;
     }
 
     public function marketing($id,$product, Request $request)
