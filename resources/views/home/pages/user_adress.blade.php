@@ -58,7 +58,7 @@
         @forelse ($address as $adr)
         <div class="item-adress d-flex my-5">
             <div class="col-lg-6 d-flex flex-column">
-                <span class="fw-bold fs-3">{{ $adr->user->name }}</span>
+                <span class="fw-bold fs-3">{{ $adr->name ? $adr->name : $adr->user->name }}</span>
                 <span class="text-muted fs-3">{{ $adr->address }}, {{ $adr->district }}, {{ $adr->city }}</span>
                 <span class="text-muted fs-3">
                     @if ($adr->phone)
@@ -68,7 +68,7 @@
                     @endif
                 </span>
 
-                @if($adr->status == '1')
+                @if($adr->status == '0')
                 <div class="set-defaut mt-2">
                     <span>Mặc định</span>
                 </div>    
@@ -83,7 +83,7 @@
                         <button class="fs-3">Xoá</button>
                    </form>
                 </div>
-                @if($adr->status == '0')
+                @if($adr->status == '1')
                 <div class="set-defaut-2 mt-2">
                     <form action="{{ route("user.update_status_address", $adr->id) }}" method="post">
                         @csrf
@@ -113,6 +113,10 @@
         <form action="{{ route("user.add_address") }}" method="post">
         <div class="modal-body">
             @csrf
+            <div class="mb-3 col-lg-12">
+                <label for="" class="form-label">Tên người nhận</label>
+                <input type="text" class="form-control fs-3" name="name" value="{{ old("name", $address[0]->user->name) }}" required placeholder="Nhập tên người nhận">
+            </div>
             <div class=" mb-3 col-lg-12">
                 <label for="" class="form-label">Thành phố/ Tỉnh</label>
                 {{-- <input type="text" name="city" value="{{ old('city') }}" placeholder="Hồ Chí Minh"
@@ -166,6 +170,10 @@
         <div class="modal-body">
             @csrf
             @method("PUT")
+            <div class="mb-3 col-lg-12">
+                <label for="" class="form-label">Tên người nhận</label>
+                <input type="text" class="form-control fs-3" name="name" id="name" value="" required placeholder="Nhập tên người nhận">
+            </div>
             <div class=" mb-3 col-lg-12">
                 <label for="" class="form-label">Thành phố/ Tỉnh</label>
                 {{-- <input type="text" name="city" value="{{ old('city') }}" placeholder="Hồ Chí Minh"

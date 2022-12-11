@@ -95,9 +95,8 @@ class userController extends Controller
     public function updateProfile(Request $request)
     {
         $validated = $request->validate([
-            
+
             'phone' => 'bail|required|digits:10|numeric',
-          
             'name' => 'bail|required',
             'gender' => 'bail|required|string',
             'file_image' => 'mimes:jpg,jpeg,png'
@@ -232,7 +231,7 @@ class userController extends Controller
 
     public function userAddress()
     {
-        $address = UserAddress::with(['user'])->where('user_id', '=', auth()->user()->id)->orderBy("status", 'desc')->get();
+        $address = UserAddress::with(['user'])->where('user_id', '=', auth()->user()->id)->orderBy("status")->get();
         return view("home.pages.user_adress", [
             'address' => $address
         ]);
@@ -241,6 +240,7 @@ class userController extends Controller
     public function addUserAddress(Request $request)
     {
         $validated = $request->validate([
+            "name" => 'required|string',
             "city" => 'bail|required|string',
             "district" => 'bail|required|string',
             "address" => 'bail|required|string',
@@ -251,7 +251,7 @@ class userController extends Controller
                 'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
             ],
         ]);
-        $validated['status'] = "0";
+        $validated['status'] = "1";
         $validated['user_id'] = auth()->user()->id;
 
         UserAddress::updateOrCreate($validated);
@@ -272,6 +272,7 @@ class userController extends Controller
     public function updateUserAddress(Request $request)
     {
         $validated = $request->validate([
+            "name" => "required|string",
             "city" => 'bail|required|string',
             "district" => 'bail|required|string',
             "address" => 'bail|required|string',
@@ -282,10 +283,11 @@ class userController extends Controller
                 'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
             ],
         ]);
-       
+
 
         $userAddress = UserAddress::find($request->id);
 
+        $userAddress->name = $validated['name'];
         $userAddress->city = $validated['city'];
         $userAddress->district = $validated['district'];
         $userAddress->address = $validated['address'];
@@ -311,18 +313,18 @@ class userController extends Controller
         $listUserAdress = UserAddress::where("user_id", auth()->user()->id)->get();
         $ids = $listUserAdress->pluck("id")->toArray();
         if (in_array($id, $ids)) {
-            if (UserAddress::find($id)->status == '1') {
+            if (UserAddress::find($id)->status == '0') {
                 return back()->with("message", "Đã thiết lập mặc định không cần thiết lập lại");
             } else {
                 foreach ($listUserAdress as $userAddress) {
-                    if ($userAddress->status == '1') {
+                    if ($userAddress->status == '0') {
                         UserAddress::find($userAddress->id)->update([
-                            'status' => '0',
+                            'status' => '1',
                         ]);
                     }
                 }
                 $update = UserAddress::find($id);
-                $update->status = "1";
+                $update->status = "0";
                 $update->save();
             }
         }
@@ -338,7 +340,7 @@ class userController extends Controller
 
     public function wishlist()
     {
-        $product = Product::select('product.*')->join('user_wishlist', 'user_wishlist.product_id', '=', 'product.id')->where('user_wishlist.user_id',Auth::user()->id)->paginate(10);
+        $product = Product::select('product.*')->join('user_wishlist', 'user_wishlist.product_id', '=', 'product.id')->where('user_wishlist.user_id', Auth::user()->id)->paginate(10);
         return view('home.pages.wishlist', [
             'product' => $product
         ]);
@@ -347,13 +349,13 @@ class userController extends Controller
     public function add_wishlist(Request $request)
     {
         $id = $request->id;
-        $wishlist = UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->count();
-        if($wishlist == 0) {
+        $wishlist = UserWishlist::where('user_id', Auth::user()->id)->where('product_id', $id)->count();
+        if ($wishlist == 0) {
             UserWishlist::create(['user_id' => Auth::user()->id, 'product_id' => $id]);
             $res = ['status' => 'success', 'message' => 'Thêm vào', 'method' => 'add'];
         } else {
-            UserWishlist::where('user_id',Auth::user()->id)->where('product_id', $id)->delete();
-            $res = ['status' => 'success', 'message' => 'Xoá khỏi' , 'method' => 'remove'];
+            UserWishlist::where('user_id', Auth::user()->id)->where('product_id', $id)->delete();
+            $res = ['status' => 'success', 'message' => 'Xoá khỏi', 'method' => 'remove'];
         }
         return json_encode($res);
     }

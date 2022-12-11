@@ -12,6 +12,7 @@ class UserAddress extends Model
     protected $table = 'user_address';
 
     protected $fillable = [
+        "name",
         "city",
         "district",
         "address",

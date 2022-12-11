@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('content');
             $table->timestamps();
         });
-        Schema::table('order', function ($table) {
-            $table->foreign('id_order')->references('id')->on('order');
+        Schema::table('history_update_order', function ($table) {
+            $table->foreign('id_order')->nullable()->references('id')->on('order');
         });
     }
 

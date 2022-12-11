@@ -474,53 +474,6 @@
 
     });
 
-    // api address
-    let selecteCity = $("#city")
-    let selecteDistrict = $("#district")
-
-    loadCity()
-    selecteCity.on("change", async function() {
-        let selectedCity = await $(this).find(':selected').attr("data-codeCity");
-        await loadDistricts(selectedCity)
-    })
-
-    function loadCity() {
-        selecteCity.empty();
-        let city = '<option value="" readonly>Chọn thành phố</option>';
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p/",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-
-                data.forEach((item, index) => {
-                    city += `
-                            <option value="${item.name}" data-codeCity="${item.code}">${item.name}</option>
-                    `;
-                })
-                $("#city").html(city)
-            }
-        })
-    }
-
-    function loadDistricts(codeCity) {
-        selecteDistrict.empty();
-        let district = '<option value="" readonly>Chọn huyện</option>';
-        $.ajax({
-            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
-            dataType: "json",
-            type: "GET",
-            success: function(data) {
-                data.districts.forEach((item, index) => {
-                    district += `
-                            <option value="${item.name}" data-idDistrict="${item.code}">${item.name}</option>
-                        `;
-                })
-                $("#district").html(district)
-            }
-        });
-
-    }
 </script>
 
 <script>
@@ -587,37 +540,6 @@
         let inputAlbum = document.querySelector("#album");
 
 
-<<<<<<< HEAD
-        if(button){
-            console.log($("#upload-file-product").trigger('click'));
-            button.onclick = function() {
-            input.click();
-        }
-        $("#upload-file-product").trigger('click')
-        $("#input-hidden").trigger('click')
-        }
-        
-        if(input){
-
-            input.addEventListener("change", function(){
-
-            file = this.files[0];
-            $(".drag-area").show();
-            $(".drag-area").addClass("active")
-            showFile(); 
-            });
-        }
-        $(".removeFile").show();
-        function showFile(){
-            let fileType = file.type; 
-            let validExtensions = ["image/jpeg", "image/jpg", "image/png", "video/mp4", "video/ogg"]; 
-            if(validExtensions.includes(fileType)){ 
-                let fileReader = new FileReader(); 
-                fileReader.onload = ()=>{
-                    let fileURL = fileReader.result; 
-                    let imgTag = `<img src="${fileURL}" alt="image">`;
-                    $(".drag-area").html(imgTag); 
-=======
         if (button) {
             button.onclick = function() {
                 input.click();
@@ -643,7 +565,6 @@
                     let fileURL = fileReader.result;
                     let imgTag = `<img src="${fileURL}" alt="image">`;
                     $(".drag-area").html(imgTag);
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                     $(".removeFile").show();
                 }
                 fileReader.readAsDataURL(file);
@@ -687,14 +608,6 @@
                     }
                 }
 
-<<<<<<< HEAD
-            showImageAlbum()
-            function showImageAlbum(){
-                console.log(listAlbumImages);
-                let image = "";
-                listAlbumImages.forEach((item) => {
-                    console.log(item);
-=======
                 showImageAlbum()
 
                 function showImageAlbum() {
@@ -702,7 +615,6 @@
                     let image = "";
                     listAlbumImages.forEach((item) => {
 
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         image += `<div class="col-lg-2 position-relative my-4">
                         <img class="img-fluid" src="${item.url}" alt="">
                         <div class="removeFileAlbum position-absolute top-0 right-0 d-block">
@@ -1025,18 +937,11 @@
                 let findUserByUrl = $(this).attr("data-href");
                 $.ajax({
                     url: findUserByUrl,
-<<<<<<< HEAD
                     type : 'GET',
                     dataType : 'json',
                     success : function(result){
                         console.log(result);
                         if(result.success){
-=======
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(result) {
-                        if (result.success) {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                             $("select[name=city] option").each(async (i, obj) => {
                                 if (obj.value == result.data.city) {
                                     obj.setAttribute('selected', 'selected');
@@ -1053,25 +958,18 @@
                                 })
                             }, 500)
 
+                            $("#name").val(result.data.name)
                             $("#address-2").val(result.data.address);
                             $("#phone-2").val(result.data.phone);
                         }
                     }
                 })
-<<<<<<< HEAD
                 $(".alert-danger").hide();
                 $("#form-edit").submit(function(e){
                     e.preventDefault();
 
 
                     if($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "" || $("#phone-2").val() == ""){
-=======
-
-                $("#form-edit").submit(function(e) {
-                    e.preventDefault();
-
-                    if ($("#address-2").val() == "" || $("#city-2").val() == "" || $("#district-2").val() == "") {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                         return false;
                     }
 
@@ -1082,9 +980,9 @@
                         url: route,
                         type: "PUT",
                         data: {
-<<<<<<< HEAD
                             "_token" : $('input[name=_token]').val(),
                             "id" : action,
+                            "name" : $("#name").val(),
                             "city" : $("#city-2").val(),
                             "district" : $("#district-2").val(),
                             "address" : $("#address-2").val(),
@@ -1094,17 +992,6 @@
                         success: function(data) {
        
                             if(data.success) {
-=======
-                            "_token": $('input[name=_token]').val(),
-                            "id": action,
-                            "city": $("#city-2").val(),
-                            "district": $("#district-2").val(),
-                            "address": $("#address-2").val(),
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.success) {
->>>>>>> 1b30bfc5414cac5e51949a80a3e4b198d1bf9490
                                 alert(data.message);
                                 window.location.reload();
                             } else {
@@ -1265,3 +1152,68 @@
 </script>
 
 @yield('scripts')
+
+<script>
+     // api address
+     let selecteCity = $("#city")
+    let selecteDistrict = $("#district")
+
+    let cityOld = ''
+    let districtOld = ''
+    @isset($store)
+        var cityByStore = "{!! $store->city !!}"; 
+        cityOld = cityByStore
+
+        var districtByStore = "{!! $store->district !!}"; 
+        districtOld = districtByStore
+    @endisset
+  
+   console.log(cityOld);
+
+    loadCity()
+    selecteCity.on("change", async function() {
+
+        let selectedCity = await $(this).find(':selected').attr("data-codeCity");
+        await loadDistricts(selectedCity)
+    })
+
+    function loadCity() {
+        selecteCity.empty();
+        let city = '<option value="" readonly>Chọn thành phố</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+
+                data.forEach((item, index) => {
+                    city += `
+                            <option value="${item.name}" ${item.name == cityOld ? 'selected' : ''} data-codeCity="${item.code}">${item.name}</option>
+                    `;
+                })
+                $("#city").html(city)
+                selecteCity.trigger("change")
+            }
+        })
+    }
+
+    function loadDistricts(codeCity) {
+        selecteDistrict.empty();
+        let district = '<option value="" readonly>Chọn huyện</option>';
+        $.ajax({
+            url: "https://provinces.open-api.vn/api/p/" + codeCity + "?depth=2",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                data.districts.forEach((item, index) => {
+                    district += `
+                            <option value="${item.name}" ${item.name == districtOld ? 'selected' : ''} data-idDistrict="${item.code}">${item.name}</option>
+                        `;
+                })
+                $("#district").html(district)
+                selecteDistrict.trigger('change')
+            }
+        });
+
+    }
+</script>

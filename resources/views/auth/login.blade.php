@@ -10,6 +10,11 @@
     </ul>
 </div>
 @endif
+@if ($message = session("error"))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+@endif
 <div class="pages--auth">
     <div class="pages--auth--content">
         <div class="pages--auth--content__grid">

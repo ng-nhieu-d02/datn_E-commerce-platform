@@ -41,6 +41,91 @@ class storeController extends Controller
         ]);
     }
 
+    public function editStore($id)
+    {
+        $store = Store::find($id);
+        
+        $nameCateByStore = null;
+        
+        if(!is_null($store)){
+            $nameCateByStore = implode(",", $store->store_cate->pluck("name")->toArray());
+        }
+        
+
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+
+        $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
+
+        if (is_null($checkPermissionStore)) {
+            return abort(404);
+        }
+        return view("home.pages.edit_store", [
+            'store' => $store,
+            'permission' => $permission,
+            'nameCateByStore' => $nameCateByStore
+        ]);
+    }
+
+    public function updateStore(Request $request, $id)
+    {
+        $store = Store::find($id);
+
+        $validate = [
+            "name" => 'required|string|unique:store,name,' . $id,
+            "name_cate" => 'required',
+            "slogan" => 'required',
+            "message" => 'nullable',
+            "city" => 'required',
+            "district" => 'required',
+            "address" => 'required',
+        ];
+
+        $validated = $request->validate($validate);
+
+        $validated['slug'] = str()->slug($validated['name']);
+
+        $arrayStoreCateNotIn = [];
+        $arrayStoreCateNew = [];
+
+        $getIdByStoreCate = StoreCate::where("id_store", $store->id)->whereNotIn("name", explode(",", $validated['name_cate']))->get()->pluck("id")->toArray();
+
+        if (count($getIdByStoreCate) > 0) {
+            $arrayStoreCateNotIn = $getIdByStoreCate;
+        }
+
+        $store->store_cate()->whereIn("id", $arrayStoreCateNotIn)->delete();
+
+        foreach (explode(",", $validated['name_cate']) as $nameCate) {
+            $storeCateNew = StoreCate::where("id_store", $store->id)->where("name", explode(",", $nameCate))->first();
+            if (is_null($storeCateNew)) {
+                $createStoreCateNew = StoreCate::create(['id_store' => $store->id, 'slug' => str()->slug($nameCate), 'name' => $nameCate]);
+                $arrayStoreCateNew[] = $createStoreCateNew->id;
+            }
+        }
+
+
+        if ($request->hasFile("avatar")) {
+            $pathAvatar = "upload/store/avatars/";
+            $avatar = $request->file("avatar");
+            $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
+            $validated['avatar'] = $fileNameAvatar;
+            unlink("upload/store/avatars/$store->avatar");
+            $avatar->move(public_path($pathAvatar), $fileNameAvatar);
+        }
+        if ($request->hasFile("background")) {
+            $pathBackground = "upload/store/backgrounds/";
+            $background = $request->file("background");
+            $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
+            $validated['background'] = $fileNameBackground;
+            unlink("upload/store/backgrounds/$store->background");
+            $background->move(public_path($pathBackground),  $fileNameBackground);
+        }
+
+        $store->update($validated);
+        return back()->with("success", "Cập nhật thành công");
+        // đã xong phần chỉnh sửa SHOP
+    }
+
     public function editProduct($idStore, $idProduct)
     {
         $store = Store::with(['product'])->find($idStore);
@@ -332,8 +417,8 @@ class storeController extends Controller
     {
         $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
         }
         $coupons = Coupons::where('apply_store', '=', $id)->orderBy('id', 'DESC')->paginate(5);
         return view('home.pages.voucher_store', [
@@ -426,7 +511,7 @@ class storeController extends Controller
             return 'you have no right';
         }
         $coupon = Coupons::find($request->id);
-        if($coupon->quantity > $coupon->remaining_quantity) {
+        if ($coupon->quantity > $coupon->remaining_quantity) {
             Coupons::find($request->id)->update(['status'   => $request->status]);
         } else {
             return 'not validate';
@@ -483,10 +568,10 @@ class storeController extends Controller
 
     public function order($id)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
         };
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
         return view('home.pages.order_store', [
@@ -497,10 +582,10 @@ class storeController extends Controller
     }
     public function order_detail($id, $id_order_store)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         $store = Store::find($id);
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
         };
         $details = OrderDetail::where('id_order_store', $id_order_store)->get();
         return view('home.pages.detail_order_store', [
@@ -511,25 +596,25 @@ class storeController extends Controller
     }
     public function update_order_store($id, $order, $status)
     {
-        $permission = PermissionStore::where('id_store','=',$id)->where('id_user','=', Auth::user()->id)->count();
-        if($permission == 0) {
-            return redirect()->back()->with('error','you have no right');
+        $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
+        if ($permission == 0) {
+            return redirect()->back()->with('error', 'you have no right');
         };
         $orderStore = OrderStore::find($order);
         $orderStore->status_order = $status;
-        if($status == 3) {
+        if ($status == 3) {
             $orderStore->status_payment_store = '1';
         } else {
             $orderStore->status_payment_store = '2';
         }
         $orderStore->save();
 
-        if($status > 2) {
-            $check = OrderStore::where('id_order',$orderStore->id_order)->where('status_order', '<=', 2)->count();
-            if($check == 0) {
+        if ($status > 2) {
+            $check = OrderStore::where('id_order', $orderStore->id_order)->where('status_order', '<=', 2)->count();
+            if ($check == 0) {
                 Order::find($orderStore->id_order)->update(['status_order' => $status]);
             }
         }
-        return redirect()->back()->with('success','Cập nhật thành công');
+        return redirect()->back()->with('success', 'Cập nhật thành công');
     }
 }

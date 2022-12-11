@@ -34,25 +34,15 @@
                     <div class="flex nth-child">
                         <div class="btn-group text-base nth-child" role="group" aria-label="Basic radio toggle button group">
                             <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                <label class="btn text-base lb--check rounded-full" for="btnradio1">All items</label>
+                                <input type="radio" class="btn-check" name="btnradio" value="0" id="btnradio0" autocomplete="off" checked>
+                                <label class="btn text-base lb--check rounded-full" for="btnradio0">Tất cả</label>
                             </div>
+                            @foreach ($getAllCategoryProducts as $cateProduct)
                             <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn text-base lb--check rounded-full" for="btnradio2">Women</label>
+                                <input type="radio" class="btn-check" name="btnradio" value="{{ $cateProduct->id }}" id="btnradio{{ $cateProduct->id }}" autocomplete="off">
+                                <label class="btn text-base lb--check rounded-full" for="btnradio{{ $cateProduct->id }}">{{ $cateProduct->name }}</label>
                             </div>
-                            <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                                <label class="btn text-base lb--check rounded-full" for="btnradio3">Man</label>
-                            </div>
-                            <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                                <label class="btn text-base lb--check rounded-full" for="btnradio4">Jewels</label>
-                            </div>
-                            <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
-                                <label class="btn text-base lb--check rounded-full" for="btnradio5">Kids</label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="flex flex-shrink-0 text-right">
@@ -119,32 +109,18 @@
                                 <span class="ms-3">Categories</span>
                             </button>
 
-                            <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20">
-                                <div class="relative flex flex-col px-4 py-4 space-y-5">
+                            <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20" >
+                                <div class="relative flex flex-col px-4 py-4 space-y-5" id="show-category-children">
                                     <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                                        <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
                                         <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
                                     </div>
+                                    @foreach ($getCategoryProductChildren as $cateProductChild) 
                                     <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">New Arrivals</label>
+                                        <input class="form-check-input mt-0 children" id="flexRadioDefault{{ $cateProductChild->id }}" type="checkbox" value="{{ $cateProductChild->id }}" aria-label="Checkbox for following text input">
+                                        <label class="form-check-label px-3" for="flexRadioDefault{{ $cateProductChild->id }}">{{ $cateProductChild->name }}</label>
                                     </div>
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">Sale</label>
-                                    </div>
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">Backpacks</label>
-                                    </div>
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">Organization</label>
-                                    </div>
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">Accessories</label>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="p-4 flex items-center justify-between">
                                     <button class="btn rounded-full text-base lb--check btn--bg--light btn--sort--clear relative inline-flex items-center justify-center rounded-full ">Clear</button>
@@ -490,4 +466,77 @@
 </div>
 <!-- css page--search width = var(--max-width) margin auto -->
 
+@endsection
+@section("scripts")
+<script>
+    $(document).ready(function(){
+        $(".btn-check").click(function(){
+            let CategoryProductParentId = $(this).val();
+
+            $.ajax({
+                url : "{{ route('filter_product_children') }}",
+                data: {
+                    id: CategoryProductParentId,
+                },
+                dataType: "json",
+                success: function(response) {
+                    if(response.status){
+                        if(response.data.length > 0){
+                            let checkboxEl = `
+                            <div class="form-check flex items-center">
+                                        <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
+                                        <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
+                                    </div>
+                                    
+                            `;
+                            response.data.forEach(function(value, key) {
+                            checkboxEl += `
+                            <div class="form-check flex items-center">
+                                <input class="form-check-input mt-0" type="checkbox" value="${value.id}" aria-label="Checkbox for following text input">
+                                <label class="form-check-label px-3" for="">${value.name}</label>
+                            </div>`;
+                            })
+                            $("#show-category-children").html(checkboxEl);
+                        }else{
+                            $("#show-category-children").html("Chưa cập nhật dữ liệu cho danh mục này");
+                        }
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+        })
+        $("#check-all").change(function() {
+        if (this.checked) {
+            $(".children").each(function() {
+                this.checked=true;
+            });
+        } else {
+            $(".children").each(function() {
+                this.checked=false;
+            });
+        }
+    });
+
+    $(".children").click(function () {
+        if ($(this).is(":checked")) {
+            var isAllChecked = 0;
+
+            $(".children").each(function() {
+                if (!this.checked)
+                    isAllChecked = 1;
+            });
+
+            if (isAllChecked == 0) {
+                $("#check-all").prop("checked", true);
+            }     
+        }
+        else {
+            $("#check-all").prop("checked", false);
+        }
+    });
+    })
+</script>
 @endsection

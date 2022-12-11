@@ -65,8 +65,8 @@
                         <li class="@if (request()->routeIs('user.store', [$store->id])) active @endif">
                             <a href="{{ route('user.store', [$store->id]) }}">Đăng sản phẩm</a>
                         </li>
-                        <li>
-                            <a href="">Chỉnh sửa thông tin shop</a>
+                        <li class="@if (request()->routeIs('user.store_edit', [$store->id])) active @endif">
+                            <a href="{{ route("user.store_edit", [$store->id]) }}">Chỉnh sửa thông tin shop</a>
                         </li>
                         <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
                             <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>
