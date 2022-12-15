@@ -56,7 +56,9 @@ class homeController extends Controller
         $product = Product::paginate(9);
         return view('home.pages.home', [
             'product' => $product,
-            'coupons'   => $coupons
+            'coupons'   => $coupons,
+            'products_view'   => $product_hotView,
+            'products_sold' => $product_hotSale
         ]);
     }
 
