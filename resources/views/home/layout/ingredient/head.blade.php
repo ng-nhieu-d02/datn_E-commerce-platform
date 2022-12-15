@@ -47,3 +47,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
     integrity="sha512-xmGTNt20S0t62wHLmQec2DauG9T+owP9e6VU8GigI0anN7OXLip9i7IwEhelasml2osdxX71XcYm6BQunTQeQg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{{-- Range Slider Money --}}
+<link  rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

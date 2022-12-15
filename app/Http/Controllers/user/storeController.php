@@ -44,7 +44,6 @@ class storeController extends Controller
         $permission = $this->checkPermission($id);
 
         $store = Store::find($id);
-        // dd($store);
         if (is_null($store)) {
             return abort(404);
         }
@@ -64,13 +63,13 @@ class storeController extends Controller
     public function editStore($id)
     {
         $store = Store::find($id);
-        
+
         $nameCateByStore = null;
-        
-        if(!is_null($store)){
+
+        if (!is_null($store)) {
             $nameCateByStore = implode(",", $store->store_cate->pluck("name")->toArray());
         }
-        
+
 
         $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
 
@@ -312,7 +311,7 @@ class storeController extends Controller
 
     public function storeAddProduct(Request $request)
     {
-        
+
         $validated = $request->validate([
             'name' => 'bail|required|unique:product,name|string',
             'description' => 'bail|required|string',
@@ -650,7 +649,7 @@ class storeController extends Controller
                 'create_by' => $orderStore->store->name,
                 'content'   => 'Đã giao hàng thất bại - huỷ đơn hàng'
             ];
-            if($orderStore->order->payment_status == 1) {
+            if ($orderStore->order->payment_status == 1) {
                 $user = User::find($orderStore->order->create_by);
                 $user->money = $user->money + ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price);
                 $user->save();
@@ -658,11 +657,11 @@ class storeController extends Controller
                     'id_user'   => $orderStore->order->create_by,
                     'amount'    => ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price),
                     'type'      => '0',
-                    'description'   => 'Hoàn tiền hoá đơn '.$orderStore->id,
+                    'description'   => 'Hoàn tiền hoá đơn ' . $orderStore->id,
                     'status'    => '1'
                 ];
                 PaymentUser::create($info);
-            } 
+            }
         }
         HistoryUpdateOrder::create($history);
         $orderStore->save();
@@ -677,7 +676,7 @@ class storeController extends Controller
     {
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        $payment = PaymentStore::where('id_store',$id)->orderBy('id', 'DESC')->paginate(8);
+        $payment = PaymentStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(8);
         return view('home.pages.payment_store', [
             'store' => $store,
             'permission'    => $permission,
@@ -697,15 +696,15 @@ class storeController extends Controller
             'status'    => '0'
         ];
         $payment = PaymentStore::create($payment);
-        if($request->type == 1) {
+        if ($request->type == 1) {
             $store = Store::find($id);
-            if($store->money < $payment->amount) {
-                $payment->description = Auth::user()->name .' thực hiện yêu cầu rút tiền thất bại.';
+            if ($store->money < $payment->amount) {
+                $payment->description = Auth::user()->name . ' thực hiện yêu cầu rút tiền thất bại.';
                 $payment->status = '2';
                 $payment->save();
                 return redirect()->back()->with('error', 'Số dư không đủ');
             } else {
-                $payment->description = Auth::user()->name .' thực hiện yêu cầu rút tiền';
+                $payment->description = Auth::user()->name . ' thực hiện yêu cầu rút tiền';
                 $store->money = $store->money - $payment->amount;
                 $payment->save();
                 $store->save();
@@ -719,12 +718,12 @@ class storeController extends Controller
                 return redirect()->back()->with('success', 'Thực hiện yêu cầu rút tiền thành công, vui lòng chờ hệ thống kiểm duyệt');
             }
         } else {
-            $payment->description = Auth::user()->name .' thực hiện nạp tiền vào tài khoản';
+            $payment->description = Auth::user()->name . ' thực hiện nạp tiền vào tài khoản';
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             $vnp_Returnurl = route('user.store_pay_return'); // return url
             $vnp_TmnCode = "7JV6DF6L"; //Mã website tại VNPAY 
             $vnp_HashSecret = "VXOMRZOMLKIIGUXOECIYPYIFXGCSJUIT"; //Chuỗi bí mật
-    
+
             $vnp_TxnRef = $payment->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
             $vnp_OrderInfo = 'Thanh toán hoá đơn nạp tiền user ' . $payment->id;
             $vnp_OrderType = 'billPayment';
@@ -745,14 +744,14 @@ class storeController extends Controller
                 "vnp_ReturnUrl" => $vnp_Returnurl,
                 "vnp_TxnRef" => $vnp_TxnRef
             );
-    
+
             if (isset($vnp_BankCode) && $vnp_BankCode != "") {
                 $inputData['vnp_BankCode'] = $vnp_BankCode;
             }
             if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
                 $inputData['vnp_Bill_State'] = $vnp_Bill_State;
             }
-    
+
             ksort($inputData);
             $query = "";
             $i = 0;
@@ -766,13 +765,13 @@ class storeController extends Controller
                 }
                 $query .= urlencode($key) . "=" . urlencode($value) . '&';
             }
-    
+
             $vnp_Url = $vnp_Url . "?" . $query;
             if (isset($vnp_HashSecret)) {
                 $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
                 $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
             }
-    
+
             return redirect()->to($vnp_Url);
         }
     }
@@ -810,9 +809,9 @@ class storeController extends Controller
             ];
 
             try {
-                
+
                 if ($secureHash == $vnp_SecureHash) {
-                    
+
                     $payment = PaymentStore::find($request->vnp_TxnRef);
                     if ($payment->amount == $request->vnp_Amount / 100) {
                         if ($request->vnp_ResponseCode == '00' && $request->vnp_TransactionStatus == '00') {
@@ -844,16 +843,16 @@ class storeController extends Controller
         return $permission;
     }
 
-    public function marketing($id,$product, Request $request)
+    public function marketing($id, $product, Request $request)
     {
         $permission = $this->checkPermission($id);
         $this->check_status_store($id);
         $store = Store::find($id);
-        if($store->money < $request->amount) {
+        if ($store->money < $request->amount) {
             return redirect()->back()->with('error', 'Số dư không khả dụng');
         }
         $product = Product::find($product);
-        $product->view_prioritized = $product->view_prioritized + ($request->amount*2);
+        $product->view_prioritized = $product->view_prioritized + ($request->amount * 2);
         $product->save();
         $store->money = $store->money - $request->amount;
         $store->save();
@@ -863,8 +862,8 @@ class storeController extends Controller
     public function check_status_store($id)
     {
         $store = Store::find($id);
-        if($store->status != 1) {
+        if ($store->status != 1) {
             return redirect()->back()->with('error', 'Cửa hàng đang bị khoá');
-        } 
+        }
     }
 }

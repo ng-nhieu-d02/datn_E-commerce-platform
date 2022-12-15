@@ -40,6 +40,9 @@ Route::prefix('/')->group(function () {
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
 
+    // ajax product filter
+    Route::get("/filter-product", [homeController::class, 'filterProduct'])->name("filter_product");
+
     Route::prefix('/')->middleware('auth')->group(function () {
         // cart
         Route::get('/your-cart', [userController::class, 'cart'])->name('user.cart');
