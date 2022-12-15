@@ -41,9 +41,18 @@
         </div>
     </div>
 
+    <h2 style="margin-bottom: 30px;">Sản phẩm bình thường</h2>
 
     <div class="page--home--product">
         @foreach($product as $prd)
+        <x-cardProduct :data="$prd"></x-cardProduct>
+        @endforeach
+    </div>
+
+    <h2 style="margin-bottom: 30px;margin-top:50px">Sản phẩm bán chạy</h2>
+
+    <div class="page--home--product">
+        @foreach($products_sold as $prd)
         <x-cardProduct :data="$prd"></x-cardProduct>
         @endforeach
     </div>

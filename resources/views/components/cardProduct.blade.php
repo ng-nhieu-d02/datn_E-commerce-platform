@@ -15,7 +15,7 @@
                     <i class="fa-solid fa-star"></i>
                     <span>
                         @if($data->comment()->exists())
-                        {{$data->comment()->sum('rate') / $data->comment()->count()}} ({{$data->comment()->count()}})
+                        {{number_format($data->comment()->sum('rate') / $data->comment()->count(), 2,',', '.',)}} ({{$data->comment()->count()}})
                         @else
                         Chưa có đánh giá nào
                         @endif

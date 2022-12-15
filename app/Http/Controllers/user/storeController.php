@@ -637,10 +637,11 @@ class storeController extends Controller
                 'create_by' => $orderStore->store->name,
                 'content'   => 'Đã giao hàng thành công'
             ];
+
             $store = Store::find($orderStore->store->id);
             $store->money = $store->money + ($orderStore->total_price - $orderStore->coupons_price) + ($orderStore->ship - $orderStore->coupon_frs_price);
             $store->save();
-            $user = User::find($orderStore->order->create_by);
+            $user = User::find($orderStore->orderStore->create_by);
             $user->turns = $user->turns + 1;
             $user->save();
         } else if ($status == 4) {
