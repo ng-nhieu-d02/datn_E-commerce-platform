@@ -26,7 +26,7 @@
 @endif
 
 
-<div class="page--home--product">
+<div>
 
     {{-- @if (!is_null($store))
         @forelse($store->product as $prd)

@@ -21,7 +21,7 @@
                         <img class="img-fluid" src="{{ asset('upload/store/backgrounds/' . $store->background) }}" alt="">
                     </div>
                 </div>
-                <div class="d-flex info-profile col-md-12 align-items-center">
+                <div class="info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
                         <img class="rounded-circle img-fluid" style="width: 100%;" src="{{ asset('upload/store/avatars/' . $store->avatar) }}" alt="">
                     </div>
@@ -62,12 +62,14 @@
                     </ul>
                     @elseif($permission == 1)
 
-                    <li>Dashboard</li>
+                    <li class="@if (request()->routeIs('user.dashboard_store', [$store->id])) active @endif">
+                        <a href="{{ route('user.dashboard_store', [$store->id]) }}">Dashboard</a>
+                    </li>
                     <li class="@if (request()->routeIs('user.product_store', [$store->id])) active @endif">
                         <a href="{{ route('user.product_store', [$store->id]) }}">Đăng sản phẩm</a>
                     </li>
-                    <li>
-                        <a href="">Chỉnh sửa thông tin shop</a>
+                    <li class="@if (request()->routeIs('user.store_edit', [$store->id])) active @endif">
+                        <a href="{{ route('user.store_edit', [$store->id]) }}">Chỉnh sửa thông tin shop</a>
                     </li>
                     <li class="@if (request()->routeIs('user.order_store', [$store->id])) active @endif">
                         <a href="{{ route('user.order_store', [$store->id]) }} }}">Quản lí hoá đơn</a>

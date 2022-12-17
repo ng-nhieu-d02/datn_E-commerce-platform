@@ -96,7 +96,7 @@
                                 <span class="cong quantity-function" data-action="plus">+</span>
                             </div>
                             <button class="btn-submit-add-cart" data-status="{{$product->store->status == 1 ? 'true' : ''}}"><i class="fa-sharp fa-solid fa-cart-shopping"></i> Add to cart</button>
-                            <p> <span class="quantity_detail">{{$product->detail->sum('quantity') - $product->detail->sum('sold')}}</span> sản phẩm trong kho</p>
+                            <p style="word-wrap: normal;"> <span class="quantity_detail">{{$product->detail->sum('quantity') - $product->detail->sum('sold')}}</span> sản phẩm trong kho</p>
                         </div>
                     </div>
                     <hr>
@@ -106,7 +106,7 @@
                                 <span>Description</span>
                             </div>
                             <div class="faq-body">
-                                {{$product->description}}
+                                {!!$product->description!!}
                             </div>
                         </div>
                         <div class="button-faq">
@@ -140,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="list-benefit-items col-md-12 d-flex justify-content-between">
+                    <div class="list-benefit-items col-md-12 justify-content-between div-benefit-detail">
                         <div class="benefit-item col-lg-2">
                             <div class="icon-car">
                                 <i class="fa-solid fa-car-side"></i>
@@ -197,7 +197,7 @@
                 </div>
                 <div class="meta-store">
                     <h2><a href="{{route('user.store', [$product->store->id])}}" style="color:var(--text-default-color);text-decoration: none;"> {{ $product->store->name }} </a></h2>
-                    <ul class="address-store d-flex">
+                    <ul class="address-store d-flex" style="flex-wrap: wrap; gap: 10px; justify-content: center">
                         <li><i class="fas fa-map-marker-alt"></i>{{ $product->store->city }},
                             {{ $product->store->district }}, {{ $product->store->address }}
                         </li>
@@ -236,7 +236,7 @@
         <div class="text_detail">
             <h2>Product Details</h2>
             <div class="text">
-                {{$product->long_description}}
+                {!!$product->long_description!!}
             </div>
         </div>
         <hr class="line">

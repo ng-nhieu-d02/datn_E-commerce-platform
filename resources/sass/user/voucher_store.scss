@@ -266,3 +266,130 @@
         border-bottom-color: #e44025;
     }
 }
+
+.div-benefit-detail {
+    display: flex;
+}
+
+.banner-voucher {
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    gap: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    :root {
+        --max-width: 100%;
+    }
+
+    body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .container--navBar {
+        .ingredient--navBar {
+            padding: 0 50px;
+
+            .ingredient--navBar--menu {
+                display: none;
+            }
+        }
+    }
+
+    .pages--productDetail--container .productDetail--info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .pages--productDetail,
+    .stores-container,
+    .line-title {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .meta-store {
+        text-align: center;
+    }
+
+    .list-info-stores {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .info-store {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stores-container .list-info-stores .contact-store {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .page--productDetail--store .img-background {
+        background-size: auto 100%;
+    }
+
+    .div-benefit-detail {
+        display: none;
+    }
+
+    .pages--auth--content {
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    .pages--auth--content__grid {
+        padding: 0 20px;
+    }
+
+    .pages--profile .info-profile {
+        flex-direction: column;
+    }
+
+    .name-profile {
+        text-align: center;
+    }
+
+    .content-profile {
+        padding: 30px 0;
+    }
+
+    .menu-profile {
+        padding: 0 10px;
+        overflow-x: scroll;
+
+        ul li {
+            a {
+                white-space: nowrap;
+            }
+
+        }
+    }
+    .banner-voucher {
+        grid-template-columns: 100%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .container--navBar {
+        .ingredient--navBar {
+            padding: 0 10px;
+
+            .ingredient--navBar--menu {
+                display: none;
+            }
+        }
+    }
+}

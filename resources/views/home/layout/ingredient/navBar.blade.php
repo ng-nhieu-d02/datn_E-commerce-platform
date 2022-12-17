@@ -24,8 +24,8 @@
             <li class="@if (request()->routeIs('user.cart')) active @endif">
                 <a href="{{route('user.cart')}}">Giỏ hàng</a>
             </li>
-            <li>
-                <a href="">Về chúng tôi</a>
+            <li class="@if (request()->routeIs('user.about')) active @endif">
+                <a href="{{route('user.about')}}">Về chúng tôi</a>
             </li>
             <li class="@if (request()->routeIs('user.lucky')) active @endif">
                 <a href="{{route('user.lucky')}}">Vòng quay may mắn</a>
