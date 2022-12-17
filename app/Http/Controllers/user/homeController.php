@@ -13,6 +13,7 @@ use App\Models\ProductDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class homeController extends Controller
 {
@@ -21,9 +22,8 @@ class homeController extends Controller
     }
     public function home()
     {
-        // product bình thường
-        $products = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')->where('store.status', '=', '1')
-            ->where('product.status', '=', '0')->paginate(15);
+        
+        $category = CategoryProduct::where('parent_id', '=', 0)->get();
 
         // product bán chạy nhất
         $product_hotSale = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
@@ -58,13 +58,14 @@ class homeController extends Controller
             'product' => $product,
             'coupons'   => $coupons,
             'products_view'   => $product_hotView,
-            'products_sold' => $product_hotSale
+            'products_sold' => $product_hotSale,
+            'categories'  => $category
         ]);
     }
 
-    public function pageSearch()
+    public function pageSearch(Request $request)
     {
-        $product = Product::paginate(8);
+        $product = Product::orderBy('view', 'DESC')->paginate(15);
 
         $getAllCategoryProducts = CategoryProduct::where("parent_id", 0)->get();
 
@@ -74,6 +75,26 @@ class homeController extends Controller
 
         $getAllAttribute = ProductDetail::select("attribute_value")->distinct()->get();
 
+        if(isset($request->search)) {
+            $product_top = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->where('product.name','like','%'.$request->search.'%')
+            ->where('product.view_prioritized', '>', 0)
+            ->inRandomOrder()->limit(5)->get();
+           
+            $product = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
+            ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
+            ->join('store', 'store.id', '=', 'product.id_store')
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->where('product.name','like','%'.$request->search.'%')
+            ->groupBy('product_detail.id_product')
+            ->orderBy('sold', 'DESC')
+            ->paginate(15);
+            View::share('product_top', $product_top);
+        }
+
         return view('home.pages.pageSearch', [
             'product' => $product,
             'getAllCategoryProducts' => $getAllCategoryProducts,
@@ -81,6 +102,14 @@ class homeController extends Controller
             'getAllColor' => $getAllColor,
             'getAllAttribute' => $getAllAttribute,
         ]);
+    }
+    public function update_view_top (Request $request)
+    {
+        $product_top = Product::find($request->id);
+        foreach($product_top as $top) {
+            $top->view_prioritized = $top->view_prioritized - 1;
+            $top->save();
+        }
     }
 
     public function filterProductChildren(Request $request)
@@ -135,5 +164,10 @@ class homeController extends Controller
         $product = Product::find($product);
         $product->view = $product->view + 1;
         $product->save();
+    }
+
+    public function about()
+    {
+        return view('home.pages.about', []);
     }
 }

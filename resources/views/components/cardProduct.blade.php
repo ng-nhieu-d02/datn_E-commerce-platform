@@ -1,5 +1,6 @@
 @props(['data'])
-<div class="component--cardProduct">
+@props(['top'])
+<div class="component--cardProduct {{isset($top) ? $top : 'none'}} top_{{$data->id}}">
     <div class="component--cardProduct--img">
         <a href="{{route('user.productDetail', ['slug' => $data->slug])}}">
             <img class="image-product" src="<?= asset('upload/product/' . $data->thumb) ?>" alt="">
@@ -17,7 +18,7 @@
                         @if($data->comment()->exists())
                         {{number_format($data->comment()->sum('rate') / $data->comment()->count(), 2,',', '.',)}} ({{$data->comment()->count()}})
                         @else
-                        Chưa có đánh giá nào
+                        0 (0)
                         @endif
 
                     </span>

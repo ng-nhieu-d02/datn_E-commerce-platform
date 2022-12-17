@@ -1,5 +1,5 @@
 .ingredient--navBar {
-  width: var(--max-width);
+  max-width: var(--max-width);
   height: 100%;
   margin: auto;
   display: flex;

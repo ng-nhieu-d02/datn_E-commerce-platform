@@ -36,6 +36,8 @@ Route::prefix('/')->group(function () {
     Route::get('/store/10000000000{id}', [storeController::class, 'store'])->name('user.store');
     Route::get('/lucky-page', [homeController::class, 'lucky'])->name('user.lucky');
     Route::get('/update-view/{product}', [homeController::class, 'view'])->name('user.update_view');
+    Route::get('/about', [homeController::class, 'about'])->name('user.about');
+    Route::post('/marketing', [homeController::class, 'update_view_top'])->name('user.update_view_top');
 
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
@@ -57,6 +59,7 @@ Route::prefix('/')->group(function () {
         Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
 
         // store
+        Route::get('/dashboard/10000000000{id}',[storeController::class, 'dashboard'])->name('user.dashboard_store');
         Route::get('/payment/10000000000{id}', [storeController::class, 'payment'])->name('user.payment_store');
         Route::post('/payment-store/10000000000{id}', [storeController::class, 'store_payment'])->name('user.payment_store_post');
         Route::get('/pay-return-store', [storeController::class, 'payment_return'])->name('user.store_pay_return');

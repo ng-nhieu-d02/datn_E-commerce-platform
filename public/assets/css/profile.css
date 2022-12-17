@@ -19,9 +19,9 @@
     transform: translateY(-35px);
     padding-bottom: 20px;
     border-bottom: solid 1px var(--border-line);
+    display: flex;
 }
 .pages--profile .menu-profile {
-    width: 100%;
     max-width: var(--max-width);
     margin: auto;
 }

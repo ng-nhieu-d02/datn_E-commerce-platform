@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="page--home">
+<div class="page--lucky">
 
     <section id="luckywheel" class="hc-luckywheel" style="margin-top:100px; margin-bottom: 100px">
         <div class="hc-luckywheel-container">
@@ -10,6 +10,14 @@
         </div>
         <a class="hc-luckywheel-xoay" href="javascript:;">Xoay</a>
         <button class="hc-luckywheel-btn" style="display: none;"></button>
+    </section>
+
+    <section class="container-der">
+
+        <img src="{{asset('assets/images/vqmm-title.png')}}" alt="">
+
+        <img src="{{asset('assets/images/quayngay.png')}}" alt="">
+
     </section>
 
 </div>

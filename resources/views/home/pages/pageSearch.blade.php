@@ -6,7 +6,7 @@
     <div class="container p-0">
         <main>
             <div class="box--search -mt-225">
-                <form>
+                <form method="GET">
                     <div class="inner-form bg-white">
                         <div class="input-field first-wrap">
                             <div class="svg-wrapper">
@@ -15,12 +15,15 @@
                                     </path>
                                 </svg>
                             </div>
-                            <input id="search" type="text" placeholder="Type your keeywords?" />
+                            <input id="search" name="search" type="text" placeholder="Type your keeywords?" />
                         </div>
                         <div class="input-field second-wrap">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-circle-fill btn-search" viewBox="0 0 16 16">
-                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
-                            </svg>
+                            <button type="submit" style="border:none; background-color:none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-circle-fill btn-search" viewBox="0 0 16 16">
+                                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                </svg>
+                            </button>
+
                         </div>
                     </div>
                 </form>
@@ -109,13 +112,13 @@
                                 <span class="ms-3">Categories</span>
                             </button>
 
-                            <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20" >
+                            <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20">
                                 <div class="relative flex flex-col px-4 py-4 space-y-5" id="show-category-children">
                                     <div class="form-check flex items-center">
                                         <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
                                         <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
                                     </div>
-                                    @foreach ($getCategoryProductChildren as $cateProductChild) 
+                                    @foreach ($getCategoryProductChildren as $cateProductChild)
                                     <div class="form-check flex items-center">
                                         <input class="form-check-input mt-0 children" id="flexRadioDefault{{ $cateProductChild->id }}" type="checkbox" name="cate_product[]" value="{{ $cateProductChild->id }}" aria-label="Checkbox for following text input">
                                         <label class="form-check-label px-3" for="flexRadioDefault{{ $cateProductChild->id }}">{{ $cateProductChild->name }}</label>
@@ -181,12 +184,12 @@
                             </button>
                             <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20">
                                 <div class="relative flex flex-col px-4 py-4 space-y-5">
-                                  @foreach($getAllAttribute as $attribute)
-                                  <div class="form-check flex items-center">
-                                    <input class="form-check-input mt-0" name="attribute[]" type="checkbox" value="{{ $attribute->attribute_value }}" aria-label="Checkbox for following text input">
-                                    <label class="form-check-label px-3" for="flexRadioDefault1">{{ $attribute->attribute_value }}</label>
-                                </div>
-                                  @endforeach
+                                    @foreach($getAllAttribute as $attribute)
+                                    <div class="form-check flex items-center">
+                                        <input class="form-check-input mt-0" name="attribute[]" type="checkbox" value="{{ $attribute->attribute_value }}" aria-label="Checkbox for following text input">
+                                        <label class="form-check-label px-3" for="flexRadioDefault1">{{ $attribute->attribute_value }}</label>
+                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="p-4 flex items-center justify-between">
                                     <button class="btn rounded-full text-base lb--check btn--bg--light btn--sort--clear relative inline-flex items-center justify-center rounded-full ">Clear</button>
@@ -206,7 +209,7 @@
                             </button>
                         </div>
                         <div class="btn-group">
-                            <button type="button" id="filter">Lọc</button>
+                            <button id="filter" class="btn btn-dark rounded-full text-base lb--check btn--bg--dark btn--sort--apply relative inline-flex items-center justify-center rounded-full transition-colors">Apply</button>
                         </div>
                     </div>
                     <div class="block flex-shrink-0 text-right">
@@ -265,11 +268,28 @@
         <main>
             <!-- list products -->
             <div class="page--home--product">
+                @if(isset($product_top) && $product->currentPage() == 1)
+                <script>
+                    let top_product = [];
+                </script>
+                @foreach($product_top as $prd_top)
+                <x-cardProduct :data="$prd_top" :top="true"></x-cardProduct>
+                <style>
+                    .top_<?= $prd_top->id ?>.none{
+                        display: none;
+                    }
+                </style>
+                <script>
+                    top_product.push('{{$prd_top->id}}')
+                </script>
+                @endforeach
+                @endif
                 @foreach($product as $prd)
-                    <x-cardProduct :data="$prd"></x-cardProduct>
+                <x-cardProduct :data="$prd"></x-cardProduct>
                 @endforeach
             </div>
         </main>
+        {{$product->links('components.pagination')}}
     </div>
     <div class="container p-0">
         <main>
@@ -450,20 +470,38 @@
 @endsection
 @section("scripts")
 <script>
-    $(document).ready(async function(){
-        $(".btn-check").click(function(){
+    $(document).ready(async function() {
+        const url__submit = '{{route("user.update_view_top")}}';
+        const _csrf = '{{ csrf_token() }}';
+
+        const myTimeout = setTimeout(() => {
+            update_view(url__submit)
+        }, 5000);
+
+
+        function update_view(url__submit) {
+            $.ajax({
+                url: url__submit,
+                type: 'POST',
+                data: {
+                    id: top_product,
+                    _token: _csrf
+                }
+            });
+        }
+        $(".btn-check").click(function() {
             console.log(1);
             let CategoryProductParentId = $(this).val();
 
             $.ajax({
-                url : "{{ route('filter_product_children') }}",
+                url: "{{ route('filter_product_children') }}",
                 data: {
                     id: CategoryProductParentId,
                 },
                 dataType: "json",
                 success: function(response) {
-                    if(response.status){
-                        if(response.data.length > 0){
+                    if (response.status) {
+                        if (response.data.length > 0) {
                             let checkboxEl = `
                             <div class="form-check flex items-center">
                                         <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
@@ -472,14 +510,14 @@
                                     
                             `;
                             response.data.forEach(function(value, key) {
-                            checkboxEl += `
+                                checkboxEl += `
                             <div class="form-check flex items-center">
                                 <input class="form-check-input mt-0 children" name="cate_product[]" type="checkbox" value="${value.id}" aria-label="Checkbox for following text input">
                                 <label class="form-check-label px-3" for="">${value.name}</label>
                             </div>`;
                             })
                             $("#show-category-children").html(checkboxEl);
-                        }else{
+                        } else {
                             $("#show-category-children").html("Chưa cập nhật dữ liệu cho danh mục này");
                         }
                     }
@@ -489,21 +527,21 @@
                 }
             });
 
-            
+
         });
-        $(document).on("change", "#check-all", function(){
+        $(document).on("change", "#check-all", function() {
             console.log(3)
             if (this.checked) {
                 $(".children").each(function() {
-                    this.checked=true;
+                    this.checked = true;
                 });
             } else {
                 $(".children").each(function() {
-                    this.checked=false;
+                    this.checked = false;
                 });
             }
 
-            $(".children").click(function () {
+            $(".children").click(function() {
                 if ($(this).is(":checked")) {
                     var isAllChecked = 0;
 
@@ -514,45 +552,44 @@
 
                     if (isAllChecked == 0) {
                         $("#check-all").prop("checked", true);
-                    }     
-                }
-                else {
+                    }
+                } else {
                     $("#check-all").prop("checked", false);
                 }
             });
         })
 
         const rangeInput = document.querySelectorAll(".range--input input"),
-        priceInput = document.querySelectorAll(".price--input input"),
-        range = document.querySelector(".price--slider .progress");
+            priceInput = document.querySelectorAll(".price--input input"),
+            range = document.querySelector(".price--slider .progress");
         let priceGap = 1000;
-        priceInput.forEach(input =>{
-            input.addEventListener("input", e =>{
+        priceInput.forEach(input => {
+            input.addEventListener("input", e => {
                 let minPrice = parseInt(priceInput[0].value),
-                maxPrice = parseInt(priceInput[1].value);
-                
-                if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
-                    if(e.target.className === "input-min"){
+                    maxPrice = parseInt(priceInput[1].value);
+
+                if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
+                    if (e.target.className === "input-min") {
                         rangeInput[0].value = minPrice;
                         range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
-                    }else{
+                    } else {
                         rangeInput[1].value = maxPrice;
                         range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
                     }
                 }
             });
         });
-        rangeInput.forEach(input =>{
-            input.addEventListener("input", e =>{
+        rangeInput.forEach(input => {
+            input.addEventListener("input", e => {
                 let minVal = parseInt(rangeInput[0].value),
-                maxVal = parseInt(rangeInput[1].value);
-                if((maxVal - minVal) < priceGap){
-                    if(e.target.className === "range-min"){
+                    maxVal = parseInt(rangeInput[1].value);
+                if ((maxVal - minVal) < priceGap) {
+                    if (e.target.className === "range-min") {
                         rangeInput[0].value = maxVal - priceGap
-                    }else{
+                    } else {
                         rangeInput[1].value = minVal + priceGap;
                     }
-                }else{
+                } else {
                     priceInput[0].value = minVal;
                     priceInput[1].value = maxVal;
                     range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
@@ -560,11 +597,15 @@
                 }
             });
         });
-        function formatCurrency(money){
-           return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(money * 1)
+
+        function formatCurrency(money) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(money * 1)
         }
 
-        $("#filter").click(function(){
+        $("#filter").click(function() {
             let arrayCategories = [];
             let arrayAttributes = [];
 
@@ -572,45 +613,45 @@
             let inputMax = $("input.input-max").val();
 
             let checkOnSale = false;
-            $("#onSale").click(function(){
+            $("#onSale").click(function() {
                 checkOnSale = true;
             })
             let arrayColors = [];
 
             // category = $("input[type=radio].btn-check:checked").val();
 
-            $('input[name="cate_product[]"]:checked').each(function(i, obj){
+            $('input[name="cate_product[]"]:checked').each(function(i, obj) {
                 arrayCategories.push(obj.value)
             })
 
-            $('input[name="attribute[]"]:checked').each(function(i, obj){
+            $('input[name="attribute[]"]:checked').each(function(i, obj) {
                 arrayAttributes.push(obj.value)
             })
 
             console.log(arrayCategories, arrayAttributes);
             $.ajax({
-                url : "{{ route('filter_product') }}",
+                url: "{{ route('filter_product') }}",
                 data: {
-                    "arrayCategories" : arrayCategories,
-                    "arrayAttributes" : arrayAttributes,
-                    "inputMin" : inputMin,
-                    "inputMax" : inputMax,
+                    "arrayCategories": arrayCategories,
+                    "arrayAttributes": arrayAttributes,
+                    "inputMin": inputMin,
+                    "inputMax": inputMax,
                 },
                 type: "get",
                 dataType: "json",
-                success: function(response){
+                success: function(response) {
                     console.log(response);
-                    if(response.status){
+                    if (response.status) {
                         let cardProductEl = ``;
-                       if(response.data.length > 0){
-                            response.data.forEach(function(item, key)  {
+                        if (response.data.length > 0) {
+                            response.data.forEach(function(item, key) {
                                 let sum = 0;
                                 let sumCommentProduct = item.comment.filter(comment => {
-                                    sum+= comment.rate;
+                                    sum += comment.rate;
                                 })
 
                                 let resultSum = 0;
-                                if(sum > 0){
+                                if (sum > 0) {
                                     resultSum = sum / item.comment.length
                                 }
                                 console.log(item);
@@ -618,7 +659,7 @@
                                 <div class="component--cardProduct">
                                     <div class="component--cardProduct--img">
                                         <a href="http://127.0.0.1:8000/product/rey-nylon-backpack-1668402744">
-                                            <img class="image-product" src="{{ asset("upload/product/`+item.thumb+`") }}" alt="">
+                                            <img class="image-product" src="{{ asset("upload/product/` + item.thumb + `") }}" alt="">
                                         </a>
                                         <i class="fa-regular fa-heart btn-add-wishlist true" data-id="1"></i>
                                     </div>
@@ -643,21 +684,21 @@
                                 `;
                             })
                             $(".page--home--product").html(cardProductEl);
-                       }else{
-                        $(".page--home--product").html("Không có sản phẩm phù hợp");
-                       }
+                        } else {
+                            $(".page--home--product").html("Không có sản phẩm phù hợp");
+                        }
                     }
                 },
-                error: function(error){
+                error: function(error) {
 
                 }
-                
+
             })
 
         })
 
-        
-        
+
+
     })
 </script>
 @endsection
