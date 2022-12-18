@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\BankInfo;
 use App\Models\CategoryProduct;
+use App\Models\CommentProduct;
 use App\Models\Coupons;
 use App\Models\HistoryUpdateOrder;
 use App\Models\Order;
@@ -146,7 +147,9 @@ class storeController extends Controller
             $avatar = $request->file("avatar");
             $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
             $validated['avatar'] = $fileNameAvatar;
-            unlink("upload/store/avatars/$store->avatar");
+            if(file_exists('upload/store/avatars/'.$store->avatar)) {
+                unlink("upload/store/avatars/$store->avatar");
+            }
             $avatar->move(public_path($pathAvatar), $fileNameAvatar);
         }
         if ($request->hasFile("background")) {
@@ -154,7 +157,9 @@ class storeController extends Controller
             $background = $request->file("background");
             $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
             $validated['background'] = $fileNameBackground;
-            unlink("upload/store/backgrounds/$store->background");
+            if(file_exists('upload/store/backgrounds/'.$store->background)) {
+                unlink("upload/store/backgrounds/$store->background");
+            }
             $background->move(public_path($pathBackground),  $fileNameBackground);
         }
 
@@ -327,7 +332,7 @@ class storeController extends Controller
         ]);
     }
 
-    public function storeAddProduct(Request $request)
+    public function storeAddProduct($id,Request $request)
     {
 
         $validated = $request->validate([
@@ -363,81 +368,75 @@ class storeController extends Controller
             $request->validate(['attribute' => 'required|string']);
         }
 
-        \DB::beginTransaction();
-        try {
-            $id_store = $request->id;
+        $parent_id = explode('_', $validated['category_id']);
+        $key_word = implode(",", $validated['keyword']);
 
-            $product['id_store'] = $id_store;
-            $product['create_by'] = auth()->user()->id;
-            $product['name'] = $validated['name'];
-            $product['slug'] = Str::slug($product['name'], "-");
-            $product['description'] = $validated['description'];
-            $product['long_description'] = $validated['long_description'];
-            $product['type'] = $validated['type'];
-            $product['category_path'] = $validated['category_id'];
-            $categoryPath = explode('_', $validated['category_id']);
-            $product['category_id'] = end($categoryPath);
-            $product['thumb'] = $product['id_store'] . "/thumb/" . $validated['thumb']->hashName(); // name file
-            $product['brand'] = $validated['brand'];
-            $product['origin'] = $validated['origin'];
-            $product['title'] = $validated['title'];
-            $product['keyword'] = implode(",", $validated['keyword']);
+        $product = [
+            'id_store'  => $id,
+            'create_by' => Auth::user()->id,
+            'name'  => $validated['name'],
+            'slug'  => Str::slug($validated['name'], "-"),
+            'description'   => $validated['description'],
+            'long_description'  => $validated['long_description'],
+            'type'  => $validated['type'],
+            'category_path' => $validated['category_id'],
+            'category_id'   => $parent_id[count($parent_id)-2],
+            'thumb' => $id . "/thumb/" . $validated['thumb']->hashName(),
+            'brand' => $validated['brand'],
+            'origin'    => $validated['origin'],
+            'title' => $validated['title'],
+            'keyword'   => $key_word
+        ];
 
-            $product_id = Product::create($product)->id;
+        $product = Product::create($product);
 
-            $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+        $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+        
+        $productDetailAttributes = [];
 
-            $productDetailAttributes = [];
+        $productListImages = [];
 
-            $productListImages = [];
-
-            foreach ($validated['colorText'] as $key => $color) {
-                $fileName = $product_id . '-size-' . $validated['url_image'][$key]->hashName();
-                $productDetailAttributes[] = [
-                    'id_product' => $product_id,
-                    'color_value' => $color,
-                    'attribute' => $validated['attribute'],
-                    'attribute_value' => $validated['sizeText'][$key],
-                    'weight' => $validated['weight'][$key],
-                    'quantity' => $validated['quantity'][$key],
-                    'price' => $validated['price'][$key],
-                    'sale' => $validated['sale'][$key],
-                    'url_image' => $fileName,
-                    'status' => '0',
-                ];
-                $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
-            }
-
-            ProductDetail::insert($productDetailAttributes);
-
-            $image = ["jpg", "jpeg", "png", "jfif"];
-            $video = ['mp4', 'ogg'];
-
-            foreach ($validated['url'] as $url) {
-                if (in_array($url->extension(), $image)) {
-                    $type = "0";
-                } else if (in_array($url->extension(), $video)) {
-                    $type = "1";
-                }
-
-                $fileName = $product['id_store'] . '-' . "$product_id-" . $url->hashName();
-                $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
-
-                $productListImages[] = [
-                    'id_product' => $product_id,
-                    'type' => $type,
-                    'url' => $fileName,
-                ];
-            }
-
-            ProductImages::insert($productListImages);
-
-            \DB::commit();
-
-            return back()->with("message", "Thêm mới sản phẩm thành công");
-        } catch (\Exception $e) {
-            \DB::rollback();
+        foreach ($validated['colorText'] as $key => $color) {
+            $fileName = $product->id . '-size-' . $validated['url_image'][$key]->hashName();
+            $productDetailAttributes[] = [
+                'id_product' => $product->id,
+                'color_value' => $color,
+                'attribute' => $validated['attribute'],
+                'attribute_value' => $validated['sizeText'][$key],
+                'weight' => $validated['weight'][$key],
+                'quantity' => $validated['quantity'][$key],
+                'price' => $validated['price'][$key],
+                'sale' => $validated['sale'][$key],
+                'url_image' => $fileName,
+                'status' => '0',
+            ];
+            $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
         }
+        ProductDetail::insert($productDetailAttributes);
+
+        $image = ["jpg", "jpeg", "png", "jfif"];
+        $video = ['mp4', 'ogg'];
+
+        foreach ($validated['url'] as $url) {
+            if (in_array($url->extension(), $image)) {
+                $type = "0";
+            } else if (in_array($url->extension(), $video)) {
+                $type = "1";
+            }
+
+            $fileName = $product['id_store'] . '-' . "$product->id-" . $url->hashName();
+            $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
+
+            $productListImages[] = [
+                'id_product' => $product->id,
+                'type' => $type,
+                'url' => $fileName,
+            ];
+        }
+
+        ProductImages::insert($productListImages);
+
+        return back()->with("message", "Thêm mới sản phẩm thành công");
     }
 
     public function getCategoryProduct()

@@ -9,7 +9,7 @@ class Coupons extends Model
 {
     use HasFactory;
 
-    protected $table = 'Coupons';
+    protected $table = 'coupons';
 
     protected $fillable = [
         'create_by_user',
