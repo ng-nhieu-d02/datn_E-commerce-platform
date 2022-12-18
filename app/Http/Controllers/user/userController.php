@@ -255,6 +255,7 @@ class userController extends Controller
                 'string',
                 'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
             ],
+            'email' => 'email:rfc,dns',
         ]);
         $validated['status'] = "1";
         $validated['user_id'] = auth()->user()->id;
@@ -287,6 +288,7 @@ class userController extends Controller
                 'string',
                 'regex:/^(84|0[3|5|7|8|9])[0-9]{8}$/i',
             ],
+            "email" => "email:rfc,dns",
         ]);
 
 
@@ -297,7 +299,7 @@ class userController extends Controller
         $userAddress->district = $validated['district'];
         $userAddress->address = $validated['address'];
         $userAddress->phone = $validated['phone'];
-
+        $userAddress->email = $validated['email'];
         $saved = $userAddress->save();
 
         if ($saved) {

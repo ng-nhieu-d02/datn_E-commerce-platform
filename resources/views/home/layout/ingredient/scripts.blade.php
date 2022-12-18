@@ -1023,6 +1023,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(result) {
+                        console.log(result);
                         if (result.success) {
                             $("select[name=city] option").each(async (i, obj) => {
                                 if (obj.value == result.data.city) {
@@ -1043,6 +1044,8 @@
                             $("#name").val(result.data.name)
                             $("#address-2").val(result.data.address);
                             $("#phone-2").val(result.data.phone);
+                            $("#email-2").val(result.data.email);
+                            
                         }
                     }
                 })
@@ -1062,11 +1065,17 @@
                         data: {
                             "_token": $('input[name=_token]').val(),
                             "id": action,
+                            "name": $("#name").val(),
                             "city": $("#city-2").val(),
                             "district": $("#district-2").val(),
                             "address": $("#address-2").val(),
+                            "phone": $("#phone-2").val(),
+                            "email": $("#email-2").val(),
                         },
                         dataType: 'json',
+                        beforeSend: function(){
+                            $(".alert-danger").hide();
+                        },
                         success: function(data) {
                             if (data.success) {
                                 Swal.fire(
