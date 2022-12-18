@@ -101,7 +101,7 @@
             @csrf
             <div class="mb-3 col-lg-12">
                 <label for="" class="form-label">Tên người nhận</label>
-                <input type="text" class="form-control fs-3" name="name" value="{{ old("name", $address[0]->user->name) }}" required placeholder="Nhập tên người nhận">
+                <input type="text" class="form-control fs-3" name="name" value="{{ old("name") }}" required placeholder="Nhập tên người nhận">
             </div>
             <div class=" mb-3 col-lg-12">
                 <label for="" class="form-label">Thành phố/ Tỉnh</label>
@@ -125,12 +125,12 @@
             </div>
             <div class="col-lg-12 mb-3">
                 <label for=""  class="form-label">Số điện thoại</label>
-                <input type="text" name="phone" value="{{ old("phone", $adr->user->phone) }}" class="form-control fs-3">
+                <input type="text" name="phone" value="{{ old("phone") }}" class="form-control fs-3">
                 <span id="message"></span>
             </div>
             <div class="col-lg-12 mb-3">
                 <label for=""  class="form-label">Email</label>
-                <input type="email" name="email" value="{{ old("email", $adr->user->email) }}" class="form-control fs-3">
+                <input type="email" name="email" value="{{ old("email") }}" class="form-control fs-3">
                 <span id="email"></span>
             </div>
            
