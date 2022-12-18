@@ -147,7 +147,7 @@ class storeController extends Controller
             $avatar = $request->file("avatar");
             $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
             $validated['avatar'] = $fileNameAvatar;
-            if(file_exists('upload/store/avatars/'.$store->avatar)) {
+            if (file_exists('upload/store/avatars/' . $store->avatar)) {
                 unlink("upload/store/avatars/$store->avatar");
             }
             $avatar->move(public_path($pathAvatar), $fileNameAvatar);
@@ -157,7 +157,7 @@ class storeController extends Controller
             $background = $request->file("background");
             $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
             $validated['background'] = $fileNameBackground;
-            if(file_exists('upload/store/backgrounds/'.$store->background)) {
+            if (file_exists('upload/store/backgrounds/' . $store->background)) {
                 unlink("upload/store/backgrounds/$store->background");
             }
             $background->move(public_path($pathBackground),  $fileNameBackground);
@@ -332,7 +332,7 @@ class storeController extends Controller
         ]);
     }
 
-    public function storeAddProduct($id,Request $request)
+    public function storeAddProduct($id, Request $request)
     {
 
         $validated = $request->validate([
@@ -380,7 +380,7 @@ class storeController extends Controller
             'long_description'  => $validated['long_description'],
             'type'  => $validated['type'],
             'category_path' => $validated['category_id'],
-            'category_id'   => $parent_id[count($parent_id)-2],
+            'category_id'   => $parent_id[count($parent_id) - 2],
             'thumb' => $id . "/thumb/" . $validated['thumb']->hashName(),
             'brand' => $validated['brand'],
             'origin'    => $validated['origin'],
@@ -391,7 +391,7 @@ class storeController extends Controller
         $product = Product::create($product);
 
         $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
-        
+
         $productDetailAttributes = [];
 
         $productListImages = [];
@@ -582,16 +582,20 @@ class storeController extends Controller
         }
     }
 
-    public function deleteProduct($id)
+    public function deleteProduct($idStore, $idProduct)
     {
-        $findProduct = Product::find($id);
-        $this->check_status_store($id);
+        $findProduct = Product::with(['orderDetail'])->find($idProduct);
+        $this->check_status_store($idStore);
 
         if (is_null($findProduct)) {
             return redirect()->back()->with("error", "Sản phẩm không tồn tại");
         }
-
-        $findProduct->delete();
+        if ($findProduct->orderDetail->isNotEmpty()) {
+            return back()->with("error", "Đã có đơn đặt sản phẩm này không được xoá");
+        } else {
+            $findProduct->delete();
+            return back()->with("success", "Xoá thành công");
+        }
         return redirect()->back()->with("success", "Xoá thành công");
     }
 
@@ -600,6 +604,7 @@ class storeController extends Controller
 
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
+        dd(123);
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
         return view('home.pages.order_store', [
             'store' => $store,
@@ -929,7 +934,7 @@ class storeController extends Controller
 
         $dataChart = [];
 
-        $month = Carbon::now()->year.'-'.Carbon::now()->month;
+        $month = Carbon::now()->year . '-' . Carbon::now()->month;
 
         $x = cal_days_in_month(CAL_GREGORIAN, Carbon::now()->month, Carbon::now()->year);
 
@@ -1001,7 +1006,7 @@ class storeController extends Controller
 
         for ($i = 1; $i <= $x; $i++) {
             if (count($chartPrd) == 0) {
-                $dataChart[$i-1]['c'] = 0;
+                $dataChart[$i - 1]['c'] = 0;
             }
             foreach ($chartPrd as $key => $chartP) {
                 if ($chartP['day'] == $i) {
@@ -1014,7 +1019,7 @@ class storeController extends Controller
                 }
             }
         }
-       
+
         return view('home.pages.dashboard_store', [
             'permission'    => $permission,
             'store' => $store,

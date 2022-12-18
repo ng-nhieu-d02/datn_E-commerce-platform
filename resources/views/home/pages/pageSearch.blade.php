@@ -35,7 +35,7 @@
             <div class="flex flex-col relative">
                 <div class="flex flex-col flex-row items-center justify-between box--nav--fillter">
                     <div class="flex nth-child">
-                        <div class="btn-group text-base nth-child" role="group" aria-label="Basic radio toggle button group">
+                        <div class="btn-group text-base nth-child d-flex flex-wrap" role="group" aria-label="Basic radio toggle button group">
                             <div class="div">
                                 <input type="radio" class="btn-check" name="btnradio" value="0" id="btnradio0" autocomplete="off" checked>
                                 <label class="btn text-base lb--check rounded-full" for="btnradio0">Tất cả</label>

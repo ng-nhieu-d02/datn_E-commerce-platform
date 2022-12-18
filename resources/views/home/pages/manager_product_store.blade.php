@@ -110,7 +110,7 @@
                     <td style="display: table-cell;vertical-align: middle;">
                         <div style="display:flex; gap: 5px;justify-content: flex-end;">
                             <a href="" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <form action="{{ route("user.delete_product", $prd->id) }}" method="post">
+                            <form action="{{ route("user.delete_product", [$store->id,$prd->id]) }}" method="post">
                                 @csrf
                                 @method("DELETE")
                                 <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
