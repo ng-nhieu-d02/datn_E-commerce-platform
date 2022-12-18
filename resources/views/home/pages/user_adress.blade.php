@@ -52,12 +52,13 @@
                     {{ $adr->user->phone }}
                     @endif
                 </span>
-
+                <span class="fw-bold fs-3">{{ $adr->email }}</span>
                 @if($adr->status == '0')
                 <div class="set-defaut mt-2">
                     <span>Mặc định</span>
                 </div>    
                 @endif
+                
             </div>
             <div class="col-lg-6 d-flex flex-column align-items-end">
                 <div class="update-delete d-flex">
@@ -127,6 +128,11 @@
                 <input type="text" name="phone" value="{{ old("phone", $adr->user->phone) }}" class="form-control fs-3">
                 <span id="message"></span>
             </div>
+            <div class="col-lg-12 mb-3">
+                <label for=""  class="form-label">Email</label>
+                <input type="email" name="email" value="{{ old("email", $adr->user->email) }}" class="form-control fs-3">
+                <span id="email"></span>
+            </div>
            
         </div>
         <div class="modal-footer">
@@ -148,7 +154,7 @@
        
         <form id="form-edit" action=""  method="post">
             <div class="col-lg-12">
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" style="display: none">
                     <ul id="ulEl"></ul>
                 </div>
             </div>
@@ -183,6 +189,11 @@
                 <label for=""  class="form-label">Số điện thoại</label>
                 <input type="text" name="phone" id="phone-2" class="form-control fs-3">
                 <span id="message"></span>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <label for=""  class="form-label">Email</label>
+                <input type="text" name="email" id="email-2" class="form-control fs-3">
+                <span id="errorEmail"></span>
             </div>
            
         </div>
