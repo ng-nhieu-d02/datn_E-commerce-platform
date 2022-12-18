@@ -898,7 +898,7 @@ class storeController extends Controller
             return redirect()->back()->with('error', 'Chưa đăng nhập');
         }
     }
-    public function dashboard($id)
+    public function dashboard($id, Request $request)
     {
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
@@ -907,13 +907,124 @@ class storeController extends Controller
         $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
         $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->first();
 
+
+        $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+        sum(total_price) as total_price, sum(coupons_price) as	coupons_price, sum(ship) as ship, sum(coupon_frs_price) as coupon_frs_price'))
+            ->where('id_store', $id)
+            ->where('status_order', '=', '3')->whereMonth('created_at', '=', Carbon::now()->month)->whereYear('created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $chartOrder = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+        count(id) as count'))
+            ->where('id_store', $id)
+            ->whereMonth('created_at', '=', Carbon::now()->month)->whereYear('created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $chartPrd = OrderStore::select(DB::raw('order_store.created_at,month(order_store.created_at) as month,day(order_store.created_at) as day,
+            sum(order_detail.quantity) as quantity'))
+            ->join('order_detail', 'order_detail.id_order_store', '=', 'order_store.id')
+            ->where('order_store.id_store', $id)
+            ->where('order_store.status_order', '=', '3')
+            ->whereMonth('order_store.created_at', '=', Carbon::now()->month)->whereYear('order_store.created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $dataChart = [];
+
+        $month = Carbon::now()->year.'-'.Carbon::now()->month;
+
+        $x = cal_days_in_month(CAL_GREGORIAN, Carbon::now()->month, Carbon::now()->year);
+
+        if (isset($request->month)) {
+            $choose = explode('-', $request->month);
+            $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+            sum(total_price) as total_price, sum(coupons_price) as	coupons_price, sum(ship) as ship, sum(coupon_frs_price) as coupon_frs_price'))
+                ->where('status_order', '=', '3')->whereMonth('created_at', '=', $choose[1])->whereYear('created_at', '=', $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $chartOrder = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+            count(id) as count'))
+                ->whereMonth('created_at', '=', $choose[1])->whereYear('created_at', '=', $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $chartPrd = OrderStore::select(DB::raw('order_store.created_at,month(order_store.created_at) as month,day(order_store.created_at) as day,
+                sum(order_detail.quantity) as quantity'))
+                ->join('order_detail', 'order_detail.id_order_store', '=', 'order_store.id')
+                ->where('order_store.id_store', $id)
+                ->where('order_store.status_order', '=', '3')
+                ->whereMonth('order_store.created_at', '=', $choose[1])->whereYear('order_store.created_at', '=',  $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $x = cal_days_in_month(CAL_GREGORIAN, $choose[1], $choose[0]);
+
+            $month = $request->month;
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chart) == 0) {
+                $dataChart[] = [
+                    'y' => $i,
+                    'a' => 0
+                ];
+            }
+            foreach ($chart as $key => $chartM) {
+                if ($chartM['day'] == $i) {
+                    $dataChart[] = [
+                        'y' => $i,
+                        'a' => (($chartM['total_price'] - $chartM['coupons_price']) + ($chartM['ship'] - $chartM['coupon_frs_price']))
+                    ];
+                    unset($chart[$key]);
+                    break;
+                } else {
+                    $dataChart[] = [
+                        'y' => $i,
+                        'a' => 0
+                    ];
+                    break;
+                }
+            }
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chartOrder) == 0) {
+                $dataChart[$i - 1]['b'] = 0;
+            }
+            foreach ($chartOrder as $keys => $chartO) {
+                if ((int)$chartO['day'] === (int)$i) {
+                    $dataChart[$i - 1]['b'] = $chartO['count'];
+                    unset($chartOrder[$keys]);
+                    break;
+                } else {
+                    $dataChart[$i - 1]['b'] = 0;
+                    break;
+                }
+            }
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chartPrd) == 0) {
+                $dataChart[$i-1]['c'] = 0;
+            }
+            foreach ($chartPrd as $key => $chartP) {
+                if ($chartP['day'] == $i) {
+                    $dataChart[$i - 1]['c'] = (int)$chartP['quantity'];
+                    unset($chartPrd[$key]);
+                    break;
+                } else {
+                    $dataChart[$i - 1]['c'] = 0;
+                    break;
+                }
+            }
+        }
+       
         return view('home.pages.dashboard_store', [
             'permission'    => $permission,
             'store' => $store,
             'order_today' => $order_today,
             'product'   => $product,
             'revenue_today' => $revenue_today,
-            'revenue'   => $revenue
+            'revenue'   => $revenue,
+            'chart' => json_encode($dataChart),
+            'month' => $month
         ]);
     }
 

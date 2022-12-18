@@ -81,12 +81,12 @@ class authController extends Controller
     public function loginFacebook(Request $request)
     {
         if (isset($request->code)) {
-            $secret = '';
-            $client_id = '';
-            $redirect_url = '';
+            $secret = '6ba3651d92ffaaf1143ad60a298f7569';
+            $client_id = '1582788455527311';
+            $redirect_url = route('user.loginFacebook');
             $code = $request->code;
 
-            $url = '';
+            $url = "https://graph.facebook.com/v12.0/oauth/access_token?client_id=$client_id&redirect_uri=$redirect_url&client_secret=$secret&code=$code";
             $call = curl_init();
             curl_setopt($call, CURLOPT_URL, $url);
             curl_setopt($call, CURLOPT_RETURNTRANSFER, 1);
@@ -96,7 +96,7 @@ class authController extends Controller
             $response = $response->access_token;
             curl_close($call);
 
-            $url_get_info_user = '' . $response;
+            $url_get_info_user = 'https://graph.facebook.com/me?access_token=' . $response;
             $call = curl_init();
             curl_setopt($call, CURLOPT_URL, $url_get_info_user);
             curl_setopt($call, CURLOPT_RETURNTRANSFER, 1);

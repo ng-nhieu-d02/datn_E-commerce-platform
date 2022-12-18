@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
 
     Route::get('/login-google', [authController::class, 'loginGoogle'])->name('user.loginGoogle');
+    Route::get('/login-facebook', [authController::class, 'loginFacebook'])->name('user.loginFacebook');
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
     Route::get('/page-search', [homeController::class, 'pageSearch'])->name('user.pageSearch');
@@ -94,7 +95,7 @@ Route::prefix('/')->group(function () {
 
         // user address
         Route::get("/address-user", [userController::class, 'userAddress'])->name('user.address');
-        Route::post("/address-user", [userController::class, 'c'])->name('user.add_address');
+        Route::post("/address-user", [userController::class, 'addUserAddress'])->name('user.add_address');
         Route::get("/edit-user/{id}", [userController::class, 'showUserAddress'])->name('user.show_address');
         Route::put("/update-address-user/{id}", [userController::class, 'updateUserAddress'])->name('user.update_address');
         Route::delete("/delete-address-user/{id}", [userController::class, 'deleteUserAddress'])->name('user.delete_address');

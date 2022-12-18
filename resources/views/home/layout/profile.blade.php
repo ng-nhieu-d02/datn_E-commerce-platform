@@ -22,7 +22,7 @@
                 </div>
                 <div class="d-flex info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
-                        <img class="rounded-circle img-fluid" style="width:100%"
+                        <img class="rounded-circle img-fluid" style="width:100%; height: 100%; object-fit:cover"
                             src="{{ asset('upload/profile/avatar/' . Auth::user()->avatar) }}"
                             alt="">
                     </div>
