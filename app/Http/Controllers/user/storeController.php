@@ -33,20 +33,20 @@ class storeController extends Controller
         $store = Store::find($id);
         $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(15);
         $product_hotSale = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
-        ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
-        ->join('store', 'store.id', '=', 'product.id_store')
-        ->where('product.id_store', '=', $id)
-        ->where('store.status', '=', '1')
-        ->where('product.status', '=', '0')
-        ->groupBy('product_detail.id_product')
-        ->orderBy('sold', 'DESC')
-        ->paginate(6);
+            ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
+            ->join('store', 'store.id', '=', 'product.id_store')
+            ->where('product.id_store', '=', $id)
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->groupBy('product_detail.id_product')
+            ->orderBy('sold', 'DESC')
+            ->paginate(6);
         $product_hotView = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')
-        ->where('product.id_store', '=', $id)
-        ->where('store.status', '=', '1')
-        ->where('product.status', '=', '0')
-        ->orderBy('product.view', 'DESC')
-        ->paginate(6);
+            ->where('product.id_store', '=', $id)
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->orderBy('product.view', 'DESC')
+            ->paginate(6);
         $permission = $this->checkPermission($id);
         return view('home.pages.home_store', [
             'product' => $product,
@@ -858,12 +858,12 @@ class storeController extends Controller
 
     public function checkPermission($id)
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
         } else {
             $permission = 0;
         }
-        
+
         return $permission;
     }
 
@@ -889,25 +889,24 @@ class storeController extends Controller
         if ($store->status != 1) {
             return redirect()->back()->with('error', 'Cửa hàng đang bị khoá');
         }
-        if(Auth::check()) {
+        if (Auth::check()) {
             $permission = PermissionStore::where('id_store', '=', $id)->where('id_user', '=', Auth::user()->id)->count();
-            if($permission == 0) {
+            if ($permission == 0) {
                 return redirect()->back()->with('error', 'Không có quyền');
             }
         } else {
             return redirect()->back()->with('error', 'Chưa đăng nhập');
         }
-       
     }
     public function dashboard($id)
     {
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        $order_today = OrderStore::where('id_store', $id)->where('created_at','=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->count();
+        $order_today = OrderStore::where('id_store', $id)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->count();
         $product = Product::where('id_store', $id)->count();
-        $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at','=',Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
+        $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
         $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->first();
-      
+
         return view('home.pages.dashboard_store', [
             'permission'    => $permission,
             'store' => $store,
@@ -915,6 +914,16 @@ class storeController extends Controller
             'product'   => $product,
             'revenue_today' => $revenue_today,
             'revenue'   => $revenue
+        ]);
+    }
+
+    public function show($id)
+    {
+        $store = Store::with(['store_cate', 'comment', 'product'])->find($id);
+        $permission = $this->checkPermission($id);
+        return view("home.pages.info_store", [
+            'store' => $store,
+            'permission' => $permission
         ]);
     }
 }
