@@ -160,7 +160,7 @@ class dashboardController extends Controller
         ];
 
         $category = CategoryProduct::create($data);
-        $storage = "upload\category/";
+        $storage = "upload/category/";
         $format = array("JPG", "JPEG", "PNG", "GIF", "BMP", "jpg", "jpeg", "png", "gif", "bmp");
         $filename = $_FILES['avatar']['name'];
         $filename_tmp = $_FILES['avatar']['tmp_name'];

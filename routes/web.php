@@ -95,7 +95,7 @@ Route::prefix('/')->group(function () {
 
         // user address
         Route::get("/address-user", [userController::class, 'userAddress'])->name('user.address');
-        Route::post("/address-user", [userController::class, 'c'])->name('user.add_address');
+        Route::post("/address-user", [userController::class, 'addUserAddress'])->name('user.add_address');
         Route::get("/edit-user/{id}", [userController::class, 'showUserAddress'])->name('user.show_address');
         Route::put("/update-address-user/{id}", [userController::class, 'updateUserAddress'])->name('user.update_address');
         Route::delete("/delete-address-user/{id}", [userController::class, 'deleteUserAddress'])->name('user.delete_address');

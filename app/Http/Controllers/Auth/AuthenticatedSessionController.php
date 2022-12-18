@@ -36,11 +36,13 @@ class AuthenticatedSessionController extends Controller
     {
         $user = User::where("email", $request->email)->first();
 
+       
+
+        $request->authenticate();
+        
         if($user->status == '4'){
             return back()->with("error", "Tài khoản bị khoá, vui lòng liên hệ quản trị viên");
         }
-
-        $request->authenticate();
 
         $request->session()->regenerate();
 
