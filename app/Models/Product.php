@@ -29,14 +29,14 @@ class Product extends Model
         'keyword',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
     
-        static::deleting(function ($coupon) {
-           dd($coupon);    
-        });
-    }
+    //     static::deleting(function ($coupon) {
+    //        dd($coupon);    
+    //     });
+    // }
 
     public function detail()
     {

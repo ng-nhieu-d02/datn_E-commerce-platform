@@ -23,7 +23,7 @@
                 </div>
                 <div class="info-profile col-md-12 align-items-center">
                     <div class="image-avatar">
-                        <img class="rounded-circle img-fluid" style="width: 100%;" src="{{ asset('upload/store/avatars/' . $store->avatar) }}" alt="">
+                        <img class="rounded-circle img-fluid" style="width:100%; height: 100%; object-fit:cover" src="{{ asset('upload/store/avatars/' . $store->avatar) }}" alt="">
                     </div>
                     <div class="name-profile" style="flex-grow: 1;">
                         <h2 class="name-profile-h2">{{$store->name}}</h2>
@@ -53,7 +53,7 @@
                         </li>
 
                         @if($permission == 0)
-                        <li>
+                        <li class="@if (request()->routeIs('user.info_store', [$store->id])) active @endif">
                             <a href="{{ route('user.info_store', [$store->id]) }}">Thông tin shop</a>
                         </li>
                         <li>

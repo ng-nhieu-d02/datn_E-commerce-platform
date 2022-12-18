@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\BankInfo;
 use App\Models\CategoryProduct;
+use App\Models\CommentProduct;
 use App\Models\Coupons;
 use App\Models\HistoryUpdateOrder;
 use App\Models\Order;
@@ -146,7 +147,9 @@ class storeController extends Controller
             $avatar = $request->file("avatar");
             $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
             $validated['avatar'] = $fileNameAvatar;
-            unlink("upload/store/avatars/$store->avatar");
+            if(file_exists('upload/store/avatars/'.$store->avatar)) {
+                unlink("upload/store/avatars/$store->avatar");
+            }
             $avatar->move(public_path($pathAvatar), $fileNameAvatar);
         }
         if ($request->hasFile("background")) {
@@ -154,7 +157,9 @@ class storeController extends Controller
             $background = $request->file("background");
             $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
             $validated['background'] = $fileNameBackground;
-            unlink("upload/store/backgrounds/$store->background");
+            if(file_exists('upload/store/backgrounds/'.$store->background)) {
+                unlink("upload/store/backgrounds/$store->background");
+            }
             $background->move(public_path($pathBackground),  $fileNameBackground);
         }
 
@@ -327,7 +332,7 @@ class storeController extends Controller
         ]);
     }
 
-    public function storeAddProduct(Request $request)
+    public function storeAddProduct($id,Request $request)
     {
 
         $validated = $request->validate([
@@ -363,81 +368,75 @@ class storeController extends Controller
             $request->validate(['attribute' => 'required|string']);
         }
 
-        \DB::beginTransaction();
-        try {
-            $id_store = $request->id;
+        $parent_id = explode('_', $validated['category_id']);
+        $key_word = implode(",", $validated['keyword']);
 
-            $product['id_store'] = $id_store;
-            $product['create_by'] = auth()->user()->id;
-            $product['name'] = $validated['name'];
-            $product['slug'] = Str::slug($product['name'], "-");
-            $product['description'] = $validated['description'];
-            $product['long_description'] = $validated['long_description'];
-            $product['type'] = $validated['type'];
-            $product['category_path'] = $validated['category_id'];
-            $categoryPath = explode('_', $validated['category_id']);
-            $product['category_id'] = end($categoryPath);
-            $product['thumb'] = $product['id_store'] . "/thumb/" . $validated['thumb']->hashName(); // name file
-            $product['brand'] = $validated['brand'];
-            $product['origin'] = $validated['origin'];
-            $product['title'] = $validated['title'];
-            $product['keyword'] = implode(",", $validated['keyword']);
+        $product = [
+            'id_store'  => $id,
+            'create_by' => Auth::user()->id,
+            'name'  => $validated['name'],
+            'slug'  => Str::slug($validated['name'], "-"),
+            'description'   => $validated['description'],
+            'long_description'  => $validated['long_description'],
+            'type'  => $validated['type'],
+            'category_path' => $validated['category_id'],
+            'category_id'   => $parent_id[count($parent_id)-2],
+            'thumb' => $id . "/thumb/" . $validated['thumb']->hashName(),
+            'brand' => $validated['brand'],
+            'origin'    => $validated['origin'],
+            'title' => $validated['title'],
+            'keyword'   => $key_word
+        ];
 
-            $product_id = Product::create($product)->id;
+        $product = Product::create($product);
 
-            $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+        $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+        
+        $productDetailAttributes = [];
 
-            $productDetailAttributes = [];
+        $productListImages = [];
 
-            $productListImages = [];
-
-            foreach ($validated['colorText'] as $key => $color) {
-                $fileName = $product_id . '-size-' . $validated['url_image'][$key]->hashName();
-                $productDetailAttributes[] = [
-                    'id_product' => $product_id,
-                    'color_value' => $color,
-                    'attribute' => $validated['attribute'],
-                    'attribute_value' => $validated['sizeText'][$key],
-                    'weight' => $validated['weight'][$key],
-                    'quantity' => $validated['quantity'][$key],
-                    'price' => $validated['price'][$key],
-                    'sale' => $validated['sale'][$key],
-                    'url_image' => $fileName,
-                    'status' => '0',
-                ];
-                $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
-            }
-
-            ProductDetail::insert($productDetailAttributes);
-
-            $image = ["jpg", "jpeg", "png", "jfif"];
-            $video = ['mp4', 'ogg'];
-
-            foreach ($validated['url'] as $url) {
-                if (in_array($url->extension(), $image)) {
-                    $type = "0";
-                } else if (in_array($url->extension(), $video)) {
-                    $type = "1";
-                }
-
-                $fileName = $product['id_store'] . '-' . "$product_id-" . $url->hashName();
-                $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
-
-                $productListImages[] = [
-                    'id_product' => $product_id,
-                    'type' => $type,
-                    'url' => $fileName,
-                ];
-            }
-
-            ProductImages::insert($productListImages);
-
-            \DB::commit();
-
-            return back()->with("message", "Thêm mới sản phẩm thành công");
-        } catch (\Exception $e) {
-            \DB::rollback();
+        foreach ($validated['colorText'] as $key => $color) {
+            $fileName = $product->id . '-size-' . $validated['url_image'][$key]->hashName();
+            $productDetailAttributes[] = [
+                'id_product' => $product->id,
+                'color_value' => $color,
+                'attribute' => $validated['attribute'],
+                'attribute_value' => $validated['sizeText'][$key],
+                'weight' => $validated['weight'][$key],
+                'quantity' => $validated['quantity'][$key],
+                'price' => $validated['price'][$key],
+                'sale' => $validated['sale'][$key],
+                'url_image' => $fileName,
+                'status' => '0',
+            ];
+            $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
         }
+        ProductDetail::insert($productDetailAttributes);
+
+        $image = ["jpg", "jpeg", "png", "jfif"];
+        $video = ['mp4', 'ogg'];
+
+        foreach ($validated['url'] as $url) {
+            if (in_array($url->extension(), $image)) {
+                $type = "0";
+            } else if (in_array($url->extension(), $video)) {
+                $type = "1";
+            }
+
+            $fileName = $product['id_store'] . '-' . "$product->id-" . $url->hashName();
+            $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
+
+            $productListImages[] = [
+                'id_product' => $product->id,
+                'type' => $type,
+                'url' => $fileName,
+            ];
+        }
+
+        ProductImages::insert($productListImages);
+
+        return back()->with("message", "Thêm mới sản phẩm thành công");
     }
 
     public function getCategoryProduct()
@@ -898,7 +897,7 @@ class storeController extends Controller
             return redirect()->back()->with('error', 'Chưa đăng nhập');
         }
     }
-    public function dashboard($id)
+    public function dashboard($id, Request $request)
     {
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
@@ -907,13 +906,124 @@ class storeController extends Controller
         $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
         $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->first();
 
+
+        $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+        sum(total_price) as total_price, sum(coupons_price) as	coupons_price, sum(ship) as ship, sum(coupon_frs_price) as coupon_frs_price'))
+            ->where('id_store', $id)
+            ->where('status_order', '=', '3')->whereMonth('created_at', '=', Carbon::now()->month)->whereYear('created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $chartOrder = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+        count(id) as count'))
+            ->where('id_store', $id)
+            ->whereMonth('created_at', '=', Carbon::now()->month)->whereYear('created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $chartPrd = OrderStore::select(DB::raw('order_store.created_at,month(order_store.created_at) as month,day(order_store.created_at) as day,
+            sum(order_detail.quantity) as quantity'))
+            ->join('order_detail', 'order_detail.id_order_store', '=', 'order_store.id')
+            ->where('order_store.id_store', $id)
+            ->where('order_store.status_order', '=', '3')
+            ->whereMonth('order_store.created_at', '=', Carbon::now()->month)->whereYear('order_store.created_at', '=', Carbon::now()->year)
+            ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+        $dataChart = [];
+
+        $month = Carbon::now()->year.'-'.Carbon::now()->month;
+
+        $x = cal_days_in_month(CAL_GREGORIAN, Carbon::now()->month, Carbon::now()->year);
+
+        if (isset($request->month)) {
+            $choose = explode('-', $request->month);
+            $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+            sum(total_price) as total_price, sum(coupons_price) as	coupons_price, sum(ship) as ship, sum(coupon_frs_price) as coupon_frs_price'))
+                ->where('status_order', '=', '3')->whereMonth('created_at', '=', $choose[1])->whereYear('created_at', '=', $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $chartOrder = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
+            count(id) as count'))
+                ->whereMonth('created_at', '=', $choose[1])->whereYear('created_at', '=', $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $chartPrd = OrderStore::select(DB::raw('order_store.created_at,month(order_store.created_at) as month,day(order_store.created_at) as day,
+                sum(order_detail.quantity) as quantity'))
+                ->join('order_detail', 'order_detail.id_order_store', '=', 'order_store.id')
+                ->where('order_store.id_store', $id)
+                ->where('order_store.status_order', '=', '3')
+                ->whereMonth('order_store.created_at', '=', $choose[1])->whereYear('order_store.created_at', '=',  $choose[0])
+                ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+            $x = cal_days_in_month(CAL_GREGORIAN, $choose[1], $choose[0]);
+
+            $month = $request->month;
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chart) == 0) {
+                $dataChart[] = [
+                    'y' => $i,
+                    'a' => 0
+                ];
+            }
+            foreach ($chart as $key => $chartM) {
+                if ($chartM['day'] == $i) {
+                    $dataChart[] = [
+                        'y' => $i,
+                        'a' => (($chartM['total_price'] - $chartM['coupons_price']) + ($chartM['ship'] - $chartM['coupon_frs_price']))
+                    ];
+                    unset($chart[$key]);
+                    break;
+                } else {
+                    $dataChart[] = [
+                        'y' => $i,
+                        'a' => 0
+                    ];
+                    break;
+                }
+            }
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chartOrder) == 0) {
+                $dataChart[$i - 1]['b'] = 0;
+            }
+            foreach ($chartOrder as $keys => $chartO) {
+                if ((int)$chartO['day'] === (int)$i) {
+                    $dataChart[$i - 1]['b'] = $chartO['count'];
+                    unset($chartOrder[$keys]);
+                    break;
+                } else {
+                    $dataChart[$i - 1]['b'] = 0;
+                    break;
+                }
+            }
+        }
+
+        for ($i = 1; $i <= $x; $i++) {
+            if (count($chartPrd) == 0) {
+                $dataChart[$i-1]['c'] = 0;
+            }
+            foreach ($chartPrd as $key => $chartP) {
+                if ($chartP['day'] == $i) {
+                    $dataChart[$i - 1]['c'] = (int)$chartP['quantity'];
+                    unset($chartPrd[$key]);
+                    break;
+                } else {
+                    $dataChart[$i - 1]['c'] = 0;
+                    break;
+                }
+            }
+        }
+       
         return view('home.pages.dashboard_store', [
             'permission'    => $permission,
             'store' => $store,
             'order_today' => $order_today,
             'product'   => $product,
             'revenue_today' => $revenue_today,
-            'revenue'   => $revenue
+            'revenue'   => $revenue,
+            'chart' => json_encode($dataChart),
+            'month' => $month
         ]);
     }
 

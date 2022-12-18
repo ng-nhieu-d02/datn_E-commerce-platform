@@ -110,7 +110,9 @@ class userController extends Controller
 
         $file_image = $request->file('file_image');
         if (!empty($file_image)) {
-            unlink(base_path("public/upload/profile/avatar/$getImageUrl"));
+            if(file_exists('upload/profile/avatar/'.$getImageUrl)) {
+                unlink('upload/profile/avatar/'.$getImageUrl);
+            }
             $pathAvatar = "upload/profile/avatar/";
             $fileNameAvatar = time() . "-avatar-" . auth()->id() . "." . $file_image->extension();
             $validated['avatar'] = $fileNameAvatar;

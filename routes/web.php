@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
 
     Route::get('/login-google', [authController::class, 'loginGoogle'])->name('user.loginGoogle');
+    Route::get('/login-facebook', [authController::class, 'loginFacebook'])->name('user.loginFacebook');
     Route::get('/', [homeController::class, 'home'])->name('user.home');
     Route::get('/product/{slug}', [productController::class, 'detail'])->name('user.productDetail');
     Route::get('/page-search', [homeController::class, 'pageSearch'])->name('user.pageSearch');
@@ -38,6 +39,9 @@ Route::prefix('/')->group(function () {
     Route::get('/update-view/{product}', [homeController::class, 'view'])->name('user.update_view');
     Route::get('/about', [homeController::class, 'about'])->name('user.about');
     Route::post('/marketing', [homeController::class, 'update_view_top'])->name('user.update_view_top');
+
+     // info store
+     Route::get("/store/info/10000000000{id}", [storeController::class, 'show'])->name("user.info_store");
 
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
@@ -94,7 +98,7 @@ Route::prefix('/')->group(function () {
 
         // user address
         Route::get("/address-user", [userController::class, 'userAddress'])->name('user.address');
-        Route::post("/address-user", [userController::class, 'c'])->name('user.add_address');
+        Route::post("/address-user", [userController::class, 'addUserAddress'])->name('user.add_address');
         Route::get("/edit-user/{id}", [userController::class, 'showUserAddress'])->name('user.show_address');
         Route::put("/update-address-user/{id}", [userController::class, 'updateUserAddress'])->name('user.update_address');
         Route::delete("/delete-address-user/{id}", [userController::class, 'deleteUserAddress'])->name('user.delete_address');
@@ -114,9 +118,6 @@ Route::prefix('/')->group(function () {
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
         Route::get('/order-detail/{id_order}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
-
-        // info store
-        Route::get("/store/info/10000000000{id}", [storeController::class, 'show'])->name("user.info_store");
     });
 });
 

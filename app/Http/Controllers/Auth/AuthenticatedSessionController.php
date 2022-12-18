@@ -19,8 +19,10 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         $google = 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=549830004697-qc6ihiudedmh14r1g65rjifj7mhh3h3q.apps.googleusercontent.com&redirect_uri='.route('user.loginGoogle').'&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&approval_prompt=force&flowName=GeneralOAuthFlow';
+        $facebook = 'https://www.facebook.com/v12.0/dialog/oauth?client_id=1582788455527311&redirect_uri='.route('user.loginFacebook').'&scope=public_profile';
         return view('auth.login', [
-            'url_google'    => $google
+            'url_google'    => $google,
+            'url_facebook'  => $facebook
         ]);
     }
 
@@ -34,11 +36,13 @@ class AuthenticatedSessionController extends Controller
     {
         $user = User::where("email", $request->email)->first();
 
+       
+
+        $request->authenticate();
+        
         if($user->status == '4'){
             return back()->with("error", "Tài khoản bị khoá, vui lòng liên hệ quản trị viên");
         }
-
-        $request->authenticate();
 
         $request->session()->regenerate();
 
