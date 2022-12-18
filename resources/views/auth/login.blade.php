@@ -39,7 +39,7 @@
                             <button type="submit">Login</button>
                         </div>
 
-                        <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998; margin-top: 30px; font-size: 1.5rem; padding-top: 10px; padding-bottom: 10px;" href="#!" role="button">
+                        <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998; margin-top: 30px; font-size: 1.5rem; padding-top: 10px; padding-bottom: 10px;" href="{{$url_facebook}}" role="button">
                             <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
                         </a>
                         <a class="btn btn-primary btn-lg btn-block" style="background-color: #dd4b39; font-size: 1.5rem; padding-top: 10px; padding-bottom: 10px" href="{{$url_google}}" role="button">
