@@ -96,7 +96,7 @@ class authController extends Controller
             $response = $response->access_token;
             curl_close($call);
 
-            $url_get_info_user = '' . $response;
+            $url_get_info_user = 'https://graph.facebook.com/me?access_token=' . $response;
             $call = curl_init();
             curl_setopt($call, CURLOPT_URL, $url_get_info_user);
             curl_setopt($call, CURLOPT_RETURNTRANSFER, 1);

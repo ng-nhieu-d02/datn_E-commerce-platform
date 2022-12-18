@@ -155,7 +155,7 @@
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8 mb-2">
                             <h2 class="d-flex align-items-center mb-0">
-                            {{$revenue->total_price == null ? '0' : number_format(($revenue->total_price - $revenue->coupons_price) + ($revenue->ship - $revenue->coupon_frs_price))}}
+                                {{$revenue->total_price == null ? '0' : number_format(($revenue->total_price - $revenue->coupons_price) + ($revenue->ship - $revenue->coupon_frs_price))}}
                             </h2>
                         </div>
                         <div class="col-4 text-right">
@@ -176,8 +176,9 @@
     #bar-chart,
     #stacked,
     #pie-chart {
-        min-height: 400px;
+        min-height: 450px;
     }
+
     .morris-default-style {
         display: flex;
         margin: 20px 0;
@@ -185,12 +186,20 @@
         justify-content: center;
     }
 </style>
-<div>
+<div class="line-title">
+    <div class="content-title" style="margin-left: 10px;display:flex">
+        <h2>Thống kê tháng</h2>
+        <form method="get">
+            <input type="month" id="start" name="month" style="width: auto;font-size: 1.4rem; padding: 8px 30px 8px 15px;margin-left:15px" value="{{$month}}">
+            <button type="submit" class="btn btn-primary" style="width: auto;font-size: 1.4rem; padding: 9px 20px;margin-left:15px">Primary</button>
+        </form>
+    </div>
     <div class="text-center">
         <!-- <label class="label label-success">Area Chart</label> -->
         <div id="area-chart"></div>
     </div>
 </div>
+
 
 @endsection
 
@@ -198,78 +207,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script>
-    var data = [{
-                y: '2014',
-                a: 50,
-                b: 90,
-                c: 10
-            },
-            {
-                y: '2015',
-                a: 65,
-                b: 75,
-                c: 15
-            },
-            {
-                y: '2016',
-                a: 50,
-                b: 50,
-                c: 20
-            },
-            {
-                y: '2017',
-                a: 0,
-                b: 0,
-                c: 0
-            },
-            {
-                y: '2018',
-                a: 80,
-                b: 65,
-                c: 40
-            },
-            {
-                y: '2019',
-                a: 90,
-                b: 70,
-                c: 20
-            },
-            {
-                y: '2020',
-                a: 100,
-                b: 75,
-                c: 23
-            },
-            {
-                y: '2021',
-                a: 115,
-                b: 75,
-                c: 34
-            },
-            {
-                y: '2022',
-                a: 120,
-                b: 80,
-                c: 42
-            },
-            {
-                y: '2023',
-                a: 145,
-                b: 85,
-                c: 55
-            },
-            {
-                y: '2024',
-                a: 160,
-                b: 95,
-                c: 70
-            }
-        ],
+    var data = <?= $chart ?>;
         config = {
             data: data,
             xkey: 'y',
             ykeys: ['a', 'b', 'c'],
-            labels: ['Doanh thu', 'Hoá đơn', 'Sản phẩm'],
+            labels: ['Doanh thu', 'Hoá đơn', 'Sản phẩm đã bán'],
             fillOpacity: 0.6,
             hideHover: 'auto',
             behaveLikeLine: true,
@@ -277,13 +220,13 @@
             pointFillColors: ['#ffffff'],
             pointStrokeColors: ['black'],
             lineColors: ['gray', 'red', 'green'],
-            behaveLikeLine: true
+            behaveLikeLine: true,
+            parseTime: false
         };
     config.element = 'area-chart';
     Morris.Area(config);
-    
+
     config.element = 'stacked';
     config.stacked = true;
-    
 </script>
 @endsection
