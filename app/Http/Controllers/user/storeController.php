@@ -907,6 +907,7 @@ class storeController extends Controller
         $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
         $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->first();
 
+
         $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,
         sum(total_price) as total_price, sum(coupons_price) as	coupons_price, sum(ship) as ship, sum(coupon_frs_price) as coupon_frs_price'))
             ->where('id_store', $id)
@@ -1015,7 +1016,6 @@ class storeController extends Controller
             }
         }
        
-
         return view('home.pages.dashboard_store', [
             'permission'    => $permission,
             'store' => $store,
@@ -1025,6 +1025,16 @@ class storeController extends Controller
             'revenue'   => $revenue,
             'chart' => json_encode($dataChart),
             'month' => $month
+        ]);
+    }
+
+    public function show($id)
+    {
+        $store = Store::with(['store_cate', 'comment', 'product'])->find($id);
+        $permission = $this->checkPermission($id);
+        return view("home.pages.info_store", [
+            'store' => $store,
+            'permission' => $permission
         ]);
     }
 }

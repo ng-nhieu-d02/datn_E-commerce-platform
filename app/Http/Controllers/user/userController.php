@@ -110,9 +110,11 @@ class userController extends Controller
 
         $file_image = $request->file('file_image');
         if (!empty($file_image)) {
-            Storage::disk('public')->delete($getImageUrl);
-            $path = Storage::disk('public')->put('avatars', $file_image);
-            $validated['avatar'] = $path;
+            unlink(base_path("public/upload/profile/avatar/$getImageUrl"));
+            $pathAvatar = "upload/profile/avatar/";
+            $fileNameAvatar = time() . "-avatar-" . auth()->id() . "." . $file_image->extension();
+            $validated['avatar'] = $fileNameAvatar;
+            $file_image->move(public_path($pathAvatar), $fileNameAvatar);
         }
 
         $user = User::find(auth()->user()->id);

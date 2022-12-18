@@ -60,7 +60,7 @@ Route::prefix('/')->group(function () {
         Route::post('/get-voucher', [storeController::class, 'get_voucher'])->name('user.get_voucher');
 
         // store
-        Route::get('/dashboard/10000000000{id}',[storeController::class, 'dashboard'])->name('user.dashboard_store');
+        Route::get('/dashboard/10000000000{id}', [storeController::class, 'dashboard'])->name('user.dashboard_store');
         Route::get('/payment/10000000000{id}', [storeController::class, 'payment'])->name('user.payment_store');
         Route::post('/payment-store/10000000000{id}', [storeController::class, 'store_payment'])->name('user.payment_store_post');
         Route::get('/pay-return-store', [storeController::class, 'payment_return'])->name('user.store_pay_return');
@@ -116,6 +116,8 @@ Route::prefix('/')->group(function () {
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
         Route::get('/order-detail/{id_order}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
 
+        // info store
+        Route::get("/store/info/10000000000{id}", [storeController::class, 'show'])->name("user.info_store");
     });
 });
 
@@ -133,7 +135,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/category', [dashboardController::class, 'store_category'])->name('admin.store_category');
         Route::post('/category/{id}', [dashboardController::class, 'update_category'])->name('admin.update_category');
         Route::get('/delete-category/{id}', [dashboardController::class, 'delete_category'])->name('admin.delete_category');
-        
+
         Route::get('/voucher-manager', [dashboardController::class, 'voucher'])->name('admin.voucher');
         Route::post('/voucher-manager', [dashboardController::class, 'add_voucher'])->name('admin.add_voucher');
         Route::get('/update-voucher/{voucher}/{status}', [dashboardController::class, 'update_voucher'])->name('admin.update_voucher');
@@ -147,7 +149,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/payment', [dashboardController::class, 'payment'])->name('admin.payment');
         Route::get('/update_payment/{id}/{status}', [dashboardController::class, 'update_payment'])->name('admin.update_payment');
-    }); 
+    });
 });
 
 require __DIR__ . '/auth.php';

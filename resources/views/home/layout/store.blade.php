@@ -54,7 +54,7 @@
 
                         @if($permission == 0)
                         <li>
-                            <a href="">Thông tin shop</a>
+                            <a href="{{ route('user.info_store', [$store->id]) }}">Thông tin shop</a>
                         </li>
                         <li>
                             <a href="">Đánh giá shop</a>
