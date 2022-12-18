@@ -195,7 +195,7 @@ class dashboardController extends Controller
             if(file_exists('upload/category/'.$category->avatar)) {
                 unlink('upload/category/'.$category->avatar);
             }
-            $storage = "upload\category/";
+            $storage = "upload/category/";
             $format = array("JPG", "JPEG", "PNG", "GIF", "BMP", "jpg", "jpeg", "png", "gif", "bmp");
             $filename = $_FILES['avatar']['name'];
             $filename_tmp = $_FILES['avatar']['tmp_name'];

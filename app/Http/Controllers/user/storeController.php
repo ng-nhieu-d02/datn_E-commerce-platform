@@ -146,7 +146,9 @@ class storeController extends Controller
             $avatar = $request->file("avatar");
             $fileNameAvatar = time() . "-avatar-store-of-user-" . auth()->id() . "." . $avatar->extension();
             $validated['avatar'] = $fileNameAvatar;
-            unlink("upload/store/avatars/$store->avatar");
+            if(file_exists('upload/store/avatars/'.$store->avatar)) {
+                unlink("upload/store/avatars/$store->avatar");
+            }
             $avatar->move(public_path($pathAvatar), $fileNameAvatar);
         }
         if ($request->hasFile("background")) {
@@ -154,7 +156,9 @@ class storeController extends Controller
             $background = $request->file("background");
             $fileNameBackground = time() . "-background-store-of-user-" . auth()->id() . "." . $background->extension();
             $validated['background'] = $fileNameBackground;
-            unlink("upload/store/backgrounds/$store->background");
+            if(file_exists('upload/store/backgrounds/'.$store->background)) {
+                unlink("upload/store/backgrounds/$store->background");
+            }
             $background->move(public_path($pathBackground),  $fileNameBackground);
         }
 

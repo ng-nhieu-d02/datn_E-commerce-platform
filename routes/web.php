@@ -40,6 +40,9 @@ Route::prefix('/')->group(function () {
     Route::get('/about', [homeController::class, 'about'])->name('user.about');
     Route::post('/marketing', [homeController::class, 'update_view_top'])->name('user.update_view_top');
 
+     // info store
+     Route::get("/store/info/10000000000{id}", [storeController::class, 'show'])->name("user.info_store");
+
     // ajax call category product children by parent
     Route::get("/filter-product-children", [homeController::class, 'filterProductChildren'])->name("filter_product_children");
 
@@ -115,9 +118,6 @@ Route::prefix('/')->group(function () {
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
         Route::get('/order-detail/{id_order}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
-
-        // info store
-        Route::get("/store/info/10000000000{id}", [storeController::class, 'show'])->name("user.info_store");
     });
 });
 

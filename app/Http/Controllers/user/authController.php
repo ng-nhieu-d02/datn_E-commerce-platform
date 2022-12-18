@@ -63,7 +63,7 @@ class authController extends Controller
                 $user = User::create($user);
                 $avatar = $user_info->picture;
 
-                $fp = 'upload\profile\avatar/' . $user->id . '.png';
+                $fp = 'upload/profile/avatar/' . $user->id . '.png';
                 if (file_exists($fp)) {
                     unlink($fp);
                 }
@@ -116,7 +116,7 @@ class authController extends Controller
                 $user = User::create($user);
                 $avatar = $user_info->picture;
 
-                $fp = 'upload\profile\avatar/' . $user->id . '.png';
+                $fp = 'upload/profile/avatar/' . $user->id . '.png';
                 if (file_exists($fp)) {
                     unlink($fp);
                 }

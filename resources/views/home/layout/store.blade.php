@@ -53,7 +53,7 @@
                         </li>
 
                         @if($permission == 0)
-                        <li>
+                        <li class="@if (request()->routeIs('user.info_store', [$store->id])) active @endif">
                             <a href="{{ route('user.info_store', [$store->id]) }}">Thông tin shop</a>
                         </li>
                         <li>
