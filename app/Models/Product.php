@@ -32,11 +32,39 @@ class Product extends Model
     // public static function boot()
     // {
     //     parent::boot();
-    
+
     //     static::deleting(function ($coupon) {
-    //        dd($coupon);    
+    //            
     //     });
     // }
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($product) {
+            $thumb = $product->thumb;
+            if ($thumb) {
+                if (file_exists(public_path("upload/product/$thumb"))) {
+                    unlink(public_path("upload/product/$thumb"));
+                }
+            }
+            $albums = $product->images->pluck("url");
+            foreach ($albums as $image) {
+                if ($image) {
+                    if (file_exists(public_path("upload/product/$product->id_store/album/$image"))) {
+                        unlink(public_path("upload/product/$product->id_store/album/$image"));
+                    }
+                }
+            }
+            $details = $product->detail->pluck("url_image");
+            if (count($details) > 0) {
+                foreach ($details as $image) {
+                    if (file_exists(public_path("upload/product/$product->id_store/album/$image"))) {
+                        unlink(public_path("upload/product/$product->id_store/album/$image"));
+                    }
+                }
+            }
+        });
+    }
 
     public function detail()
     {
@@ -81,5 +109,10 @@ class Product extends Model
     public function categoryProduct()
     {
         return $this->belongsTo(CategoryProduct::class, 'category_id')->withDefault();
+    }
+
+    public function orderDetail()
+    {
+        return $this->hasMany(OrderDetail::class, "id_product");
     }
 }

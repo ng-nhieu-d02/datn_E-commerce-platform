@@ -90,7 +90,7 @@ Route::prefix('/')->group(function () {
 
         // update status product
         Route::put("/update-status-product/{id}", [storeController::class, 'updateProductStatus'])->name("user.update-status-product");
-        Route::delete("/delete-product/{id}", [storeController::class, 'deleteProduct'])->name("user.delete_product");
+        Route::delete("product-store/10000000000{id_store}/delete-product/{id_product}", [storeController::class, 'deleteProduct'])->name("user.delete_product");
 
         // profile
         Route::get('/profile', [userController::class, 'profile'])->name('user.profile');

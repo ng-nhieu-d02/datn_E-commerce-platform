@@ -639,7 +639,9 @@
 
 .slider-nav .slick-list .slick-track .slick-slide img {
     width: 100%;
+    height: 160px;
     border-radius: 7px;
+    object-fit: cover;
 }
 
 .slider-nav .slick-list .slick-track .slick-slide.slick-current.slick-active {
