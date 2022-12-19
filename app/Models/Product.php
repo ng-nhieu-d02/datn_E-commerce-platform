@@ -43,8 +43,8 @@ class Product extends Model
         static::deleting(function ($product) {
             $thumb = $product->thumb;
             if ($thumb) {
-                if (file_exists(public_path("upload/product/$product->id_store/thumb/$thumb"))) {
-                    unlink(public_path("upload/product/$product->id_store/thumb/$thumb"));
+                if (file_exists(public_path("upload/product/$thumb"))) {
+                    unlink(public_path("upload/product/$thumb"));
                 }
             }
             $albums = $product->images->pluck("url");
