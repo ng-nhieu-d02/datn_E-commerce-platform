@@ -65,7 +65,7 @@
                 <tr>
                     <td style="border-left: 1px;"><span> {{$detail->product->name}} </span></td>
                     <td class="text-center">
-                        <span> <img class="image-product" style="max-width: 100px;max-height:100px" src="{{asset('upload/product/'.$detail->product_detail->url_image)}}" alt=""> </span>
+                        <span> <img class="image-product" style="max-width: 100px;max-height:100px" src="{{asset('upload/product/'.$detail->product->id_store.'/album/'.$detail->product_detail->url_image)}}" alt=""> </span>
                     </td>
                     <td><span> {{$detail->quantity}} </span></td>
                     <td><span> {{number_format($detail->price)}} </span></td>

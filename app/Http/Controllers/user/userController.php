@@ -69,6 +69,7 @@ class userController extends Controller
                             'quantity'  => $result->quantity,
                             'product' => [
                                 'slug' => $result->product->slug,
+                                'id_store'  => $product_detail->product->id_store,
                                 'name' => $result->product->name,
                                 'type' => $result->product->type,
                             ],
@@ -629,7 +630,7 @@ class userController extends Controller
             $user->save();
             $info = [
                 'id_user'   => $user->id,
-                'amount'    => 10000,
+                'amount'    => 20000,
                 'type'      => '0',
                 'description'   => 'Thưởng vòng quay may mắn',
                 'status'    => '1'

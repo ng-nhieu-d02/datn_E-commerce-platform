@@ -4,7 +4,7 @@
         <i class="fa-solid fa-star"></i>
         <span>
             @if ($product->comment()->count() > 0)
-            {{ $product->comment()->sum('rate') / $product->comment()->count()}} · {{ $product->comment()->count() }} Reviews
+            {{ number_format($product->comment()->sum('rate') / $product->comment()->count(), 2)}} 路 {{ $product->comment()->count() }} Reviews
             @endif
         </span>
     </h2>
@@ -36,7 +36,7 @@
             @endforeach
 
         </div>
-        <form action="" class="form-show-more">
+        <form action="" class="form-show-more" style='display:none'>
             <button class="form-button">Show me all {{ $product->total_rate }} reviews</button>
         </form>
     </div>
