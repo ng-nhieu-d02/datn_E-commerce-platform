@@ -398,11 +398,19 @@ class storeController extends Controller
 
         foreach ($validated['colorText'] as $key => $color) {
             $fileName = $product->id . '-size-' . $validated['url_image'][$key]->hashName();
+
+            if($product->type == 1) {
+                $attribute = null;
+                $attribute_value = null;
+            } else {
+                $attribute = $validated['attribute'];
+                $attribute_value = $validated['sizeText'][$key];
+            }
             $productDetailAttributes[] = [
                 'id_product' => $product->id,
                 'color_value' => $color,
-                'attribute' => $validated['attribute'],
-                'attribute_value' => $validated['sizeText'][$key],
+                'attribute' => $attribute ,
+                'attribute_value' =>  $attribute_value,
                 'weight' => $validated['weight'][$key],
                 'quantity' => $validated['quantity'][$key],
                 'price' => $validated['price'][$key],
@@ -436,7 +444,20 @@ class storeController extends Controller
 
         ProductImages::insert($productListImages);
 
-        return back()->with("message", "Thêm mới sản phẩm thành công");
+        $c = 30;
+        for($i = 1; $i <= $c; $i ++) {
+            CommentProduct::create([
+                'create_by' => rand(1,3),
+                'id_store'  => $product->id_store,
+                'id_product'    => $product->id,
+                'message'   => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
+                'rate'  => rand(2,5),
+                'parent_id' => '0',
+                'parent_path'   => '0_',
+            ]);
+        }
+
+        return back()->with("success", "Thêm mới sản phẩm thành công");
     }
 
     public function getCategoryProduct()
@@ -604,7 +625,6 @@ class storeController extends Controller
 
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        dd(123);
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
         return view('home.pages.order_store', [
             'store' => $store,

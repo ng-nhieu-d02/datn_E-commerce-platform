@@ -347,7 +347,6 @@
         });
 
     });
-
 </script>
 
 <script>
@@ -868,7 +867,7 @@
                             $("#address-2").val(result.data.address);
                             $("#phone-2").val(result.data.phone);
                             $("#email-2").val(result.data.email);
-                            
+
                         }
                     }
                 })
@@ -896,7 +895,7 @@
                             "email": $("#email-2").val(),
                         },
                         dataType: 'json',
-                        beforeSend: function(){
+                        beforeSend: function() {
                             $(".alert-danger").hide();
                         },
                         success: function(data) {
@@ -1080,26 +1079,22 @@
         });
     })
 </script>
-
-@yield('scripts')
-
-
 <script>
-     // api address
-     let selecteCity = $("#city")
+    // api address
+    let selecteCity = $("#city")
     let selecteDistrict = $("#district")
 
     let cityOld = ''
     let districtOld = ''
     @isset($store)
-        var cityByStore = "{!! $store->city !!}"; 
-        cityOld = cityByStore
+    var cityByStore = "{!! $store->city !!}";
+    cityOld = cityByStore
 
-        var districtByStore = "{!! $store->district !!}"; 
-        districtOld = districtByStore
+    var districtByStore = "{!! $store->district !!}";
+    districtOld = districtByStore
     @endisset
-  
-   console.log(cityOld);
+
+    console.log(cityOld);
 
     loadCity()
     selecteCity.on("change", async function() {
@@ -1150,4 +1145,6 @@
 </script>
 
 @include('home.layout.ingredient.errorFunction')
+
+@yield('scripts')
 

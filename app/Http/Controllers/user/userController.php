@@ -69,6 +69,7 @@ class userController extends Controller
                             'quantity'  => $result->quantity,
                             'product' => [
                                 'slug' => $result->product->slug,
+                                'id_store'  => $product_detail->product->id_store,
                                 'name' => $result->product->name,
                                 'type' => $result->product->type,
                             ],

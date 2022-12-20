@@ -7,7 +7,7 @@
     </div>
     <div class="component--cardProductCart--content">
         <a href="{{route('user.productDetail', ['slug' => $data->product->slug])}}" class="link-content">
-            <p style="    max-width: 200px;
+            <p style="max-width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;">{{$data->product->name}}</p>
