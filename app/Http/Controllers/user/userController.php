@@ -630,7 +630,7 @@ class userController extends Controller
             $user->save();
             $info = [
                 'id_user'   => $user->id,
-                'amount'    => 10000,
+                'amount'    => 20000,
                 'type'      => '0',
                 'description'   => 'Thưởng vòng quay may mắn',
                 'status'    => '1'
