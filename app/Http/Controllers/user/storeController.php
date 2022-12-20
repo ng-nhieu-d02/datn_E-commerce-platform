@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use App\Models\BankInfo;
+use Illuminate\Support\Facades\App;
 use App\Models\CategoryProduct;
 use App\Models\CommentProduct;
 use App\Models\Coupons;
@@ -335,108 +338,111 @@ class storeController extends Controller
     public function storeAddProduct($id, Request $request)
     {
 
-        $validated = $request->validate([
-            'name' => 'bail|required|unique:product,name|string',
-            'description' => 'bail|required|string',
-            'long_description' => 'bail|required',
-            'type' => 'bail|required|string',
-            'category_id' => 'bail|required|exists:App\Models\CategoryProduct,id',
-            'thumb' => 'bail|required|mimes:jpg,jpeg,png,jfif',
-            'brand' => 'bail|required|string',
-            'origin' => 'bail|required|string',
-            'title' => 'bail|required|string',
-            'keyword' => 'bail|required',
-            'colorText' => 'bail|required_without:size',
-            'sizeText' => 'bail|required_without:color',
-            'attribute' => 'nullable',
-            'url_image' => 'bail|required',
-            'url' => 'bail|required',
-            'url_image.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
-            'url.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
-            'price' => 'bail|required',
-            'price.*' => 'required|string|gt:0',
-            'sale' => 'bail|required',
-            'sale.*' => 'required|string|gt:0',
-            'weight' => 'bail|required',
-            'weight.*' => 'required|string|gt:0',
-            'quantity' => 'bail|required',
-            'quantity.*' => 'required|string|gt:0',
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'bail|required|unique:product,name|string',
+                'description' => 'bail|required|string',
+                'long_description' => 'bail|required',
+                'type' => 'bail|required|string',
+                'category_id' => 'bail|required|exists:App\Models\CategoryProduct,id',
+                'thumb' => 'bail|required|mimes:jpg,jpeg,png,jfif',
+                'brand' => 'bail|required|string',
+                'origin' => 'bail|required|string',
+                'title' => 'bail|required|string',
+                'keyword' => 'bail|required',
+                'colorText' => 'bail|required_without:size',
+                'sizeText' => 'bail|required_without:color',
+                'attribute' => 'nullable',
+                'url_image' => 'bail|required',
+                'url' => 'bail|required',
+                'url_image.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+                'url.*' => 'mimes:jpg,jpeg,png,jfif,mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+                'price' => 'bail|required',
+                'price.*' => 'required|string|gt:0',
+                'sale' => 'bail|required',
+                'sale.*' => 'required|string|gt:0',
+                'weight' => 'bail|required',
+                'weight.*' => 'required|string|gt:0',
+                'quantity' => 'bail|required',
+                'quantity.*' => 'required|string|gt:0',
+            ]);
 
-
-        if (!is_null($validated["sizeText"][0])) {
-            $request->validate(['attribute' => 'required|string']);
-        }
-
-        $parent_id = explode('_', $validated['category_id']);
-        $key_word = implode(",", $validated['keyword']);
-
-        $product = [
-            'id_store'  => $id,
-            'create_by' => Auth::user()->id,
-            'name'  => $validated['name'],
-            'slug'  => Str::slug($validated['name'], "-"),
-            'description'   => $validated['description'],
-            'long_description'  => $validated['long_description'],
-            'type'  => $validated['type'],
-            'category_path' => $validated['category_id'],
-            'category_id'   => $parent_id[count($parent_id) - 2],
-            'thumb' => $id . "/thumb/" . $validated['thumb']->hashName(),
-            'brand' => $validated['brand'],
-            'origin'    => $validated['origin'],
-            'title' => $validated['title'],
-            'keyword'   => $key_word
-        ];
-
-        $product = Product::create($product);
-
-        $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
-
-        $productDetailAttributes = [];
-
-        $productListImages = [];
-
-        foreach ($validated['colorText'] as $key => $color) {
-            $fileName = $product->id . '-size-' . $validated['url_image'][$key]->hashName();
-            $productDetailAttributes[] = [
-                'id_product' => $product->id,
-                'color_value' => $color,
-                'attribute' => $validated['attribute'],
-                'attribute_value' => $validated['sizeText'][$key],
-                'weight' => $validated['weight'][$key],
-                'quantity' => $validated['quantity'][$key],
-                'price' => $validated['price'][$key],
-                'sale' => $validated['sale'][$key],
-                'url_image' => $fileName,
-                'status' => '0',
-            ];
-            $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
-        }
-        ProductDetail::insert($productDetailAttributes);
-
-        $image = ["jpg", "jpeg", "png", "jfif"];
-        $video = ['mp4', 'ogg'];
-
-        foreach ($validated['url'] as $url) {
-            if (in_array($url->extension(), $image)) {
-                $type = "0";
-            } else if (in_array($url->extension(), $video)) {
-                $type = "1";
+            if (!is_null($validated["sizeText"][0])) {
+                $request->validate(['attribute' => 'required|string']);
             }
 
-            $fileName = $product['id_store'] . '-' . "$product->id-" . $url->hashName();
-            $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
+            $parent_id = explode('_', $validated['category_id']);
+            $key_word = implode(",", $validated['keyword']);
 
-            $productListImages[] = [
-                'id_product' => $product->id,
-                'type' => $type,
-                'url' => $fileName,
+            $product = [
+                'id_store'  => $id,
+                'create_by' => Auth::user()->id,
+                'name'  => $validated['name'],
+                'slug'  => Str::slug($validated['name'], "-"),
+                'description'   => $validated['description'],
+                'long_description'  => $validated['long_description'],
+                'type'  => $validated['type'],
+                'category_path' => $validated['category_id'],
+                'category_id'   => $parent_id[count($parent_id) - 2],
+                'thumb' => $id . "/thumb/" . $validated['thumb']->hashName(),
+                'brand' => $validated['brand'],
+                'origin'    => $validated['origin'],
+                'title' => $validated['title'],
+                'keyword'   => $key_word
             ];
+
+            $product = Product::create($product);
+
+            $validated['thumb']->move(public_path('upload/product/' . $product['id_store'] . '/thumb'),  $validated['thumb']->hashName());
+
+            $productDetailAttributes = [];
+
+            $productListImages = [];
+
+            foreach ($validated['colorText'] as $key => $color) {
+                $fileName = $product->id . '-size-' . $validated['url_image'][$key]->hashName();
+                $productDetailAttributes[] = [
+                    'id_product' => $product->id,
+                    'color_value' => $color,
+                    'attribute' => $validated['attribute'],
+                    'attribute_value' => $validated['sizeText'][$key],
+                    'weight' => $validated['weight'][$key],
+                    'quantity' => $validated['quantity'][$key],
+                    'price' => $validated['price'][$key],
+                    'sale' => $validated['sale'][$key],
+                    'url_image' => $fileName,
+                    'status' => '0',
+                ];
+                $validated['url_image'][$key]->move(public_path('upload/product/' . $product['id_store'] . '/album'), $fileName);
+            }
+            ProductDetail::insert($productDetailAttributes);
+
+            $image = ["jpg", "jpeg", "png", "jfif"];
+            $video = ['mp4', 'ogg'];
+
+            foreach ($validated['url'] as $url) {
+                if (in_array($url->extension(), $image)) {
+                    $type = "0";
+                } else if (in_array($url->extension(), $video)) {
+                    $type = "1";
+                }
+
+                $fileName = $product['id_store'] . '-' . "$product->id-" . $url->hashName();
+                $url->move(public_path('upload/product/' . $product['id_store'] . '/album'),  $fileName);
+
+                $productListImages[] = [
+                    'id_product' => $product->id,
+                    'type' => $type,
+                    'url' => $fileName,
+                ];
+            }
+
+            ProductImages::insert($productListImages);
+
+            return back()->with("success", "Thêm mới sản phẩm thành công");
+        } catch (\Exception $e) {
+            return back()->with("error", $e->getMessage());
         }
-
-        ProductImages::insert($productListImages);
-
-        return back()->with("message", "Thêm mới sản phẩm thành công");
     }
 
     public function getCategoryProduct()
@@ -1034,11 +1040,27 @@ class storeController extends Controller
 
     public function show($id)
     {
-        $store = Store::with(['store_cate', 'comment', 'product'])->find($id);
+        $store = Store::with(['store_cate', 'comment', 'comment.user', 'product', 'boss.user.coupons' => function ($q) {
+            $q->whereDate("stop_time", ">=", now());
+        }])->findOrFail($id);
+
+        $countComment = $store->comment->count();
+        $perPage = 10;
+
+        $page = Paginator::resolveCurrentPage('page');
+        $comments = new LengthAwarePaginator($store->comment->forPage($page, $perPage), $countComment, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+    
+
         $permission = $this->checkPermission($id);
+
+        App::setLocale("vi");
         return view("home.pages.info_store", [
             'store' => $store,
-            'permission' => $permission
+            'permission' => $permission,
+            'comments' => $comments,
         ]);
     }
 }

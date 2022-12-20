@@ -1,7 +1,56 @@
 @extends('home.layout.main')
 
 @section('content')
-
+<style>
+    .icon{
+        position: absolute;
+        display: flex;
+  align-items: center;
+    }
+.tabs-box > .category-content{
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+.tabs-box {
+  scroll-behavior: smooth;
+}
+.tabs-box.dragging {
+  scroll-behavior: auto;
+  cursor: grab;
+}
+.icon:first-child {
+  left: 6%;
+  display: none;
+ 
+}
+.icon:last-child {
+  right: 5%;
+  justify-content: flex-end;
+ 
+}
+.icon i {
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+}
+.icon i:hover {
+  background: #efedfb;
+}
+.icon:first-child i {
+ 
+} 
+.icon:last-child i {
+ 
+} 
+.tabs-box.dragging .category-content {
+  user-select: none;
+  pointer-events: none;
+}
+</style>
 <div class="page--home">
 
     <div class="banner-voucher">
@@ -44,17 +93,21 @@
     <div class="content-title">
         <h2>Mua theo danh mục</h2>
     </div>
-    <div class="page--home--category">
-        @foreach($categories as $category)
-        <div class="category-content">
-            <a href="">
-                <img src="{{asset('upload/category/'.$category->avatar)}}" alt="">
-                <p>{{$category->name}}</p>
-            </a>
+    <div class="d-flex align-items-center col-lg-12">
+        <div class="icon"><i id="left" class="fa-solid fa-angle-left"></i></div>
+        <div class="tabs-box page--home--category overflow-hidden col-lg-12">
+            @foreach($categories as $category)
+            <div class="category-content">
+                <a href="">
+                    <img src="{{asset('upload/category/'.$category->avatar)}}" alt="">
+                    <p>{{$category->name}}</p>
+                </a>
+            </div>
+            @endforeach
         </div>
-        @endforeach
+        <div class="icon"><i id="right" class="fa-solid fa-angle-right"></i></div>
+        </div>
     </div>
-</div>
 <div class="line-title">
     <div class="content-title">
         <h2>Sản phẩm bán chạy nhất</h2>
@@ -77,4 +130,42 @@
     </div>
 </div>
 
+@endsection
+@section("scripts")
+<script>
+    $(document).ready(function(){
+        const tabsBox = document.querySelector(".tabs-box"),
+        allTabs = tabsBox.querySelectorAll(".div"),
+        arrowIcons = document.querySelectorAll(".icon i");
+
+        let isDragging = false;
+
+        const handleIcons = (scrollVal) => {
+            let maxScrollableWidth = tabsBox.scrollWidth - tabsBox.clientWidth;
+            arrowIcons[0].parentElement.style.display = scrollVal <= 0 ? "none" : "flex";
+            arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
+        }
+
+        arrowIcons.forEach(icon => {
+            icon.addEventListener("click", () => {
+                let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
+                handleIcons(scrollWidth);
+            });
+        });
+       
+        const dragging = (e) => {
+            if(!isDragging) return;
+            tabsBox.classList.add("dragging");
+            tabsBox.scrollLeft -= e.movementX;
+            handleIcons(tabsBox.scrollLeft)
+        }
+        const dragStop = () => {
+            isDragging = false;
+            tabsBox.classList.remove("dragging");
+        }
+        tabsBox.addEventListener("mousedown", () => isDragging = true);
+        tabsBox.addEventListener("mousemove", dragging);
+        document.addEventListener("mouseup", dragStop);
+    })
+</script>
 @endsection

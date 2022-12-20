@@ -40,4 +40,6 @@ class Coupons extends Model
             unlink('upload/voucher/'.$coupon->avatar);         
         });
     }
+
+    
 }

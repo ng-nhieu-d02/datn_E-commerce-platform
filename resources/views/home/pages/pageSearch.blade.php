@@ -1,6 +1,50 @@
 @extends('home.layout.main')
 
 @section('content')
+<style>
+.tabs-box > .div{
+    white-space: nowrap;
+}
+.tabs-box {
+  scroll-behavior: smooth;
+}
+.tabs-box.dragging {
+  scroll-behavior: auto;
+  cursor: grab;
+}
+.icon:first-child {
+  left: 0;
+  display: none;
+ 
+}
+.icon:last-child {
+  right: 0;
+  justify-content: flex-end;
+ 
+}
+.icon i {
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+}
+.icon i:hover {
+  background: #efedfb;
+}
+.icon:first-child i {
+  margin-left: 15px;
+} 
+.icon:last-child i {
+  margin-right: 15px;
+} 
+.tabs-box.dragging .div {
+  user-select: none;
+  pointer-events: none;
+}
+</style>
 <div class="h-28 top-0 w--full bg-sky-50"></div>
 <div class="page--search">
     <div class="container p-0">
@@ -34,8 +78,9 @@
         <main>
             <div class="flex flex-col relative">
                 <div class="flex flex-col flex-row items-center justify-between box--nav--fillter">
-                    <div class="flex nth-child">
-                        <div class="btn-group text-base nth-child d-flex flex-wrap" role="group" aria-label="Basic radio toggle button group">
+                    <div class="flex nth-child align-items-center col-lg-9">
+                        <div class="icon"><i id="left" class="fa-solid fa-angle-left"></i></div>
+                        <div class="tabs-box btn-group text-base nth-child d-flex overflow-hidden" role="group" aria-label="Basic radio toggle button group">
                             <div class="div">
                                 <input type="radio" class="btn-check" name="btnradio" value="0" id="btnradio0" autocomplete="off" checked>
                                 <label class="btn text-base lb--check rounded-full" for="btnradio0">Tất cả</label>
@@ -47,8 +92,9 @@
                             </div>
                             @endforeach
                         </div>
+                        <div class="icon"><i id="right" class="fa-solid fa-angle-right"></i></div>
                     </div>
-                    <div class="flex flex-shrink-0 text-right">
+                    <div class="flex flex-shrink-0 text-right col-lg-3 justify-content-end">
                         <button onclick=" btnFilter()" class="btn btn-secondary btn--filter rounded-full text-base lb--check btn--bg--dark flex items-center justify-center">
                             <svg viewBox="0 0 24 24" fill="none">
                                 <path d="M14.3201 19.07C14.3201 19.68 13.92 20.48 13.41 20.79L12.0001 21.7C10.6901 22.51 8.87006 21.6 8.87006 19.98V14.63C8.87006 13.92 8.47006 13.01 8.06006 12.51L4.22003 8.47C3.71003 7.96 3.31006 7.06001 3.31006 6.45001V4.13C3.31006 2.92 4.22008 2.01001 5.33008 2.01001H18.67C19.78 2.01001 20.6901 2.92 20.6901 4.03V6.25C20.6901 7.06 20.1801 8.07001 19.6801 8.57001" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -562,8 +608,8 @@
         const rangeInput = document.querySelectorAll(".range--input input"),
             priceInput = document.querySelectorAll(".price--input input"),
             range = document.querySelector(".price--slider .progress");
-        let priceGap = 1000;
-        priceInput.forEach(input => {
+            let priceGap = 1000;
+            priceInput.forEach(input => {
             input.addEventListener("input", e => {
                 let minPrice = parseInt(priceInput[0].value),
                     maxPrice = parseInt(priceInput[1].value);
@@ -628,7 +674,6 @@
                 arrayAttributes.push(obj.value)
             })
 
-            console.log(arrayCategories, arrayAttributes);
             $.ajax({
                 url: "{{ route('filter_product') }}",
                 data: {
@@ -654,7 +699,6 @@
                                 if (sum > 0) {
                                     resultSum = sum / item.comment.length
                                 }
-                                console.log(item);
                                 cardProductEl += `
                                 <div class="component--cardProduct">
                                     <div class="component--cardProduct--img">
@@ -697,6 +741,38 @@
 
         })
 
+        const tabsBox = document.querySelector(".tabs-box"),
+        allTabs = tabsBox.querySelectorAll(".div"),
+        arrowIcons = document.querySelectorAll(".icon i");
+
+        let isDragging = false;
+
+        const handleIcons = (scrollVal) => {
+            let maxScrollableWidth = tabsBox.scrollWidth - tabsBox.clientWidth;
+            arrowIcons[0].parentElement.style.display = scrollVal <= 0 ? "none" : "flex";
+            arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
+        }
+
+        arrowIcons.forEach(icon => {
+            icon.addEventListener("click", () => {
+                let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
+                handleIcons(scrollWidth);
+            });
+        });
+       
+        const dragging = (e) => {
+            if(!isDragging) return;
+            tabsBox.classList.add("dragging");
+            tabsBox.scrollLeft -= e.movementX;
+            handleIcons(tabsBox.scrollLeft)
+        }
+        const dragStop = () => {
+            isDragging = false;
+            tabsBox.classList.remove("dragging");
+        }
+        tabsBox.addEventListener("mousedown", () => isDragging = true);
+        tabsBox.addEventListener("mousemove", dragging);
+        document.addEventListener("mouseup", dragStop);
 
 
     })
