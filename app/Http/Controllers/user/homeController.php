@@ -33,14 +33,14 @@ class homeController extends Controller
             ->where('product.status', '=', '0')
             ->groupBy('product_detail.id_product')
             ->orderBy('sold', 'DESC')
-            ->paginate(15);
+            ->paginate(18);
 
         // sản phẩm nhiều lượt xem nhất
         $product_hotView = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')
             ->where('store.status', '=', '1')
             ->where('product.status', '=', '0')
             ->orderBy('product.view', 'DESC')
-            ->paginate(15);
+            ->paginate(18);
 
         // sản phẩm được thuê up top
         $product_upTop = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')
@@ -48,14 +48,12 @@ class homeController extends Controller
             ->where('product.status', '=', '0')
             ->where('product.view_prioritized', '>', 0)
             ->inRandomOrder()
-            ->paginate(15);
+            ->paginate(18);
 
         // sự kiện khuyến mãi
         $coupons = Coupons::where(['apply_store' => '0', 'status' => '0', 'coupon_type' => '0'])->where('stop_time', '>=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->where('start_time', '<=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->paginate(10);
 
-        $product = Product::paginate(9);
         return view('home.pages.home', [
-            'product' => $product,
             'coupons'   => $coupons,
             'products_view'   => $product_hotView,
             'products_sold' => $product_hotSale,
@@ -65,15 +63,43 @@ class homeController extends Controller
 
     public function pageSearch(Request $request)
     {
-        $product = Product::orderBy('view', 'DESC')->paginate(15);
+        $product = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
+        ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
+        ->join('store', 'store.id', '=', 'product.id_store')
+        ->where('store.status', '=', '1')
+        ->where('product.status', '=', '0')
+        ->groupBy('product_detail.id_product')
+        ->orderBy('sold', 'DESC')
+        ->paginate(18);
 
-        $getAllCategoryProducts = CategoryProduct::where("parent_id", 0)->get();
+        $category = CategoryProduct::where('parent_id', 0)->get();
 
-        $getCategoryProductChildren = CategoryProduct::where("parent_id", "<>", 0)->get();
+        $parentCategory = CategoryProduct::where('parent_id', 0)->get();
 
-        $getAllColor = ProductDetail::select("color_value")->distinct()->get();
+        if(isset($request->category)) {
+            $cate = CategoryProduct::where('slug',$request->category)->first();
+            $parentCategory = CategoryProduct::where('parent_id', $cate->id)->get();
+        
 
-        $getAllAttribute = ProductDetail::select("attribute_value")->distinct()->get();
+            $product_top = Product::join('store', 'store.id', '=', 'product.id_store')
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->where('product.category_path', 'like', $cate->path.'%')
+            ->where('product.view_prioritized', '>', 0)
+            ->inRandomOrder()->limit(5)->get();
+
+            $product = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
+            ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
+            ->join('store', 'store.id', '=', 'product.id_store')
+            ->where('store.status', '=', '1')
+            ->where('product.status', '=', '0')
+            ->where('product.category_path', 'like', $cate->path.'%')
+            ->groupBy('product_detail.id_product')
+            ->orderBy('sold', 'DESC')
+            ->paginate(18);
+
+            View::share(['product_top'=> $product_top, 'cate' => $cate]);
+        }
 
         if(isset($request->search)) {
             $product_top = Product::select('product.*')->join('store', 'store.id', '=', 'product.id_store')
@@ -97,10 +123,8 @@ class homeController extends Controller
 
         return view('home.pages.pageSearch', [
             'product' => $product,
-            'getAllCategoryProducts' => $getAllCategoryProducts,
-            'getCategoryProductChildren' => $getCategoryProductChildren,
-            'getAllColor' => $getAllColor,
-            'getAllAttribute' => $getAllAttribute,
+            'category'  => $category,
+            'parent_category'   => $parentCategory
         ]);
     }
     public function update_view_top (Request $request)

@@ -37,7 +37,13 @@
                     </div>
                     <div class="price--meta d-flex gap-3 align-items-center flex-wrap">
                         <div class="price">
-                            <span class="price_detail">{{ number_format($product->price_minmax($product->id)->min_price, 0, ',', '.') }}đ - {{ number_format($product->price_minmax($product->id)->max_price, 0, ',', '.') }}đ</span>
+                            <span class="price_detail">
+                                @if($product->price_minmax($product->id)->min_price < $product->price_minmax($product->id)->max_price)
+                                    {{ number_format($product->price_minmax($product->id)->min_price, 0, ',', '.') }}đ - {{ number_format($product->price_minmax($product->id)->max_price, 0, ',', '.') }}đ
+                                    @else
+                                    {{ number_format($product->price_minmax($product->id)->min_price, 0, ',', '.') }}đ
+                                    @endif
+                            </span>
                         </div>
                         <div class="sale--price">
                             <span class="sale_price_detail">{{number_format($product->price_minmax($product->id)->max_price + $product->price_minmax($product->id)->max_sale, 0, ',', '.')}}đ</span>
@@ -50,7 +56,7 @@
                                     <span>
                                         @if($product->comment()->count() > 0)
 
-                                        {{ $product->comment()->sum('rate') / $product->comment()->count()}}</span>
+                                        {{ number_format($product->comment()->sum('rate') / $product->comment()->count() , 2, '.', ',')}}</span>
                                     @endif
                                 </div>
                                 <div class="review"><span>
@@ -83,12 +89,18 @@
                         <span>{{ $product->attributes[0]->attribute }}: <b style="padding-left: 10px" id="attribute_value"></b></span>
                         <div class="list-sizes-item">
                             @foreach ($product->attribute_values as $attribute)
-                            <input label="{{ $attribute->attribute_value }}" type="radio" class="attribute" id="attribute" name="attributes" value="{{ $attribute->attribute_value }}">
+
+                            <div>
+                                <input type="radio" id="attribute_{{ $attribute->attribute_value }}" name="attributes" class="attribute" value="{{ $attribute->attribute_value }}">
+                                <label for="attribute_{{ $attribute->attribute_value }}">{{ $attribute->attribute_value }}</label>
+                            </div>
+
                             @endforeach
                         </div>
+
                     </div>
                     @endif
-                    <div class="cart">
+                    <div class="cart" style="margin-top:20px">
                         <div class="form-submit-cart align-items-center flex-wrap">
                             <div class="quantity">
                                 <span class="tru quantity-function" data-action="minus">-</span>
@@ -262,7 +274,18 @@
         <hr class="line">
     </div>
 </div>
+<div class="line-title">
+    <div class="content-title">
+        <h2>Sản phẩm tương tự</h2>
+    </div>
+    <div class="page--home--product">
+        @foreach($product_related as $prd)
+        <x-cardProduct :data="$prd"></x-cardProduct>
+        @endforeach
+    </div>
 </div>
+</div>
+
 <script>
     const detail = JSON.parse('<?= json_encode($product->detail) ?>');
     const type = '{{ $product->type }}';
@@ -428,12 +451,15 @@
                         <div class="component--cardProductCart">
                             <div class="component--cardProductCart--content">
                                 <a href="/product/${response.data.product.slug}" class="images-content">
-                                    <img class="image-product" src="<?= asset('upload/product') ?>/${response.data.detail.url_image}" alt="">
+                                    <img class="image-product" src="<?= asset('upload/product') ?>/${response.data.product.id_store}/album/${response.data.detail.url_image}" alt="">
                                 </a>
                             </div>
                             <div class="component--cardProductCart--content">
                                 <a href="/product/${response.data.product.slug}" class="link-content">
-                                    <p>${response.data.product.name}</p>
+                                    <p style="max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;">${response.data.product.name}</p>
                                     <div>
                                         <p>Color: <ion-icon name="color-palette-outline"></ion-icon> <span class="color" style="color: ${response.data.detail.color_value}"></span></p>
                                         <p>${response.data.detail.attribute}: <span>${response.data.detail.attribute_value}</span></p>

@@ -35,7 +35,7 @@ class storeController extends Controller
     public function store($id)
     {
         $store = Store::find($id);
-        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(15);
+        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(18);
         $product_hotSale = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
             ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
             ->join('store', 'store.id', '=', 'product.id_store')
@@ -70,7 +70,7 @@ class storeController extends Controller
             return abort(404);
         }
 
-        $products = Product::where('id_store', $store->id)->orderBy('id', 'DESC')->paginate(3);
+        $products = Product::where('id_store', $store->id)->orderBy('id', 'DESC')->paginate(10);
 
         $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
 
@@ -420,6 +420,7 @@ class storeController extends Controller
             $image = ["jpg", "jpeg", "png", "jfif"];
             $video = ['mp4', 'ogg'];
 
+
             foreach ($validated['url'] as $url) {
                 if (in_array($url->extension(), $image)) {
                     $type = "0";
@@ -438,6 +439,18 @@ class storeController extends Controller
             }
 
             ProductImages::insert($productListImages);
+            $c = 30;
+            for($i = 1; $i <= $c; $i ++) {
+                CommentProduct::create([
+                    'create_by' => rand(1,3),
+                    'id_store'  => $product->id_store,
+                    'id_product'    => $product->id,
+                    'message'   => 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.',
+                    'rate'  => rand(2,5),
+                    'parent_id' => '0',
+                    'parent_path'   => '0_',
+                ]);
+            }
 
             return back()->with("success", "Thêm mới sản phẩm thành công");
         } catch (\Exception $e) {
@@ -610,7 +623,6 @@ class storeController extends Controller
 
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        dd(123);
         $orders = OrderStore::where('id_store', $id)->orderBy('id', 'DESC')->paginate(10);
         return view('home.pages.order_store', [
             'store' => $store,

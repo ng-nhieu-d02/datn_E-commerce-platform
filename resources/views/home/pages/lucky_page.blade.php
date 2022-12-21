@@ -16,7 +16,35 @@
 
         <img src="{{asset('assets/images/vqmm-title.png')}}" alt="">
 
-        <img src="{{asset('assets/images/quayngay.png')}}" alt="">
+        <style>
+            .content--box {
+                margin-top: 70px;
+            }
+            .content--box p {
+                padding: 30px 60px;
+                margin: 0;
+                margin-bottom: 70px;
+                border: solid 3px red;
+                border-radius: 20px;
+                font-size: 2.5rem;
+                font-weight: 700;
+                box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+            }
+            .content--box p span {
+                font-size: 3rem;
+                color:red;
+                margin-left: 20px;
+            }
+        </style>
+        <div class="content--box">
+            @if(Auth::check())
+               <p>Số lượt quay: <span class="turns-user">{{Auth::user()->turns}}</span> </p>
+            @else
+                <p>Cần đăng nhập để thực hiện</p>
+            @endif
+        </div>
+
+        <!-- <img src="{{asset('assets/images/quayngay.png')}}" alt=""> -->
 
     </section>
 
@@ -98,6 +126,8 @@
                             }
                         }
                         prizes[res].percentpage = 1;
+                        const turns = $('.turns-user').text();
+                        $('.turns-user').text(turns - 1);
                         $('.hc-luckywheel-btn').click();
                     }
                 }.bind(this)

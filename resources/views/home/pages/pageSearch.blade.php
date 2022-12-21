@@ -2,6 +2,7 @@
 
 @section('content')
 <style>
+
 .tabs-box > .div{
     white-space: nowrap;
 }
@@ -44,6 +45,7 @@
   user-select: none;
   pointer-events: none;
 }
+
 </style>
 <div class="h-28 top-0 w--full bg-sky-50"></div>
 <div class="page--search">
@@ -82,13 +84,11 @@
                         <div class="icon"><i id="left" class="fa-solid fa-angle-left"></i></div>
                         <div class="tabs-box btn-group text-base nth-child d-flex overflow-hidden" role="group" aria-label="Basic radio toggle button group">
                             <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" value="0" id="btnradio0" autocomplete="off" checked>
-                                <label class="btn text-base lb--check rounded-full" for="btnradio0">Tất cả</label>
+                                <label class="btn text-base lb--check rounded-full" for="btnradio0"><a href="{{route('user.pageSearch')}}" style="text-decoration: none;color:black">Tất cả</a> </label>
                             </div>
-                            @foreach ($getAllCategoryProducts as $cateProduct)
+                            @foreach ($category as $cateProduct)
                             <div class="div">
-                                <input type="radio" class="btn-check" name="btnradio" value="{{ $cateProduct->id }}" id="btnradio{{ $cateProduct->id }}" autocomplete="off">
-                                <label class="btn text-base lb--check rounded-full" for="btnradio{{ $cateProduct->id }}">{{ $cateProduct->name }}</label>
+                                <label class="btn text-base lb--check rounded-full" for="btnradio{{ $cateProduct->id }}"><a style="text-decoration: none;color:black" href="{{route('user.pageSearch')}}?category={{$cateProduct->slug}}"> {{ $cateProduct->name }} </a></label>
                             </div>
                             @endforeach
                         </div>
@@ -112,7 +112,7 @@
                 </div>
                 <div id="filter--show" class="flex flex-col flex-row items-center justify-between">
                     <div class="flex nth-child--2">
-                        <div class="btn-group">
+                        <div class="btn-group" style="display: none;">
                             <button type="button" class="btn text-base btn--sub--filter dropdown-toggle rounded-full flex items-center justify-center lb--check" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Price</span>
                             </button>
@@ -160,24 +160,26 @@
 
                             <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20">
                                 <div class="relative flex flex-col px-4 py-4 space-y-5" id="show-category-children">
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
+                                    <div class="form-check flex items-center" style="padding-left: 0;">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            <a href="{{!isset($cate) ? route('user.pageSearch') : route('user.pageSearch').'?category='.$cate->slug}}" style="text-decoration: none;color:black">All Categories</a> 
+                                        </label>
                                     </div>
-                                    @foreach ($getCategoryProductChildren as $cateProductChild)
-                                    <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0 children" id="flexRadioDefault{{ $cateProductChild->id }}" type="checkbox" name="cate_product[]" value="{{ $cateProductChild->id }}" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault{{ $cateProductChild->id }}">{{ $cateProductChild->name }}</label>
+                                    @foreach ($parent_category as $cateProductChild)
+                                    <div class="form-check flex items-center" style="padding-left: 0;">
+                                        <label class="form-check-label" for="flexRadioDefault{{ $cateProductChild->id }}">
+                                            <a href="{{route('user.pageSearch')}}?category={{$cateProductChild->slug}}" style="text-decoration: none;color:black">{{ $cateProductChild->name }}</a> 
+                                        </label>
                                     </div>
                                     @endforeach
                                 </div>
-                                <div class="p-4 flex items-center justify-between">
+                                <!-- <div class="p-4 flex items-center justify-between">
                                     <button class="btn rounded-full text-base lb--check btn--bg--light btn--sort--clear relative inline-flex items-center justify-center rounded-full ">Clear</button>
                                     <button class="btn btn-dark rounded-full text-base lb--check btn--bg--dark btn--sort--apply relative inline-flex items-center justify-center rounded-full transition-colors">Apply</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
-                        <div class="btn-group">
+                        <div class="btn-group" style="display: none;">
                             <button type="button" class="btn text-base btn--sub--filter dropdown-toggle rounded-full flex items-center justify-center lb--check" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-paint-bucket" viewBox="0 0 16 16">
                                     <path d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a2.972 2.972 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1.01 1.01 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4.322 4.322 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067-.707-.707-1.441-1.279-2.068-1.627-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219l-.217.216zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.283 3.283 0 0 1-.131-.673c.091.061.204.15.337.274zm.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088c.054.12.115.243.183.365.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626.122.068.244.13.365.183l-4.861 4.862a.571.571 0 0 1-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46-.66-.66-1.168-1.32-1.46-1.846-.147-.265-.225-.47-.251-.607a.573.573 0 0 1-.01-.068l3.048-3.047zm2.87-1.935a2.44 2.44 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.497 3.497 0 0 0-1.066.091 11.27 11.27 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z" />
@@ -221,7 +223,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn-group">
+                        <div class="btn-group" style="display: none;">
                             <button type="button" class="btn text-base btn--sub--filter dropdown-toggle rounded-full flex items-center justify-center lb--check" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z" />
@@ -230,12 +232,12 @@
                             </button>
                             <div class="dropdown-menu text-base btn--size--show rounded--1em w--screen w--20">
                                 <div class="relative flex flex-col px-4 py-4 space-y-5">
-                                    @foreach($getAllAttribute as $attribute)
+                                    <!-- foreach($getAllAttribute as $attribute)
                                     <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" name="attribute[]" type="checkbox" value="{{ $attribute->attribute_value }}" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">{{ $attribute->attribute_value }}</label>
+                                        <input class="form-check-input mt-0" name="attribute[]" type="checkbox" value=" $attribute->attribute_value " aria-label="Checkbox for following text input">
+                                        <label class="form-check-label px-3" for="flexRadioDefault1"> $attribute->attribute_value </label>
                                     </div>
-                                    @endforeach
+                                    endforeach -->
                                 </div>
                                 <div class="p-4 flex items-center justify-between">
                                     <button class="btn rounded-full text-base lb--check btn--bg--light btn--sort--clear relative inline-flex items-center justify-center rounded-full ">Clear</button>
@@ -243,7 +245,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn-group">
+                        <div class="btn-group" style="display: none;">
                             <button type="button" id="onSale" class="btn text-base btn--sub--filter rounded-full lb--check flex items-center justify-center" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3.9889 14.6604L2.46891 13.1404C1.84891 12.5204 1.84891 11.5004 2.46891 10.8804L3.9889 9.36039C4.2489 9.10039 4.4589 8.59038 4.4589 8.23038V6.08036C4.4589 5.20036 5.1789 4.48038 6.0589 4.48038H8.2089C8.5689 4.48038 9.0789 4.27041 9.3389 4.01041L10.8589 2.49039C11.4789 1.87039 12.4989 1.87039 13.1189 2.49039L14.6389 4.01041C14.8989 4.27041 15.4089 4.48038 15.7689 4.48038H17.9189C18.7989 4.48038 19.5189 5.20036 19.5189 6.08036V8.23038C19.5189 8.59038 19.7289 9.10039 19.9889 9.36039L21.5089 10.8804C22.1289 11.5004 22.1289 12.5204 21.5089 13.1404L19.9889 14.6604C19.7289 14.9204 19.5189 15.4304 19.5189 15.7904V17.9403C19.5189 18.8203 18.7989 19.5404 17.9189 19.5404H15.7689C15.4089 19.5404 14.8989 19.7504 14.6389 20.0104L13.1189 21.5304C12.4989 22.1504 11.4789 22.1504 10.8589 21.5304L9.3389 20.0104C9.0789 19.7504 8.5689 19.5404 8.2089 19.5404H6.0589C5.1789 19.5404 4.4589 18.8203 4.4589 17.9403V15.7904C4.4589 15.4204 4.2489 14.9104 3.9889 14.6604Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -254,7 +256,7 @@
                                 <span class="ms-3">On Sale</span>
                             </button>
                         </div>
-                        <div class="btn-group">
+                        <div class="btn-group" style="display: none;">
                             <button id="filter" class="btn btn-dark rounded-full text-base lb--check btn--bg--dark btn--sort--apply relative inline-flex items-center justify-center rounded-full transition-colors">Apply</button>
                         </div>
                     </div>
@@ -321,7 +323,7 @@
                 @foreach($product_top as $prd_top)
                 <x-cardProduct :data="$prd_top" :top="true"></x-cardProduct>
                 <style>
-                    .top_<?= $prd_top->id ?>.none{
+                    .top_<?= $prd_top->id ?>.none {
                         display: none;
                     }
                 </style>
@@ -520,9 +522,11 @@
         const url__submit = '{{route("user.update_view_top")}}';
         const _csrf = '{{ csrf_token() }}';
 
-        const myTimeout = setTimeout(() => {
-            update_view(url__submit)
-        }, 5000);
+        if (typeof top_product != 'undefined' && top_product.length > 0) {
+            const myTimeout = setTimeout(() => {
+                update_view(url__submit)
+            }, 5000);
+        }
 
 
         function update_view(url__submit) {
@@ -535,215 +539,216 @@
                 }
             });
         }
-        $(".btn-check").click(function() {
-            console.log(1);
-            let CategoryProductParentId = $(this).val();
+        // $(".btn-check").click(function() {
+        //     let CategoryProductParentId = $(this).val();
 
-            $.ajax({
-                url: "{{ route('filter_product_children') }}",
-                data: {
-                    id: CategoryProductParentId,
-                },
-                dataType: "json",
-                success: function(response) {
-                    if (response.status) {
-                        if (response.data.length > 0) {
-                            let checkboxEl = `
-                            <div class="form-check flex items-center">
-                                        <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
-                                    </div>
+        //     $.ajax({
+        //         url: "{{ route('filter_product_children') }}",
+        //         data: {
+        //             id: CategoryProductParentId,
+        //         },
+        //         dataType: "json",
+        //         success: function(response) {
+        //             if (response.status) {
+        //                 if (response.data.length > 0) {
+        //                     let checkboxEl = `
+        //                     <div class="form-check flex items-center">
+        //                                 <input class="form-check-input mt-0" id="check-all" type="checkbox" value="" aria-label="Checkbox for following text input">
+        //                                 <label class="form-check-label px-3" for="flexRadioDefault1">All Categories</label>
+        //                             </div>
                                     
-                            `;
-                            response.data.forEach(function(value, key) {
-                                checkboxEl += `
-                            <div class="form-check flex items-center">
-                                <input class="form-check-input mt-0 children" name="cate_product[]" type="checkbox" value="${value.id}" aria-label="Checkbox for following text input">
-                                <label class="form-check-label px-3" for="">${value.name}</label>
-                            </div>`;
-                            })
-                            $("#show-category-children").html(checkboxEl);
-                        } else {
-                            $("#show-category-children").html("Chưa cập nhật dữ liệu cho danh mục này");
-                        }
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
+        //                     `;
+        //                     response.data.forEach(function(value, key) {
+        //                         checkboxEl += `
+        //                     <div class="form-check flex items-center">
+        //                         <input class="form-check-input mt-0 children" name="cate_product[]" type="checkbox" value="${value.id}" aria-label="Checkbox for following text input">
+        //                         <label class="form-check-label px-3" for="">${value.name}</label>
+        //                     </div>`;
+        //                     })
+        //                     $("#show-category-children").html(checkboxEl);
+        //                 } else {
+        //                     $("#show-category-children").html("Chưa cập nhật dữ liệu cho danh mục này");
+        //                 }
+        //             }
+        //         },
+        //         error: function(error) {
+        //             console.log(error);
+        //         }
+        //     });
 
 
-        });
-        $(document).on("change", "#check-all", function() {
-            console.log(3)
-            if (this.checked) {
-                $(".children").each(function() {
-                    this.checked = true;
-                });
-            } else {
-                $(".children").each(function() {
-                    this.checked = false;
-                });
-            }
+        // });
+        // $(document).on("change", "#check-all", function() {
 
-            $(".children").click(function() {
-                if ($(this).is(":checked")) {
-                    var isAllChecked = 0;
+        //     if (this.checked) {
+        //         $(".children").each(function() {
+        //             this.checked = true;
+        //         });
+        //     } else {
+        //         $(".children").each(function() {
+        //             this.checked = false;
+        //         });
+        //     }
 
-                    $(".children").each(function() {
-                        if (!this.checked)
-                            isAllChecked = 1;
-                    });
+        //     $(".children").click(function() {
+        //         if ($(this).is(":checked")) {
+        //             var isAllChecked = 0;
 
-                    if (isAllChecked == 0) {
-                        $("#check-all").prop("checked", true);
-                    }
-                } else {
-                    $("#check-all").prop("checked", false);
-                }
-            });
-        })
+        //             $(".children").each(function() {
+        //                 if (!this.checked)
+        //                     isAllChecked = 1;
+        //             });
 
-        const rangeInput = document.querySelectorAll(".range--input input"),
-            priceInput = document.querySelectorAll(".price--input input"),
-            range = document.querySelector(".price--slider .progress");
-            let priceGap = 1000;
-            priceInput.forEach(input => {
-            input.addEventListener("input", e => {
-                let minPrice = parseInt(priceInput[0].value),
-                    maxPrice = parseInt(priceInput[1].value);
+        //             if (isAllChecked == 0) {
+        //                 $("#check-all").prop("checked", true);
+        //             }
+        //         } else {
+        //             $("#check-all").prop("checked", false);
+        //         }
+        //     });
+        // })
 
-                if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
-                    if (e.target.className === "input-min") {
-                        rangeInput[0].value = minPrice;
-                        range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
-                    } else {
-                        rangeInput[1].value = maxPrice;
-                        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
-                    }
-                }
-            });
-        });
-        rangeInput.forEach(input => {
-            input.addEventListener("input", e => {
-                let minVal = parseInt(rangeInput[0].value),
-                    maxVal = parseInt(rangeInput[1].value);
-                if ((maxVal - minVal) < priceGap) {
-                    if (e.target.className === "range-min") {
-                        rangeInput[0].value = maxVal - priceGap
-                    } else {
-                        rangeInput[1].value = minVal + priceGap;
-                    }
-                } else {
-                    priceInput[0].value = minVal;
-                    priceInput[1].value = maxVal;
-                    range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
-                    range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
-                }
-            });
-        });
+        // const rangeInput = document.querySelectorAll(".range--input input"),
+        //     priceInput = document.querySelectorAll(".price--input input"),
+        //     range = document.querySelector(".price--slider .progress");
+        // let priceGap = 1000;
+        // priceInput.forEach(input => {
+        //     input.addEventListener("input", e => {
+        //         let minPrice = parseInt(priceInput[0].value),
+        //             maxPrice = parseInt(priceInput[1].value);
 
-        function formatCurrency(money) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(money * 1)
-        }
+        //         if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
+        //             if (e.target.className === "input-min") {
+        //                 rangeInput[0].value = minPrice;
+        //                 range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+        //             } else {
+        //                 rangeInput[1].value = maxPrice;
+        //                 range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+        //             }
+        //         }
+        //     });
+        // });
+        // rangeInput.forEach(input => {
+        //     input.addEventListener("input", e => {
+        //         let minVal = parseInt(rangeInput[0].value),
+        //             maxVal = parseInt(rangeInput[1].value);
+        //         if ((maxVal - minVal) < priceGap) {
+        //             if (e.target.className === "range-min") {
+        //                 rangeInput[0].value = maxVal - priceGap
+        //             } else {
+        //                 rangeInput[1].value = minVal + priceGap;
+        //             }
+        //         } else {
+        //             priceInput[0].value = minVal;
+        //             priceInput[1].value = maxVal;
+        //             range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
+        //             range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+        //         }
+        //     });
+        // });
 
-        $("#filter").click(function() {
-            let arrayCategories = [];
-            let arrayAttributes = [];
+        // function formatCurrency(money) {
+        //     return new Intl.NumberFormat('vi-VN', {
+        //         style: 'currency',
+        //         currency: 'VND'
+        //     }).format(money * 1)
+        // }
 
-            let inputMin = $("input.input-min").val();
-            let inputMax = $("input.input-max").val();
+        // $("#filter").click(function() {
+        //     let arrayCategories = [];
+        //     let arrayAttributes = [];
 
-            let checkOnSale = false;
-            $("#onSale").click(function() {
-                checkOnSale = true;
-            })
-            let arrayColors = [];
+        //     let inputMin = $("input.input-min").val();
+        //     let inputMax = $("input.input-max").val();
 
-            // category = $("input[type=radio].btn-check:checked").val();
+        //     let checkOnSale = false;
+        //     $("#onSale").click(function() {
+        //         checkOnSale = true;
+        //     })
+        //     let arrayColors = [];
 
-            $('input[name="cate_product[]"]:checked').each(function(i, obj) {
-                arrayCategories.push(obj.value)
-            })
+        //     // category = $("input[type=radio].btn-check:checked").val();
 
-            $('input[name="attribute[]"]:checked').each(function(i, obj) {
-                arrayAttributes.push(obj.value)
-            })
+        //     $('input[name="cate_product[]"]:checked').each(function(i, obj) {
+        //         arrayCategories.push(obj.value)
+        //     })
 
-            $.ajax({
-                url: "{{ route('filter_product') }}",
-                data: {
-                    "arrayCategories": arrayCategories,
-                    "arrayAttributes": arrayAttributes,
-                    "inputMin": inputMin,
-                    "inputMax": inputMax,
-                },
-                type: "get",
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    if (response.status) {
-                        let cardProductEl = ``;
-                        if (response.data.length > 0) {
-                            response.data.forEach(function(item, key) {
-                                let sum = 0;
-                                let sumCommentProduct = item.comment.filter(comment => {
-                                    sum += comment.rate;
-                                })
+        //     $('input[name="attribute[]"]:checked').each(function(i, obj) {
+        //         arrayAttributes.push(obj.value)
+        //     })
 
-                                let resultSum = 0;
-                                if (sum > 0) {
-                                    resultSum = sum / item.comment.length
-                                }
-                                cardProductEl += `
-                                <div class="component--cardProduct">
-                                    <div class="component--cardProduct--img">
-                                        <a href="http://127.0.0.1:8000/product/rey-nylon-backpack-1668402744">
-                                            <img class="image-product" src="{{ asset("upload/product/` + item.thumb + `") }}" alt="">
-                                        </a>
-                                        <i class="fa-regular fa-heart btn-add-wishlist true" data-id="1"></i>
-                                    </div>
-                                    <div class="component--cardProduct--content">
-                                        <a href="http://127.0.0.1:8000/product/rey-nylon-backpack-1668402744">
-                                            <p class="title"> ${item.name} </p>
-                                            <p class="der"> ${item.description} </p>
-                                            <div class="d-flex justify-content-between div--content">
-                                                <div class="left">
-                                                    <i class="fa-solid fa-star"></i>
-                                                    <span>
-                                                        ${resultSum != 0 ? resultSum +" ("+ item.comment.length + ")"   : 'Chưa có đánh giá' } 
+
+        //     $.ajax({
+        //         url: "{{ route('filter_product') }}",
+        //         data: {
+        //             "arrayCategories": arrayCategories,
+        //             "arrayAttributes": arrayAttributes,
+        //             "inputMin": inputMin,
+        //             "inputMax": inputMax,
+        //         },
+        //         type: "get",
+        //         dataType: "json",
+        //         success: function(response) {
+
+        //             if (response.status) {
+        //                 let cardProductEl = ``;
+        //                 if (response.data.length > 0) {
+        //                     response.data.forEach(function(item, key) {
+        //                         let sum = 0;
+        //                         let sumCommentProduct = item.comment.filter(comment => {
+        //                             sum += comment.rate;
+        //                         })
+
+        //                         let resultSum = 0;
+        //                         if (sum > 0) {
+        //                             resultSum = sum / item.comment.length
+        //                         }
+
+        //                         cardProductEl += `
+        //                         <div class="component--cardProduct">
+        //                             <div class="component--cardProduct--img">
+        //                                 <a href="http://127.0.0.1:8000/product/rey-nylon-backpack-1668402744">
+        //                                     <img class="image-product" src="{{ asset("upload/product/` + item.thumb + `") }}" alt="">
+        //                                 </a>
+        //                                 <i class="fa-regular fa-heart btn-add-wishlist true" data-id="1"></i>
+        //                             </div>
+        //                             <div class="component--cardProduct--content">
+        //                                 <a href="http://127.0.0.1:8000/product/rey-nylon-backpack-1668402744">
+        //                                     <p class="title"> ${item.name} </p>
+        //                                     <p class="der"> ${item.description} </p>
+        //                                     <div class="d-flex justify-content-between div--content">
+        //                                         <div class="left">
+        //                                             <i class="fa-solid fa-star"></i>
+        //                                             <span>
+        //                                                 ${resultSum != 0 ? resultSum +" ("+ item.comment.length + ")"   : 'Chưa có đánh giá' } 
                                                         
-                                                    </span>
-                                                </div>
-                                                <p class="m-0">${item.sold > 0 ? 'Đã bán '+item.sold : ''}</p>
-                                            </div>
-                                            <p class="price"><span>${formatCurrency(item.price)}</span> <span>-10%</span></p>
-                                        </a>
-                                    </div>
-                                </div>
-                                `;
-                            })
-                            $(".page--home--product").html(cardProductEl);
-                        } else {
-                            $(".page--home--product").html("Không có sản phẩm phù hợp");
-                        }
-                    }
-                },
-                error: function(error) {
+        //                                             </span>
+        //                                         </div>
+        //                                         <p class="m-0">${item.sold > 0 ? 'Đã bán '+item.sold : ''}</p>
+        //                                     </div>
+        //                                     <p class="price"><span>${formatCurrency(item.price)}</span> <span>-10%</span></p>
+        //                                 </a>
+        //                             </div>
+        //                         </div>
+        //                         `;
+        //                     })
+        //                     $(".page--home--product").html(cardProductEl);
+        //                 } else {
+        //                     $(".page--home--product").html("Không có sản phẩm phù hợp");
+        //                 }
+        //             }
+        //         },
+        //         error: function(error) {
 
-                }
+        //         }
 
-            })
+        //     })
 
-        })
+        // })
 
         const tabsBox = document.querySelector(".tabs-box"),
-        allTabs = tabsBox.querySelectorAll(".div"),
-        arrowIcons = document.querySelectorAll(".icon i");
+            allTabs = tabsBox.querySelectorAll(".div"),
+            arrowIcons = document.querySelectorAll(".icon i");
 
         let isDragging = false;
 
@@ -753,19 +758,21 @@
             arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
         }
 
+
         arrowIcons.forEach(icon => {
             icon.addEventListener("click", () => {
                 let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
                 handleIcons(scrollWidth);
             });
         });
-       
+
         const dragging = (e) => {
-            if(!isDragging) return;
+            if (!isDragging) return;
             tabsBox.classList.add("dragging");
             tabsBox.scrollLeft -= e.movementX;
             handleIcons(tabsBox.scrollLeft)
         }
+
         const dragStop = () => {
             isDragging = false;
             tabsBox.classList.remove("dragging");
@@ -773,7 +780,6 @@
         tabsBox.addEventListener("mousedown", () => isDragging = true);
         tabsBox.addEventListener("mousemove", dragging);
         document.addEventListener("mouseup", dragStop);
-
 
     })
 </script>
