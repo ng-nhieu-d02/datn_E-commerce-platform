@@ -692,13 +692,13 @@
                                 <th scope="row">${itemSize.size} <input type="hidden" value="${itemSize.size}" name="sizeText[]" ></th>
                                 <th scope="row"> <label style="background: ${itemColor};" class="rounded-circle btn-color"></label> <input type="hidden" value="${itemColor}" name="colorText[]" ></th>
                                 <td style="width: 200px">
-                                    <input type="file" hidden id="image-attribute-${itemSize.size}-${itemColor}" class="url_image" name="url_image[]">
+                                    <input type="file" required hidden id="image-attribute-${itemSize.size}-${itemColor}" class="url_image" name="url_image[]">
                                             <label for="image-attribute-${itemSize.size}-${itemColor}" class="upload-file-attribute"><img class="img-fluid" src="{{ asset("assets/images/1200px-Picture_icon_BLACK.png") }}" alt=""></label>
                                 </td>
-                                <td><input type="text" name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
-                                <td><input type="text" name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
-                                <td><input type="text" name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
-                                <td><input type="text" name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
+                                <td><input type="text" required name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
+                                <td><input type="text" required name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
+                                <td><input type="text" required name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
+                                <td><input type="text" required name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
                             </tr>`;
                         })
 
@@ -711,10 +711,10 @@
                                     <input type="file" hidden id="image-attribute-${itemSize.size}" class="url_image" name="url_image[]">
                                             <label for="image-attribute-${itemSize.size}" class="upload-file-attribute"><img class="img-fluid" src="{{ asset("assets/images/1200px-Picture_icon_BLACK.png") }}" alt=""></label>
                                 </td>
-                                <td><input type="text" name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
-                                <td><input type="text" name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
-                                <td><input type="text" name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
-                                <td><input type="text" name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
+                                <td><input type="text" required name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
+                                <td><input type="text" required name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
+                                <td><input type="text" required name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
+                                <td><input type="text" required name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
                             </tr>`;
                     }
 
@@ -730,10 +730,10 @@
                                     <input type="file" multiple hidden class="url_image" id="image-attribute-${itemColor.value}" name="url_image[]">
                                             <label for="image-attribute-${itemColor.value}" class="upload-file-attribute"><img class="img-fluid" src="{{ asset("assets/images/1200px-Picture_icon_BLACK.png") }}" alt=""></label>
                                 </td>
-                                <td><input type="text" name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
-                                <td><input type="text" name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
-                                <td><input type="text" name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
-                                <td><input type="text" name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
+                                <td><input type="text" required name="price[]" placeholder="Nhập giá bán" class="form-control w-50 input-price"></td>
+                                <td><input type="text" required name="sale[]" placeholder="Nhập giá sale" class="form-control w-50 input-sale"></td>
+                                <td><input type="text" required name="weight[]" placeholder="Nhập trọng lượng" class="form-control w-50 input-weight"></td>
+                                <td><input type="text" required name="quantity[]" placeholder="Nhập tồn kho" class="form-control w-50 input-quantity"></td>
                             </tr>`;
                 })
 

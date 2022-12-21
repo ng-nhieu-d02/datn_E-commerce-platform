@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PermissionStore::class, 'id_user');
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupons::class, "create_by_user");
+    }
 }

@@ -2,57 +2,50 @@
 
 @section('content')
 <style>
-    .tabs-box>.div {
-        white-space: nowrap;
-    }
 
-    .tabs-box {
-        scroll-behavior: smooth;
-    }
+.tabs-box > .div{
+    white-space: nowrap;
+}
+.tabs-box {
+  scroll-behavior: smooth;
+}
+.tabs-box.dragging {
+  scroll-behavior: auto;
+  cursor: grab;
+}
+.icon:first-child {
+  left: 0;
+  display: none;
+ 
+}
+.icon:last-child {
+  right: 0;
+  justify-content: flex-end;
+ 
+}
+.icon i {
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+}
+.icon i:hover {
+  background: #efedfb;
+}
+.icon:first-child i {
+  margin-left: 15px;
+} 
+.icon:last-child i {
+  margin-right: 15px;
+} 
+.tabs-box.dragging .div {
+  user-select: none;
+  pointer-events: none;
+}
 
-    .tabs-box.dragging {
-        scroll-behavior: auto;
-        cursor: grab;
-    }
-
-    .icon:first-child {
-        left: 0;
-        display: none;
-
-    }
-
-    .icon:last-child {
-        right: 0;
-        justify-content: flex-end;
-
-    }
-
-    .icon i {
-        width: 55px;
-        height: 55px;
-        cursor: pointer;
-        font-size: 1.2rem;
-        text-align: center;
-        line-height: 55px;
-        border-radius: 50%;
-    }
-
-    .icon i:hover {
-        background: #efedfb;
-    }
-
-    .icon:first-child i {
-        margin-left: 15px;
-    }
-
-    .icon:last-child i {
-        margin-right: 15px;
-    }
-
-    .tabs-box.dragging .div {
-        user-select: none;
-        pointer-events: none;
-    }
 </style>
 <div class="h-28 top-0 w--full bg-sky-50"></div>
 <div class="page--search">
@@ -765,6 +758,7 @@
             arrowIcons[1].parentElement.style.display = maxScrollableWidth - scrollVal <= 1 ? "none" : "flex";
         }
 
+
         arrowIcons.forEach(icon => {
             icon.addEventListener("click", () => {
                 let scrollWidth = tabsBox.scrollLeft += icon.id === "left" ? -340 : 340;
@@ -778,6 +772,7 @@
             tabsBox.scrollLeft -= e.movementX;
             handleIcons(tabsBox.scrollLeft)
         }
+
         const dragStop = () => {
             isDragging = false;
             tabsBox.classList.remove("dragging");

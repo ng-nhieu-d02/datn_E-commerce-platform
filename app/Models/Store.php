@@ -49,4 +49,5 @@ class Store extends Model
     {
         return $this->hasMany(OrderStore::class, 'id_store');
     }
+   
 }

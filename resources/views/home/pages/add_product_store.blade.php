@@ -105,20 +105,20 @@
             <div class="row d-flex flex-wrap justify-content-between">
                 <div class="col-lg-11 mb-3 flex-basic w-45">
                     <label for="" class="form-label">Tên sản phẩm: </label>
-                    <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+                    <input type="text" name="name" required value="{{ old('name') }}" class="form-control">
                 </div>
                 
                 <div class="col-lg-11 mb-3 flex-basic w-45">
                     <label for="" class="form-label">Mô tả ngắn: </label>
-                    <textarea id="description" name="description" value="" class="form-control">{{ old('description') }}</textarea>
+                    <textarea id="description" required name="description" value="" class="form-control">{{ old('description') }}</textarea>
                 </div>
                 <div class="col-lg-11 mb-3 flex-basic w-45">
                     <label for="" class="form-label">Mô tả dài: </label>
-                    <textarea id="long_description"  name="long_description" value="" class="form-control">{{ old('long_description') }}</textarea>
+                    <textarea id="long_description" required  name="long_description" value="" class="form-control">{{ old('long_description') }}</textarea>
                 </div>
                 <div class="col-lg-11 mb-3 flex-basic w-45">
                     <label for="" class="form-label">Thương hiệu: </label>
-                    <input type="text" name="brand" value="{{ old('brand') }}"  class="form-control">
+                    <input type="text" name="brand" required value="{{ old('brand') }}"  class="form-control">
                 </div>
                 
             
@@ -127,7 +127,7 @@
         <div class="col-lg-5">
             <div class="col-lg-12 mb-4 flex-basic w-45">
                 <label for="" class="form-label">Danh mục: </label>
-                <select name="category_id" id="" class="form-control" style="padding: 0px; padding-left: 1rem;">
+                <select name="category_id" required id="" class="form-control" style="padding: 0px; padding-left: 1rem;">
                     <option disabled selected>Chọn danh mục</option>
                     @foreach ($categories as $key => $cate)
                     <option value="{{ $cate->path }}" @if (old("category_id") == $cate->path)
@@ -148,7 +148,7 @@
             <div class="col-lg-12 position-relative">
                 <div class="d-flex align-items-center justify-content-between mb-3"><label for="">Upload ảnh sản phẩm: </label>
                     <button type="button" class="btn btn-danger fs-4 d-flex align-items-center" id="upload-file-product"><div class="icon me-2"><i class="fas fa-cloud-upload-alt fs-1"></i></div> Chọn ảnh</button>
-                    <input type="file" hidden id="input-hidden" name="thumb"></div>
+                    <input type="file" required hidden id="input-hidden" name="thumb"></div>
                 <div class="drag-area" style="display: none">
                    
                 </div>
@@ -161,7 +161,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <label for="" class="form-label">Album ảnh: </label>
                     <button type="button" class="btn btn-danger fs-4 d-flex align-items-center" id="button-album"><div class="icon me-2"><i class="fas fa-cloud-upload-alt fs-1"></i></div> Chọn ảnh</button>
-                    <input type="file" name="url[]" id="album" multiple hidden>
+                    <input type="file" required name="url[]" id="album" multiple hidden>
                 </div>
                 <div class="d-flex flex-wrap align-items-center justify-content-between bg-light rounded gap-2 py-2" id="show-album">
                 </div>
@@ -169,15 +169,15 @@
             
             <div class="col-lg-12 mb-4 flex-basic w-45">
                 <label for="" class="form-label">Xuất sứ: </label>
-                <input type="text"  name="origin" value="{{ old('origin') }}" class="form-control">
+                <input type="text" required  name="origin" value="{{ old('origin') }}" class="form-control">
             </div>
             <div class="col-lg-12 mb-4 flex-basic w-45">
                 <label for="" class="form-label">Tiêu đề: </label>
-                <input type="text"  name="title" value="{{ old('title') }}" class="form-control">
+                <input type="text" required  name="title" value="{{ old('title') }}" class="form-control">
             </div>
             <div class="col-lg-12 mb-4 flex-basic w-45">
                 <label for="" class="form-label">Từ khoá: </label>
-                <input type="text"  name="keyword[]" data-role="tagsinput" class="form-control" value="
+                <input type="text" required  name="keyword[]" data-role="tagsinput" class="form-control" value="
                 @if (!is_null(old("keyword")))
                    @foreach (old("keyword") as $key => $old)
                        {{ old("keyword.".(int)$key) }}
@@ -263,10 +263,10 @@
                 <div class="col-lg-12 d-flex flex-column">
                     <h3>Thiết lập nhanh giá trị phân loại</h3>
                     <div class="d-flex col-lg-12">
-                        <input type="text" id="priceSpeed" class="form-control w-18 me-4" placeholder="Giá bán">
-                        <input type="text" id="saleSpeed" class="form-control w-18 me-4" placeholder="Sale">
-                        <input type="text" id="weightSpeed" class="form-control w-18 me-4" placeholder="Trọng lượng">
-                        <input type="text" id="quantitySpeed" class="form-control w-18 me-4" placeholder="Tồn kho">
+                        <input type="text"  id="priceSpeed" class="form-control w-18 me-4" placeholder="Giá bán">
+                        <input type="text"  id="saleSpeed" class="form-control w-18 me-4" placeholder="Sale">
+                        <input type="text"  id="weightSpeed" class="form-control w-18 me-4" placeholder="Trọng lượng">
+                        <input type="text"  id="quantitySpeed" class="form-control w-18 me-4" placeholder="Tồn kho">
     
                         <button type="button" class="bg-transparent" style="border: none; text-decoration: underline" id="setupValue">Áp dụng cho tất cả</button>
                     </div>

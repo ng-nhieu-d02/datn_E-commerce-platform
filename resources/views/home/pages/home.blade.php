@@ -93,11 +93,14 @@
     <div class="content-title">
         <h2>Mua theo danh mục</h2>
     </div>
-   <div class="d-flex align-items-center col-lg-12">
+
+    <div class="d-flex align-items-center col-lg-12">
+
         <div class="icon"><i id="left" class="fa-solid fa-angle-left"></i></div>
         <div class="tabs-box page--home--category overflow-hidden col-lg-12">
             @foreach($categories as $category)
             <div class="category-content">
+
                 <a href="{{route('user.pageSearch')}}?category={{$category->slug}}">
                     <img src="{{asset('upload/category/'.$category->avatar)}}" alt="">
                     <p>{{$category->name}}</p>
@@ -108,7 +111,6 @@
         <div class="icon"><i id="right" class="fa-solid fa-angle-right"></i></div>
         </div>
     </div>
-</div>
 <div class="line-title">
     <div class="content-title">
         <h2>Sản phẩm bán chạy nhất</h2>
