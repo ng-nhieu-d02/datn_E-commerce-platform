@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -217,20 +218,20 @@ class userController extends Controller
         $validated['background']->move(public_path('upload/store/backgrounds'), $fileNameBackground);
 
         foreach ($nameCates as $cate) {
-            \DB::table('store_cate')->insert([
+            DB::table('store_cate')->insert([
                 'id_store' => $modelStore->id,
                 'name' => $cate,
                 'slug' => Str::slug($cate, '-'),
             ]);
         }
 
-        \DB::table('permission_store')->insert([
+        DB::table('permission_store')->insert([
             'id_store' => $modelStore->id,
             'id_user' => $userId,
             'permission' => "0",
         ]);
 
-        \DB::table('ticket_create_store')->insert([
+        DB::table('ticket_create_store')->insert([
             'id_user' => $userId,
             'id_store' => $modelStore->id,
             'message' => $validated["message"],

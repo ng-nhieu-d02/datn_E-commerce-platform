@@ -40,12 +40,6 @@
 .icon i:hover {
   background: #efedfb;
 }
-.icon:first-child i {
- 
-} 
-.icon:last-child i {
- 
-} 
 .tabs-box.dragging .category-content {
   user-select: none;
   pointer-events: none;

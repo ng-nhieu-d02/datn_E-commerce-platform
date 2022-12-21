@@ -85,7 +85,7 @@
                     @endforeach
                 </table>
             </div>
-           
+            {{$order->links('components.pagination')}}
         </div>
     </div>
 </div>
