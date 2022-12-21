@@ -63,11 +63,17 @@ class authController extends Controller
                 $user = User::create($user);
                 $avatar = $user_info->picture;
 
+                $data = $this->file_get_contents_curl($avatar);
                 $fp = 'upload/profile/avatar/' . $user->id . '.png';
                 if (file_exists($fp)) {
                     unlink($fp);
                 }
-                file_put_contents($fp, file_get_contents($avatar));
+
+                file_put_contents($fp, $data);
+                // Function to write image into file
+                file_put_contents($fp, $data);
+                
+                // file_put_contents($fp, file_get_contents($avatar));
                 $user->avatar = $user->id . '.png';
                 $user->save();
             }
@@ -116,11 +122,17 @@ class authController extends Controller
                 $user = User::create($user);
                 $avatar = $user_info->picture;
 
+                $data = $this->file_get_contents_curl($avatar);
                 $fp = 'upload/profile/avatar/' . $user->id . '.png';
                 if (file_exists($fp)) {
                     unlink($fp);
                 }
-                file_put_contents($fp, file_get_contents($avatar));
+
+                file_put_contents($fp, $data);
+                // Function to write image into file
+                file_put_contents($fp, $data);
+                
+                // file_put_contents($fp, file_get_contents($avatar));
                 $user->avatar = $user->id . '.png';
                 $user->save();
             }
@@ -130,5 +142,15 @@ class authController extends Controller
                 return redirect()->route('user.home');
             }
         }
+    }
+    function file_get_contents_curl($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 }

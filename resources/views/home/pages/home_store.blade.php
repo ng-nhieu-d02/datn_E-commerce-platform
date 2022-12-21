@@ -9,6 +9,7 @@
         <x-cardProduct :data="$prd"></x-cardProduct>
         @endforeach
     </div>
+    {{$product->links('components.pagination')}}
 </div>
 @if($product_sold->count() > 0)
 <div class="line-title">

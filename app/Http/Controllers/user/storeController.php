@@ -32,7 +32,7 @@ class storeController extends Controller
     public function store($id)
     {
         $store = Store::find($id);
-        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(15);
+        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(18);
         $product_hotSale = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
             ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
             ->join('store', 'store.id', '=', 'product.id_store')
@@ -67,7 +67,7 @@ class storeController extends Controller
             return abort(404);
         }
 
-        $products = Product::where('id_store', $store->id)->orderBy('id', 'DESC')->paginate(3);
+        $products = Product::where('id_store', $store->id)->orderBy('id', 'DESC')->paginate(10);
 
         $checkPermissionStore = PermissionStore::where("id_store", $id)->where('id_user', '=', auth()->user()->id)->first();
 

@@ -274,7 +274,18 @@
         <hr class="line">
     </div>
 </div>
+<div class="line-title">
+    <div class="content-title">
+        <h2>Sản phẩm tương tự</h2>
+    </div>
+    <div class="page--home--product">
+        @foreach($product_related as $prd)
+        <x-cardProduct :data="$prd"></x-cardProduct>
+        @endforeach
+    </div>
 </div>
+</div>
+
 <script>
     const detail = JSON.parse('<?= json_encode($product->detail) ?>');
     const type = '{{ $product->type }}';
