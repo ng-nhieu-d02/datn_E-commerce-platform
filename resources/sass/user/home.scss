@@ -77,7 +77,11 @@
 .line-title {
     max-width: var(--max-width);
     margin: auto;
+    background: url(/assets/images/light_green.png);
     padding: 40px 0 0 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
 
     &:last-child {
         padding-bottom: 40px;

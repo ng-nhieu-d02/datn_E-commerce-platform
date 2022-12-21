@@ -47,12 +47,11 @@
                 <tr>
                     <th scope="col">Tên</th>
                     <th scope="col">Loại</th>
-                    <th scope="col">Tên thuộc tính</th>
-                    <th scope="col">Giá trị thuộc tính</th>
-                    <th scope="col">Màu sắc</th>
                     <th scope="col">Ảnh</th>
                     <th scope="col">Public</th>
                     <th scope="col">Trạng thái</th>
+                    <th scope="col">Đã bán</th>
+                    <th scope="col">Lượt xem</th>
                     <th scope="col">View top</th>
                     <th scope="col" style="text-align: right;">Action</th>
                 </tr>
@@ -62,30 +61,11 @@
                 @foreach ($products as $prd)
 
                 <tr class="table-success table-voucher-id">
-                    <th scope="row" style="display: table-cell;vertical-align: middle;">{{ $prd->name }}</th>
+                    <th scope="row" style="display: table-cell;vertical-align: middle;white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;">{{ $prd->name }}</th>
                     <td style="display: table-cell;vertical-align: middle;">{{ $prd->categoryProduct->name }}</td>
-                    <td style="display: table-cell;vertical-align: middle;">{{ $prd->attributes[0]->attribute }}</td>
-                    <td style="display: table-cell;vertical-align: middle;">
-                        @foreach ($prd->attribute_values as $value)
-                        {{ $value->attribute_value }}
-                        @endforeach
-                    </td>
-                    <td style="display: table-cell;vertical-align: middle;">
-                        <div class="d-flex" id="template-color">
-                            <div class="checkbox-color">
-                                <label style="background: #0000ff;" class="rounded-circle btn-color" for="color-#0000ff"></label>
-                            </div>
-                            <div class="checkbox-color">
-                                <label style="background: #ff0000;" class="rounded-circle btn-color" for="color-#ff0000"></label>
-                            </div>
-                            <div class="checkbox-color">
-                                <label style="background: #ffc0cb;" class="rounded-circle btn-color" for="color-#ffc0cb"></label>
-                            </div>
-                            <div class="checkbox-color">
-                                <label style="background: #ffffff;" class="rounded-circle btn-color" for="color-#ffffff"></label>
-                            </div>
-                        </div>
-                    </td>
                     <td style="display: table-cell;vertical-align: middle;">
                         <img style="width:50px" src="{{ asset('upload/product/'.$prd->thumb) }}" alt="Đường dẫn ảnh sai">
                     </td>
@@ -103,6 +83,12 @@
                         <div class="form-check form-switch d-flex justify-content-center">
                             <input class="form-check-input checkbox-update-status-voucher" data-id="{{ $prd->id }}" role="button" type="checkbox" role="switch" @if($prd->status == 0) checked @endif>
                         </div>
+                    </td>
+                    <td style="display: table-cell;vertical-align: middle; text-align:center">
+                        {{number_format($prd->detail->sum('sold'))}}
+                    </td>
+                    <td style="display: table-cell;vertical-align: middle; text-align:center">
+                        {{number_format($prd->view)}}
                     </td>
                     <td style="display: table-cell;vertical-align: middle; text-align:center">
                         {{number_format($prd->view_prioritized)}}
