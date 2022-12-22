@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\dashboardController;
+use App\Http\Controllers\user\chatController;
 use App\Http\Controllers\user\authController;
 use App\Http\Controllers\user\homeController;
 use App\Http\Controllers\user\orderController;
@@ -118,6 +119,11 @@ Route::prefix('/')->group(function () {
         // order
         Route::get('/manage-order', [orderController::class, 'manageOrder'])->name('user.manage-order');
         Route::get('/order-detail/{id_order}', [orderController::class, 'orderDetail'])->name('user.manager-orderDetail');
+        
+        //chat
+        Route::get('/chat-user/10000000000{store}', [chatController::class, 'user'])->name('user.chat');
+        Route::get('/chat-store/10000000000{store}/10000000000{user}', [chatController::class, 'store'])->name('user.store_chat');
+        Route::post('/send_chat', [chatController::class, 'send_chat'])->name('user.send_chat');
     });
 });
 

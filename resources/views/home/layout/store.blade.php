@@ -43,7 +43,15 @@
                             @endif
                             &nbsp; ({{$store->comment()->count()}} reviews)
                         </p>
-                        <button style="border:none; background-color:#0000003d; padding: 10px 20px;border-radius: 5px; cursor:pointer">Nhắn tin</button>
+                        @if($permission == 0)
+                        <button style="border:none; background-color:#0000003d; padding: 10px 20px;border-radius: 5px; cursor:pointer">
+                            <a href="{{route('user.chat', $store->id)}}">Nhắn tin</a>    
+                        </button>
+                        @else
+                        <button style="border:none; background-color:#0000003d; padding: 10px 20px;border-radius: 5px; cursor:pointer">
+                            <a href="{{route('user.store_chat', [$store->id, 0])}}">Tin nhắn</a> 
+                        </button>
+                        @endif
                     </div>
                 </div>
                 <div class="menu-profile">

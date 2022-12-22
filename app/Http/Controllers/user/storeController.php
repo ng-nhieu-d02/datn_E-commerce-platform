@@ -35,7 +35,7 @@ class storeController extends Controller
     public function store($id)
     {
         $store = Store::find($id);
-        $product = Product::where('id_store', $id)->orderBy('id', 'DESC')->paginate(18);
+        $product = Product::where('id_store', $id)->where('status','=', '0')->orderBy('id', 'DESC')->paginate(18);
         $product_hotSale = Product::select('product.*', DB::raw('sum(product_detail.sold) as sold'))
             ->join('product_detail', 'product_detail.id_product', '=', 'product.id')
             ->join('store', 'store.id', '=', 'product.id_store')

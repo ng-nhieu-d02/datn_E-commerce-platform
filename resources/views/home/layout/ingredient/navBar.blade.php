@@ -41,8 +41,10 @@
         </li>
         @if (Auth::check())
         <li class="ingredient--navBar--action--modals">
-            <i class="fa-regular fa-bell"></i>
-            <span class="tip">0</span>
+            <a href="{{ route('user.chat', 0) }}">
+                <i class="fa fa-commenting" aria-hidden="true"></i>
+                <span class="tip">0</span>
+            </a>
         </li>
         @endif
         @if (Auth::check())
