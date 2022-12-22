@@ -385,7 +385,12 @@
             $('.voucher__main').attr('data-value', reduce);
             $('.system_voucher').val(id);
             $('.confirm_total').text(Intl.NumberFormat().format(Number($('.confirm_total').attr('data-price')) - Number(reduce)) + 'đ');
-            ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
+            Swal.fire(
+                'Success',
+                'Đã áp dụng voucher thành công.',
+                'success'
+            )
+            return;
         }
     });
     $('.apply__voucher__main').click(function(e) {
@@ -408,14 +413,34 @@
             success: function(res) {
                 const json = JSON.parse(res);
                 if (json.message == 'error') {
-                    ToastSuccess('Lỗi:', 'voucher không hợp lệ. vui lòng kiểm tra lại !!', 'warring', 3000)
+                    Swal.fire(
+                        'Lỗi',
+                        'voucher không hợp lệ. vui lòng kiểm tra lại !!',
+                        'warring'
+                    )
+                    return;
                 } else {
                     if (total < json.coupon.money_apply_start || total > json.coupon.money_apply_end) {
-                        ToastSuccess('Lỗi:', 'Hoá đơn không đủ điều kiện sử dụng', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Hoá đơn không đủ điều kiện sử dụng !!',
+                            'warring'
+                        )
+                        return;
                     } else if (json.coupon.quantity - json.coupon.remaining_quantity <= 0) {
-                        ToastSuccess('Lỗi:', 'Voucher đã quá số lần sử dụng', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Voucher đã quá số lần sử dụng !!',
+                            'warring'
+                        )
+                        return;
                     } else if (json.coupon.apply_with == 1 && json.coupon.user_id != '{{Auth::user()->id}}') {
-                        ToastSuccess('Lỗi:', 'Voucher này không dành cho bạn.', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Voucher này không dành cho bạn !!',
+                            'warring'
+                        )
+                        return;
                     } else {
                         if (json.coupon.type == 0) {
                             reduce = Number(json.coupon.value);
@@ -435,7 +460,12 @@
                         $('.voucher__main').attr('data-value', reduce);
                         $('.system_voucher').val(json.coupon.id);
                         $('.confirm_total').text(Intl.NumberFormat().format(Number($('.confirm_total').attr('data-price')) - Number(reduce)) + 'đ');
-                        ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
+                        Swal.fire(
+                            'Success',
+                            'Đã áp dụng voucher thành công.',
+                            'success'
+                        )
+                        return;
                     }
                 }
             }
@@ -462,14 +492,34 @@
             success: function(res) {
                 const json = JSON.parse(res);
                 if (json.message == 'error') {
-                    ToastSuccess('Lỗi:', 'voucher không hợp lệ. vui lòng kiểm tra lại !!', 'warring', 3000)
+                    Swal.fire(
+                        'Lỗi',
+                        'voucher không hợp lệ. vui lòng kiểm tra lại !!',
+                        'warring'
+                    )
+                    return;
                 } else {
                     if (total < json.coupon.money_apply_start || total > json.coupon.money_apply_end) {
-                        ToastSuccess('Lỗi:', 'hoá đơn không đủ điều kiện sử dụng', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Hoá đơn không đủ điều kiện sử dụng !!',
+                            'warring'
+                        )
+                        return;
                     } else if (json.coupon.quantity - json.coupon.remaining_quantity <= 0) {
-                        ToastSuccess('Lỗi:', 'voucher đã quá số lần sử dụng', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Voucher đã quá số lần sử dụng !!',
+                            'warring'
+                        )
+                        return;
                     } else if (json.coupon.apply_with == 1 && json.coupon.user_id != '{{Auth::user()->id}}') {
-                        ToastSuccess('Lỗi:', 'Hoá đơn này không dành cho bạn.', 'warring', 3000)
+                        Swal.fire(
+                            'Lỗi',
+                            'Voucher này không dành cho bạn !!',
+                            'warring'
+                        )
+                        return;
                     } else {
                         if (json.coupon.type == 0) {
                             result = Number(total) + Number(ship) - Number(json.coupon.value);
@@ -513,7 +563,12 @@
                         $('.confirm_total').text(Intl.NumberFormat().format((Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price')) - sum_ship_reduce)) + 'đ');
                         $('.confirm_total').attr('data-price', (Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price') - sum_ship_reduce)));
                         $('.voucher__input__' + store).val(json.coupon.id);
-                        ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000);
+                        Swal.fire(
+                            'Success',
+                            'Đã áp dụng voucher thành công.',
+                            'success'
+                        )
+                        return;
                     }
                 }
             }

@@ -248,7 +248,7 @@
                             <small class="time text-muted"></small>
                         @else
                             <div class="last-message text-muted old">{{$l_r->new_message($l_r->id)->message}}.</div>
-                            <small class="time text-muted">5 mins ago</small>
+                            <small class="time text-muted">{{$l_r->new_message($l_r->id)->created_at->diffForHumans()}}</small>
                         @endif
                     </a>
                 </li>
@@ -279,8 +279,8 @@
                 <ul class="chat container--messages container__messages__room__{{$room == null ? '0' : $room->id}}" style="padding: 0;">
                     @if($room == null)
                     <li class="clearfix">
-                        <div class="chat-body clearfix">
-                            <p style="text-align: center;">
+                        <div class="clearfix" style="font-size: 14px;display: flex;align-items: center;justify-content: center;">
+                            <p style="text-align: center;max-width: 500px;">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at.
                             </p>
                         </div>
@@ -295,7 +295,7 @@
                         <div class="chat-body clearfix" style="background-image: linear-gradient(-135deg, #f5f7fa 0%, #c3cfe2 100%);">
                             <div class="header">
                                 <strong class="primary-font">{{Auth::user()->name}}</strong>
-                                <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 13 mins ago</small>
+                                <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{$r->created_at->diffForHumans()}}</small>
                             </div>
                             <p style="    padding-top: 10px;">
                                 {{$r->message}}
@@ -310,7 +310,7 @@
                         <div class="chat-body clearfix" style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
                             <div class="header">
                                 <strong class="primary-font">{{$room->store->name}}</strong>
-                                <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago</small>
+                                <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{$r->created_at->diffForHumans()}}</small>
                             </div>
                             <p style="    padding-top: 10px;">
                                 {{$r->message}}
