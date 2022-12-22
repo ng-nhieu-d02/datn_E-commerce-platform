@@ -97,7 +97,6 @@
 
                             @endforeach
                         </div>
-
                     </div>
                     @endif
                     <div class="cart" style="margin-top:20px">
@@ -236,7 +235,7 @@
             </div>
             <div class="contact-store col-md-3 align-items-center">
                 <div class="form-contact">
-                    <a href="">Nhắn tin</a>
+                    <a href="{{route('user.chat', $product->store->id)}}">Nhắn tin</a>
                     <a href="{{route('user.store', [$product->store->id])}}">Xem gian hàng</a>
                 </div>
             </div>
@@ -279,13 +278,12 @@
         <h2>Sản phẩm tương tự</h2>
     </div>
     <div class="page--home--product">
-        @foreach($product_related as $prd)
-        <x-cardProduct :data="$prd"></x-cardProduct>
+        @foreach($product_related as $prd_related)
+        <x-cardProduct :data="$prd_related"></x-cardProduct>
         @endforeach
     </div>
 </div>
 </div>
-
 <script>
     const detail = JSON.parse('<?= json_encode($product->detail) ?>');
     const type = '{{ $product->type }}';

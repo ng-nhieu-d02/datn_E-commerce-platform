@@ -186,7 +186,7 @@ class paymentController extends Controller
             $order->save();
             $returnData = array(
                 'method'    => $order->payment_method,
-                'url'       => route('user.checkout-return')
+                'url'       => route('user.manager-orderDetail', $order->id),
             );
             return json_encode($returnData);
         } elseif ($order->payment_method == 2) {
@@ -251,7 +251,7 @@ class paymentController extends Controller
         } elseif ($order->payment_method == 0) {
             $returnData = array(
                 'method'    => $order->payment_method,
-                'url'       => route('user.checkout-return')
+                'url'       => route('user.manager-orderDetail', $order->id),
             );
             return json_encode($returnData);
         }

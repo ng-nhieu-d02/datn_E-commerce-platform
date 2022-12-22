@@ -25,7 +25,13 @@
                 </div>
                 <p class="m-0">Đã bán {{number_format($data->detail->sum('sold'),0,',','.')}}</p>
             </div>
-            <p class="price"><span>{{number_format($data->price_minmax($data->id)->min_price, 0, ',', '.')}}đ</span> <span>-{{number_format($data->price_minmax($data->id)->max_sale / ($data->price_minmax($data->id)->min_price / 100), 0)}}%</span></p>
+            <p class="price"><span>{{number_format($data->price_minmax($data->id)->min_price, 0, ',', '.')}}đ</span> 
+            @if($data->price_minmax($data->id)->min_price == 0)
+            <span>0%</span>
+            @else
+            <span>-{{number_format($data->price_minmax($data->id)->max_sale / ($data->price_minmax($data->id)->min_price / 100), 0)}}%</span>
+            @endif
+        </p>
         </a>
     </div>
 </div>

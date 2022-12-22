@@ -1086,13 +1086,14 @@
 
     let cityOld = ''
     let districtOld = ''
-    @isset($store)
-    var cityByStore = "{!! $store->city !!}";
-    cityOld = cityByStore
 
-    var districtByStore = "{!! $store->district !!}";
-    districtOld = districtByStore
-    @endisset
+    <?php if (isset($store)) { ?>
+        var cityByStore = "{!! $store->city !!}";
+        cityOld = cityByStore
+
+        var districtByStore = "{!! $store->district !!}";
+        districtOld = districtByStore
+    <?php } ?>
 
     console.log(cityOld);
 
@@ -1144,7 +1145,134 @@
     }
 </script>
 
+<script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
+<script>
+    $(function() {
+        const auth = "{{Auth::check()}}";
+        let ip_address = 'server.nguyennhieu1507.cf';
+        let id = 0;
+        if (auth == true) {
+            id = '{{ isset(Auth::user()->id) ? Auth::user()->id : "0" }}';
+            let socket = io(ip_address, {
+                auth: {
+                    'session': id
+                }
+            });
+            socket.on('new_chat', (message) => {
+                console.log(message);
+                if ($('.container--messages') != undefined) {
+                    const element = ` 
+                        <li class="left clearfix">
+                                <span class="chat-img pull-left">
+                                    <img style="object-fit: contain;" src="${message.subject.avatar}" alt="User Avatar">
+                                </span>
+                                <div class="chat-body clearfix" style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                                    <div class="header">
+                                        <strong class="primary-font">${message.subject.name}</strong>
+                                        <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> just sent a few seconds ago</small>
+                                    </div>
+                                    <p style="    padding-top: 10px;">
+                                        ${message.chat.message}
+                                    </p>
+                                </div>
+                            </li> `;
+                    const room = `
+                        <li class="room__${message.chat.id_room}" style="background: aliceblue;padding-left: 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;">
+                            <a href="" class="clearfix">
+                                <img style="object-fit: cover; border-radius: 50%" src="${message.subject.avatar}" alt="" class="img-circle">
+                                <div class="friend-name">
+                                    <strong>${message.subject.name}</strong>
+                                </div>
+                                <div class="last-message text-muted old">${message.chat.message}.</div>
+                                <small class="time text-muted">just sent</small>
+                            </a>
+                        </li>`;
+                    $('.room__' + message.chat.id_room).remove();
+                    $('.friend-list').append(room);
+                    $('.container__messages__room__' + message.chat.id_room).append(element);
+                }
+                ToastSuccess('success', 'Bạn có tin nhắn mới', 'success', 5000)
+            });
+            $('.btn-submit-message').click(function(e) {
+                e.preventDefault();
+                const message = $('.message_send').val();
+                if (message == '') {
+                    Swal.fire(
+                        'Lỗi',
+                        'Tin nhắn trống',
+                        'error'
+                    )
+                    return;
+                }
+                const id_store = $(this).attr('data-id');
+                const room = $(this).attr('data-room');
+                const type = $(this).attr('data-type');
+                send_message(id_store, message, room, type, socket);
+                $('.message_send').val('');
+            });
+        }
+
+
+
+        async function send_message(store, message, room, type, socket) {
+            const url__submit = '{{route("user.send_chat")}}';
+            const _csrf = '{{ csrf_token() }}';
+            const data = {
+                id_store: store,
+                message: message,
+                room: room,
+                type: type,
+                _token: _csrf
+            };
+            $.ajax({
+                url: url__submit,
+                type: 'POST',
+                data: data,
+                success: function(res) {
+                    if (res == 'error') {
+                        console.log('error');
+                    } else {
+                        const response = JSON.parse(res);
+                        const element = ` 
+                        <li class="right clearfix">
+                            <span class="chat-img pull-right">
+                                <img style="object-fit: contain;" src="${response.subject.avatar}" alt="User Avatar">
+                            </span>
+                            <div class="chat-body clearfix" style="background-image: linear-gradient(-135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                                <div class="header">
+                                    <strong class="primary-font">${response.subject.name}</strong>
+                                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i>  just sent a few seconds ago</small>
+                                </div>
+                                <p style="    padding-top: 10px;">
+                                    ${response.chat.message}
+                                </p>
+                            </div>
+                        </li>   `;
+                        $('.container--messages').append(element);
+                        $('.container__messages__room__0').addClass('container__messages__room__' + response.chat.id_room);
+                        $('.btn-submit-message').attr('data-room', response.chat.id_room);
+                        const room = `
+                            <li class="room__${response.chat.id_room}" style="background: aliceblue;padding-left: 10px;border-bottom-left-radius: 20px;border-top-left-radius: 20px;">
+                                <a href="" class="clearfix">
+                                    <img style="object-fit: cover; border-radius: 50%" src="${response.subject_to.avatar}" alt="" class="img-circle">
+                                    <div class="friend-name">
+                                        <strong>${response.subject_to.name}</strong>
+                                    </div>
+                                    <div class="last-message text-muted old">${response.chat.message}.</div>
+                                    <small class="time text-muted">just sent</small>
+                                </a>
+                            </li>`;
+                        $('.room__' + response.chat.id_room).remove();
+                        $('.friend-list').append(room);
+
+                        return socket.emit('chat', response);
+                    }
+                }
+            });
+        }
+    });
+</script>
+
 @include('home.layout.ingredient.errorFunction')
 
 @yield('scripts')
-
