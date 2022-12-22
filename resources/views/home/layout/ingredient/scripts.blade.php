@@ -1,3 +1,9 @@
+<div class="container__modals" style="display: none;"></div>
+<div id="notify--toast"></div>
+<audio id="ring">
+    <source src="{{asset('assets/mp3/chuong.mp3')}}" type="audio/mpeg">
+</audio>
+
 <!-- jQuery -->
 <script src="{{ url('assets/js/jquery-3.6.0.min.js') }}"></script>
 
@@ -1144,10 +1150,10 @@
 
     }
 </script>
-
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
 <script>
     $(function() {
+        var ting = document.getElementById('ring');
         const auth = "{{Auth::check()}}";
         let ip_address = 'server.nguyennhieu1507.cf';
         let id = 0;
@@ -1159,8 +1165,8 @@
                 }
             });
             socket.on('new_chat', (message) => {
-                console.log(message);
                 if ($('.container--messages') != undefined) {
+                    ting.play();
                     const element = ` 
                         <li class="left clearfix">
                                 <span class="chat-img pull-left">
