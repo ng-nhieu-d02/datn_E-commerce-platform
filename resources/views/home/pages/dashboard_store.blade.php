@@ -132,7 +132,7 @@
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8 mb-2">
                             <h2 class="d-flex align-items-center mb-0">
-                                {{$revenue_today->total_price == null ? '0' : number_format(($revenue_today->total_price - $revenue_today->coupons_price) + ($revenue_today->ship - $revenue_today->coupon_frs_price))}}
+                                {{$revenue_today == null ? '0' : number_format(($revenue_today->total_price - $revenue_today->coupons_price) + ($revenue_today->ship - $revenue_today->coupon_frs_price))}}
                             </h2>
                         </div>
                         <div class="col-4 text-right">
@@ -155,7 +155,7 @@
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8 mb-2">
                             <h2 class="d-flex align-items-center mb-0">
-                                {{$revenue->total_price == null ? '0' : number_format(($revenue->total_price - $revenue->coupons_price) + ($revenue->ship - $revenue->coupon_frs_price))}}
+                                {{$revenue == null ? '0' : number_format(($revenue->total_price - $revenue->coupons_price) + ($revenue->ship - $revenue->coupon_frs_price))}}
                             </h2>
                         </div>
                         <div class="col-4 text-right">

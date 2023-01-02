@@ -924,10 +924,15 @@ class storeController extends Controller
     {
         $permission = $this->checkPermission($id);
         $store = Store::find($id);
-        $order_today = OrderStore::where('id_store', $id)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->count();
+        $order_today = OrderStore::where('id_store', $id)->whereDate('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->count();
         $product = Product::where('id_store', $id)->count();
-        $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->where('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->first();
-        $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))->where('id_store', $id)->where('status_order', 3)->first();
+        $revenue_today = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))
+        ->where('id_store', $id)->where('status_order', '3')
+        ->whereDate('created_at', '=', Carbon::now('Asia/Ho_Chi_Minh')->toDateTime())->groupBy('id_store')->first();
+
+        $revenue = OrderStore::select(DB::raw('SUM(coupons_price) as coupons_price, SUM(total_price) as total_price, SUM(ship) as ship, SUM(coupon_frs_price) as coupon_frs_price'))
+        ->where('id_store', $id)->where('status_order', '3')
+        ->groupBy('id_store')->first();
 
 
         $chart = OrderStore::select(DB::raw('created_at,month(created_at) as month,day(created_at) as day,

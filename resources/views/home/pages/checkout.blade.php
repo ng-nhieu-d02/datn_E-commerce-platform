@@ -288,7 +288,11 @@
         e.preventDefault();
         const action = $(this).attr('data-action');
         if (action == 'false') {
-            ToastSuccess('Lỗi:', 'Không đủ điều kiện sử dụng voucher này !!', 'warring', 3000);
+            Swal.fire(
+                'Lỗi',
+                'Không đủ điều kiện sử dụng voucher này !!',
+                'warring'
+            )
             return;
         } else {
             const id = $(this).attr('data-id');
@@ -345,7 +349,11 @@
                 $('.confirm_total').text(Intl.NumberFormat().format((Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price')) - sum_ship_reduce)) + 'đ');
                 $('.confirm_total').attr('data-price', (Number(element__total__order.attr('data-price')) - sum_total_reduce) + (Number(element__ship__order.attr('data-price') - sum_ship_reduce)));
                 $('.voucher__input__' + store).val(id);
-                ToastSuccess('Success:', 'Đã áp dụng voucher thành công', 'success', 3000)
+                Swal.fire(
+                    'Success',
+                    'Đã áp dụng voucher thành công.',
+                    'success'
+                );
             }
         }
     });
@@ -353,7 +361,11 @@
         e.preventDefault();
         const action = $(this).attr('data-action');
         if (action == 'false') {
-            ToastSuccess('Lỗi:', 'Không đủ điều kiện sử dụng voucher này !!', 'warring', 3000)
+            Swal.fire(
+                'Lỗi',
+                'Không đủ điều kiện sử dụng voucher này !!',
+                'warring'
+            )
             return;
         } else {
             const type = $(this).attr('data-type');
